@@ -9,6 +9,9 @@ class BottomNavigationBarWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
+      //selectedIconTheme: Theme.of(context).bottomNavigationBarTheme.selectedIconTheme,
+      //selectedLabelStyle: Theme.of(context).bottomNavigationBarTheme.selectedLabelStyle,
+      
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home_outlined),
