@@ -19,7 +19,7 @@ class BottomNavigationBarWidget extends StatelessWidget {
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.folder_outlined),
-          label: 'Archive',
+          label: 'Library',
         ),
         BottomNavigationBarItem(
           icon: Icon(Icons.play_circle_outlined),

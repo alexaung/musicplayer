@@ -59,7 +59,7 @@ class HeaderContainer extends StatelessWidget {
                     Icon(
                       Icons.play_circle_outline,
                       size: 20,
-                      color: Theme.of(context).primaryIconTheme.color,
+                      color: Theme.of(context).appBarTheme.iconTheme!.color,
                     ),
                   ],
                 )

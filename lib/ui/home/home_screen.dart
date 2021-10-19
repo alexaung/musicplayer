@@ -41,10 +41,9 @@ class _HomeState extends State<HomeScreen> {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            Theme.of(context).colorScheme.primary,
-            //Theme.of(context).colorScheme.primaryVariant,
-            Theme.of(context).colorScheme.secondary,
-            // Theme.of(context).colorScheme.secondaryVariant,
+            Theme.of(context).primaryColorDark,
+            Theme.of(context).primaryColor,
+            Theme.of(context).primaryColorLight,
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,

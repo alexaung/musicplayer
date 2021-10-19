@@ -38,10 +38,8 @@ class MenuContainer extends StatelessWidget {
                         BoxShadow(
                           blurRadius: 40,
                           offset: const Offset(8, 10),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondary
-                              .withOpacity(0.3),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.3),
                         ),
                       ],
                     ),
@@ -106,10 +104,8 @@ class MenuContainer extends StatelessWidget {
                         BoxShadow(
                           blurRadius: 40,
                           offset: const Offset(8, 10),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondary
-                              .withOpacity(0.3),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.3),
                         ),
                       ],
                     ),
@@ -177,10 +173,8 @@ class MenuContainer extends StatelessWidget {
                         BoxShadow(
                           blurRadius: 40,
                           offset: const Offset(8, 10),
-                          color: Theme.of(context)
-                              .colorScheme
-                              .secondary
-                              .withOpacity(0.3),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.3),
                         ),
                       ],
                     ),
@@ -236,10 +230,7 @@ class MenuContainer extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 40,
                         offset: const Offset(8, 10),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
                       ),
                     ],
                   ),
@@ -276,10 +267,7 @@ class MenuContainer extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 40,
                         offset: const Offset(8, 10),
-                        color: Theme.of(context)
-                            .colorScheme
-                            .secondary
-                            .withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
                       ),
                     ],
                   ),
@@ -325,10 +313,7 @@ class MenuContainer extends StatelessWidget {
                   BoxShadow(
                     blurRadius: 40,
                     offset: const Offset(8, 10),
-                    color: Theme.of(context)
-                        .colorScheme
-                        .secondary
-                        .withOpacity(0.18),
+                    color: Theme.of(context).primaryColor.withOpacity(0.18),
                   ),
                 ],
               ),
