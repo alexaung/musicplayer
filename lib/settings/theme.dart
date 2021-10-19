@@ -18,8 +18,14 @@ final appThemeData = {
       bodyText1: TextStyle(color: Colors.black),
     ),
     appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(color: Colors.white)
-    )
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      selectedItemColor: Color(0xff002a7f),
+      unselectedItemColor: Color(0xff5b7de2),
+    ),
   ),
   AppTheme.dark: ThemeData(
     brightness: Brightness.dark,
@@ -27,7 +33,6 @@ final appThemeData = {
     primaryColor: const Color(0xff000000),
     primaryColorLight: const Color(0xff2c2c2c),
     primaryColorDark: const Color(0xff000000),
-
     scaffoldBackgroundColor: const Color(0xff2c2c2c),
     primaryIconTheme: const IconThemeData(color: Color(0xffffffff)),
     textTheme: const TextTheme(
@@ -37,7 +42,13 @@ final appThemeData = {
       bodyText1: TextStyle(color: Colors.white),
     ),
     appBarTheme: const AppBarTheme(
-      iconTheme: IconThemeData(color: Colors.white)
-    )
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+    ),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      selectedItemColor: Colors.white,
+      unselectedItemColor: Colors.white70,
+    ),
   ),
 };
