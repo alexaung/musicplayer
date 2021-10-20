@@ -6,7 +6,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
 import 'package:thitsarparami/blocs/theme/theme_event.dart';
 import 'package:thitsarparami/settings/preferences.dart';
-import 'package:thitsarparami/ui/root/root_screen.dart';
 
 class SettingScreen extends StatefulWidget {
   static const routeName = '/settings';
@@ -40,20 +39,23 @@ class _SettingScreenState extends State<SettingScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
         title: Text(
           'Settings',
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
         leading: IconButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const RootScreen()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const RootScreen()),
+            // );
+            Navigator.pop(context);
           },
-          icon: const Icon(
+          icon: Icon(
             Icons.arrow_back,
+            color: Theme.of(context).primaryIconTheme.color!,
           ),
         ),
       ),

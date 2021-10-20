@@ -11,7 +11,7 @@ class MenuContainer extends StatelessWidget {
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme.of(context).backgroundColor,
           borderRadius: const BorderRadius.only(
             topRight: Radius.circular(70),
           ),

@@ -10,6 +10,7 @@ final appThemeData = {
     primaryColorLight: const Color(0xff5b7de2),
     primaryColorDark: const Color(0xff002a7f),
     scaffoldBackgroundColor: const Color(0xffffffff),
+    backgroundColor: const Color(0xfff5f5f5),
     primaryIconTheme: const IconThemeData(color: Color(0xff1751AF)),
     textTheme: const TextTheme(
       headline1: TextStyle(color: Colors.white, fontSize: 25),
@@ -18,22 +19,24 @@ final appThemeData = {
       bodyText1: TextStyle(color: Colors.black),
     ),
     appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(color: Color(0xff000000), fontSize: 20, fontWeight: FontWeight.bold),
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
       selectedItemColor: Color(0xff002a7f),
-      unselectedItemColor: Color(0xff5b7de2),
+      unselectedItemColor: Color(0xff616161),
     ),
   ),
   AppTheme.dark: ThemeData(
     brightness: Brightness.dark,
     visualDensity: const VisualDensity(vertical: 0.5, horizontal: 0.5),
     primaryColor: const Color(0xff000000),
-    primaryColorLight: const Color(0xff2c2c2c),
+    primaryColorLight: const Color(0xff121212),
     primaryColorDark: const Color(0xff000000),
-    scaffoldBackgroundColor: const Color(0xff2c2c2c),
+    scaffoldBackgroundColor: const Color(0xff212121),
+    backgroundColor: const Color(0xff424242),
     primaryIconTheme: const IconThemeData(color: Color(0xffffffff)),
     textTheme: const TextTheme(
       headline1: TextStyle(color: Colors.white, fontSize: 25),
@@ -42,13 +45,14 @@ final appThemeData = {
       bodyText1: TextStyle(color: Colors.white),
     ),
     appBarTheme: const AppBarTheme(
+      titleTextStyle: TextStyle(color: Color(0xffffffff), fontSize: 20, fontWeight: FontWeight.bold),
       iconTheme: IconThemeData(
         color: Colors.white,
       ),
     ),
     bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: Colors.white,
-      unselectedItemColor: Colors.white70,
+      selectedItemColor: Color(0xffFAFAFA),
+      unselectedItemColor: Color(0xff616161),
     ),
   ),
 };

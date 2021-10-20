@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:thitsarparami/ui/root/root_screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
 
 class MoreScreen extends StatefulWidget {
   static const routeName = '/more';
-  const MoreScreen({Key? key}) : super(key: key);
+  // const MoreScreen({Key? key}) : super(key: key);
+  final BuildContext? menuScreenContext;
+  final Function? onScreenHideButtonPressed;
+  final bool hideStatus;
+  const MoreScreen(
+      {Key? key,
+      this.menuScreenContext,
+      this.onScreenHideButtonPressed,
+      this.hideStatus = false})
+      : super(key: key);
 
   @override
   _MoreScreenState createState() => _MoreScreenState();
@@ -15,29 +24,36 @@ class _MoreScreenState extends State<MoreScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
-        centerTitle: true,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        elevation: 0,
+        // centerTitle: true,
         title: Text(
-          'Settings',
+          'More',
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
-        leading: IconButton(
-          onPressed: () {
-            // Navigator.pop(context);
-            Navigator.of(context).pushReplacementNamed(RootScreen.routeName);
-          },
-          icon: const Icon(
-            Icons.arrow_back,
-          ),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     pushNewScreenWithRouteSettings(
+        //               context,
+        //               settings: const RouteSettings(name: '/home'),
+        //               screen: RootScreen(menuScreenContext: widget.menuScreenContext!,),
+        //               pageTransitionAnimation:
+        //                   PageTransitionAnimation.scaleRotate,
+        //             );
+        //   },
+        //   icon: const Icon(
+        //     Icons.arrow_back,
+        //   ),
+        // ),
       ),
       body: ListView(
         children: [
           ListTile(
             leading: const Icon(Icons.settings_outlined),
             title: const Text('Settings'),
-            onTap: () => Navigator.of(context)
-                .pushReplacementNamed(SettingScreen.routeName),
+            onTap: () => pushNewScreen(context, screen: const SettingScreen()),
+            // Navigator.of(context)
+            //     .pushReplacementNamed(SettingScreen.routeName),
           ),
         ],
       ),

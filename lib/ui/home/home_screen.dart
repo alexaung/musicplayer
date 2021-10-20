@@ -5,7 +5,16 @@ import 'components/menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
-  HomeScreen({Key? key}) : super(key: key);
+  // HomeScreen({Key? key}) : super(key: key);
+  final BuildContext? menuScreenContext;
+  final Function? onScreenHideButtonPressed;
+  final bool hideStatus;
+  const HomeScreen(
+      {Key? key,
+       this.menuScreenContext,
+      this.onScreenHideButtonPressed,
+      this.hideStatus = false})
+      : super(key: key);
 
   @override
   _HomeState createState() => _HomeState();

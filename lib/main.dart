@@ -36,8 +36,10 @@ class MyApp extends StatelessWidget {
             //home: const RootScreen(),
             initialRoute: '/',
             routes: {
-              RootScreen.routeName: (ctx) => const RootScreen(),
-              HomeScreen.routeName: (ctx) => HomeScreen(),
+              RootScreen.routeName: (ctx) => RootScreen(
+                    menuScreenContext: context,
+                  ),
+              HomeScreen.routeName: (ctx) => const HomeScreen(),
               MoreScreen.routeName: (ctx) => const MoreScreen(),
               SettingScreen.routeName: (ctx) => const SettingScreen(),
             },
