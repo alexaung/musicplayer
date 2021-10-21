@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thitsarparami/routes.dart';
 import 'package:thitsarparami/settings/preferences.dart';
-import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
 import 'package:thitsarparami/blocs/theme/theme_state.dart';
-import 'package:thitsarparami/ui/more/more_screen.dart';
-import 'package:thitsarparami/ui/root/root_screen.dart';
-import 'package:thitsarparami/ui/setting/setting_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,14 +32,7 @@ class MyApp extends StatelessWidget {
             theme: themeState.themeData,
             //home: const RootScreen(),
             initialRoute: '/',
-            routes: {
-              RootScreen.routeName: (ctx) => RootScreen(
-                    menuScreenContext: context,
-                  ),
-              HomeScreen.routeName: (ctx) => const HomeScreen(),
-              MoreScreen.routeName: (ctx) => const MoreScreen(),
-              SettingScreen.routeName: (ctx) => const SettingScreen(),
-            },
+            routes: routes,
           );
         },
       ),

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
 
-class MoreScreen extends StatefulWidget {
+class MoreScreen extends StatelessWidget {
   static const routeName = '/more';
-  // const MoreScreen({Key? key}) : super(key: key);
   final BuildContext? menuScreenContext;
   final Function? onScreenHideButtonPressed;
   final bool hideStatus;
@@ -15,11 +14,6 @@ class MoreScreen extends StatefulWidget {
       this.hideStatus = false})
       : super(key: key);
 
-  @override
-  _MoreScreenState createState() => _MoreScreenState();
-}
-
-class _MoreScreenState extends State<MoreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

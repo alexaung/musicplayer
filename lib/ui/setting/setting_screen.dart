@@ -7,35 +7,19 @@ import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
 import 'package:thitsarparami/blocs/theme/theme_event.dart';
 import 'package:thitsarparami/settings/preferences.dart';
 
-class SettingScreen extends StatefulWidget {
+class SettingScreen extends StatelessWidget {
   static const routeName = '/settings';
   const SettingScreen({Key? key}) : super(key: key);
 
   @override
-  State<SettingScreen> createState() => _SettingScreenState();
-}
-
-class _SettingScreenState extends State<SettingScreen> {
-  @override
-  void initState() {
-    super.initState();
-    _loadTheme();
-  }
-
-  _loadTheme() async {
-    BlocProvider.of<ThemeBloc>(context)
-        .add(ThemeEvent(appTheme: Preferences.getTheme()));
-  }
-
-  _setTheme(bool darkTheme) {
-    AppTheme selectedTheme = darkTheme ? AppTheme.light : AppTheme.dark;
-    BlocProvider.of<ThemeBloc>(context)
-        .add(ThemeEvent(appTheme: selectedTheme));
-    Preferences.saveTheme(selectedTheme);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    _setTheme(bool darkTheme) {
+      AppTheme selectedTheme = darkTheme ? AppTheme.light : AppTheme.dark;
+      BlocProvider.of<ThemeBloc>(context)
+          .add(ThemeEvent(appTheme: selectedTheme));
+      Preferences.saveTheme(selectedTheme);
+    }
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -79,7 +63,7 @@ class _SettingScreenState extends State<SettingScreen> {
                         Text(
                           'Dark Mode',
                           style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -147,7 +131,7 @@ Padding buidCupertinoSwitch(
         Text(
           title,
           style: TextStyle(
-            fontSize: 18,
+            // fontSize: 18,
             fontWeight: FontWeight.w500,
             color: Colors.grey[600],
           ),
@@ -166,5 +150,3 @@ Padding buidCupertinoSwitch(
     ),
   );
 }
-
-// GestureDetector buidMenuOption(BuildContext context, sting title

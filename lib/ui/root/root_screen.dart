@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
+import 'package:thitsarparami/blocs/theme/theme_event.dart';
+import 'package:thitsarparami/settings/preferences.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
 
@@ -23,6 +27,12 @@ class _RootScreenState extends State<RootScreen> {
     super.initState();
     _controller = PersistentTabController(initialIndex: 0);
     _hideNavBar = false;
+    _loadTheme();
+  }
+
+  _loadTheme() async {
+    BlocProvider.of<ThemeBloc>(context)
+        .add(ThemeEvent(appTheme: Preferences.getTheme()));
   }
 
   List<Widget> _buildScreens() {

@@ -11,7 +11,7 @@ class HomeScreen extends StatefulWidget {
   final bool hideStatus;
   const HomeScreen(
       {Key? key,
-       this.menuScreenContext,
+      this.menuScreenContext,
       this.onScreenHideButtonPressed,
       this.hideStatus = false})
       : super(key: key);
@@ -21,7 +21,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<HomeScreen> {
-  
   @override
   void initState() {
     super.initState();
@@ -56,15 +55,6 @@ class _HomeState extends State<HomeScreen> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        // appBar: AppBar(
-        //   backgroundColor: Colors.transparent,
-        //   actions: [
-        //     Switch(
-        //       value: Preferences.getTheme() == AppTheme.light,
-        //       onChanged: _setTheme,
-        //     )
-        //   ],
-        // ),
         body: CustomScrollView(
           slivers: [
             SliverFillRemaining(
@@ -73,12 +63,12 @@ class _HomeState extends State<HomeScreen> {
                 children: const [
                   HeaderContainer(),
                   MenuContainer(),
+                  
                 ],
               ),
             )
           ],
         ),
-        // bottomNavigationBar: const CustomBottomNavigationBar(cuttentIndex: currentIndex),
       ),
     );
   }
