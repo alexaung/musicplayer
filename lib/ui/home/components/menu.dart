@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/ui/home/components/monk_carousel.dart';
+import 'package:thitsarparami/ui/just_audio/my_audio_player.dart';
 import 'package:thitsarparami/ui/radio/radio_screen.dart';
+//import 'package:thitsarparami/ui/youtube/youtube_screen.dart';
 
 class MenuContainer extends StatelessWidget {
   const MenuContainer({
@@ -10,6 +12,7 @@ class MenuContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
     return Expanded(
       child: Container(
         decoration: BoxDecoration(
@@ -220,50 +223,20 @@ class MenuContainer extends StatelessWidget {
             ),
             Row(
               children: [
-                Container(
-                  width: (MediaQuery.of(context).size.width - 50) / 2,
-                  margin: const EdgeInsets.only(top: 10, left: 20, right: 5),
-                  padding: const EdgeInsets.all(5),
-                  height: 75,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 40,
-                        offset: const Offset(8, 10),
-                        color: Theme.of(context).primaryColor.withOpacity(0.3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.video_camera_front_outlined,
-                        size: 40,
-                        color: Theme.of(context).primaryIconTheme.color,
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      const Text(
-                        'Live Streaming',
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
                 GestureDetector(
-                  onTap: () => pushNewScreen(context, screen: const RadioScreen()),
+                  onTap: () =>
+                      pushNewScreen(context, screen: const MyAudioPlayer()),
                   child: Container(
-                    width: (MediaQuery.of(context).size.width - 50) / 2,
-                    margin: const EdgeInsets.only(top: 10, left: 5, right: 20),
+                    constraints: const BoxConstraints(
+                        minWidth: 75,
+                        // maxWidth: 75,//(screenWidth - 50) / 2,
+                        minHeight: 75,
+                        maxHeight: 75,
+                      ),
+                    width: (screenWidth - 50) / 2,
+                    margin: const EdgeInsets.only(top: 10, left: 20, right: 5),
                     padding: const EdgeInsets.all(5),
-                    height: 75,
+                    // height: 75,
                     decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
                       borderRadius: BorderRadius.circular(20),
@@ -271,11 +244,66 @@ class MenuContainer extends StatelessWidget {
                         BoxShadow(
                           blurRadius: 40,
                           offset: const Offset(8, 10),
-                          color: Theme.of(context).primaryColor.withOpacity(0.3),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.3),
                         ),
                       ],
                     ),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.video_camera_front_outlined,
+                          size: 40,
+                          color: Theme.of(context).primaryIconTheme.color,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        const Flexible(
+                          child: Text(
+                            'Live Streaming',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () =>
+                      pushNewScreen(context, screen: const RadioScreen()),
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      minWidth: 75,
+                      // maxWidth: 75,//(screenWidth - 50) / 2,
+                      minHeight: 75,
+                      maxHeight: 75,
+                    ),
+                    width: (screenWidth - 50) / 2,
+                    margin:
+                        const EdgeInsets.only(top: 10, left: 5, right: 20),
+                    padding: const EdgeInsets.all(5),
+                    // height: 75,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).scaffoldBackgroundColor,
+                      borderRadius: BorderRadius.circular(20),
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 40,
+                          offset: const Offset(8, 10),
+                          color:
+                              Theme.of(context).primaryColor.withOpacity(0.3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -287,10 +315,13 @@ class MenuContainer extends StatelessWidget {
                         const SizedBox(
                           height: 5,
                         ),
-                        const Text(
-                          'Online Radio',
-                          style: TextStyle(
-                            fontSize: 15,
+                        const Flexible(
+                          child: Text(
+                            'Online Radio',
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 15,
+                            ),
                           ),
                         ),
                       ],
@@ -319,5 +350,3 @@ class MenuContainer extends StatelessWidget {
     );
   }
 }
-
-

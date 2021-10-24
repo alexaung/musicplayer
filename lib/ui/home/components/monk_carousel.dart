@@ -8,7 +8,12 @@ class MonkCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //final screenWidth = MediaQuery.of(context).size.width;
     return Container(
+      constraints: const BoxConstraints(
+        // minWidth: 160,
+        minHeight: 160,
+      ),
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
@@ -20,9 +25,7 @@ class MonkCarousel extends StatelessWidget {
       ),
       child: CarouselSlider(
         options: CarouselOptions(
-          height: (MediaQuery.of(context).size.width - 90) / 2,
-          // aspectRatio: 16/6,
-          // enlargeCenterPage: true,
+          height: 160,
           autoPlay: true,
           autoPlayCurve: Curves.fastOutSlowIn,
           enableInfiniteScroll: true,
@@ -35,6 +38,9 @@ class MonkCarousel extends StatelessWidget {
           return Builder(
             builder: (BuildContext context) {
               return Container(
+                constraints: const BoxConstraints(
+                  minHeight: 160,
+                ),
                 margin: const EdgeInsets.only(left: 10, right: 10),
                 padding: const EdgeInsets.only(left: 5, right: 5, top: 10),
                 decoration: BoxDecoration(
@@ -42,9 +48,14 @@ class MonkCarousel extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
+                      constraints: const BoxConstraints(
+                        minWidth: 100,
+                        minHeight: 100,
+                      ),
                       width: 100,
                       height: 100,
                       decoration: BoxDecoration(
@@ -56,12 +67,14 @@ class MonkCarousel extends StatelessWidget {
                     const SizedBox(
                       height: 5,
                     ),
-                    const Text(
-                      'မင်းကွန်းဆရာတော်ဘုရားကြီ:',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 15,
+                    const Flexible(
+                      child: Text(
+                        'မင်းကွန်းဆရာတော်ဘုရားကြီ:',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 15,
+                        ),
                       ),
                     ),
                   ],

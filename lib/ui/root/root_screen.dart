@@ -81,19 +81,23 @@ class _RootScreenState extends State<RootScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.home_outlined),
         title: "Home",
-        activeColorPrimary: Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
-        inactiveColorPrimary: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+        activeColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
+        inactiveColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         inactiveColorSecondary: Theme.of(context).primaryColorLight,
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.create_new_folder_outlined),
         title: ("Library"),
-        activeColorPrimary: Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
-        inactiveColorPrimary: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+        activeColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
+        inactiveColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         inactiveColorSecondary: Theme.of(context).primaryColorLight,
         // routeAndNavigatorSettings: RouteAndNavigatorSettings(
         //   initialRoute: '/',
-        //   routes: {  
+        //   routes: {
         //     '/first': (context) => MainScreen2(),
         //     '/second': (context) => MainScreen3(),
         //   },
@@ -102,8 +106,10 @@ class _RootScreenState extends State<RootScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.play_circle_outlined),
         title: ("Play"),
-        activeColorPrimary: Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
-        inactiveColorPrimary: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+        activeColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
+        inactiveColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         inactiveColorSecondary: Theme.of(context).primaryColorLight,
         // routeAndNavigatorSettings: RouteAndNavigatorSettings(
         //   initialRoute: '/',
@@ -120,8 +126,10 @@ class _RootScreenState extends State<RootScreen> {
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.more_horiz_outlined),
         title: ("More"),
-        activeColorPrimary: Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
-        inactiveColorPrimary: Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
+        activeColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.selectedItemColor!,
+        inactiveColorPrimary:
+            Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         inactiveColorSecondary: Theme.of(context).primaryColorLight,
         // routeAndNavigatorSettings: RouteAndNavigatorSettings(
         //   initialRoute: '/',
@@ -175,19 +183,21 @@ class _RootScreenState extends State<RootScreen> {
           testContext = context;
         },
         hideNavigationBar: _hideNavBar,
-        decoration:  const NavBarDecoration(
-          border: Border( top: BorderSide(color: Colors.grey, width: 0.2, style: BorderStyle.solid))
-          // colorBehindNavBar: Colors.grey,
-          // boxShadow: [
-          //   BoxShadow(
-          //     blurRadius: 40,
-          //     offset: Offset(8, 10),
-          //     //color: Color(0xFFEEEEEE),
-          //     color: Theme.of(context).primaryColor!,
-          //   ),
-          // ],
-          // borderRadius: BorderRadius.circular(20.0),
-        ),
+        decoration: const NavBarDecoration(
+            border: Border(
+                top: BorderSide(
+                    color: Colors.grey, width: 0.2, style: BorderStyle.solid))
+            // colorBehindNavBar: Colors.grey,
+            // boxShadow: [
+            //   BoxShadow(
+            //     blurRadius: 40,
+            //     offset: Offset(8, 10),
+            //     //color: Color(0xFFEEEEEE),
+            //     color: Theme.of(context).primaryColor!,
+            //   ),
+            // ],
+            // borderRadius: BorderRadius.circular(20.0),
+            ),
         popAllScreensOnTapOfSelectedTab: true,
         itemAnimationProperties: const ItemAnimationProperties(
           duration: Duration(milliseconds: 400),

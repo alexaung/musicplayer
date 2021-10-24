@@ -1,6 +1,15 @@
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:thitsarparami/ui/radio/components/audio_file.dart';
+import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
+import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
+import 'package:thitsarparami/ui/just_audio/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
+import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
+//import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
+// import 'package:thitsarparami/ui/radio/radio_manager.dart';
+// import 'package:thitsarparami/ui/radio/services/service_locator.dart';
+// import 'package:thitsarparami/ui/radio/components/audio_file.dart';
 
 class RadioScreen extends StatefulWidget {
   static const routeName = '/radio';
@@ -11,11 +20,25 @@ class RadioScreen extends StatefulWidget {
 }
 
 class _RadioScreenState extends State<RadioScreen> {
-  late AudioPlayer advancedPlayer;
+  // late AudioPlayer advancedPlayer = AudioPlayer(playerId: 'THITSARPARAMI');
   @override
   void initState() {
     super.initState();
-    advancedPlayer = AudioPlayer();
+    getIt<PlayerManager>().init(PlayerMode.radio);
+    _loadUrl();
+    // advancedPlayer = AudioPlayer();
+  }
+
+  _loadUrl() {
+    final pageManager = getIt<PlayerManager>();
+    pageManager.emptyPlaylist();
+    pageManager.addRadioUrl('https://edge.mixlr.com/channel/nmtev');
+  }
+
+  @override
+  void dispose() {
+    //getIt<PageManager>().dispose();
+    super.dispose();
   }
 
   @override
@@ -57,7 +80,7 @@ class _RadioScreenState extends State<RadioScreen> {
               elevation: 0,
               leading: IconButton(
                 onPressed: () {
-                  advancedPlayer.stop();
+                  // advancedPlayer.stop();
                   Navigator.pop(context);
                 },
                 icon: const Icon(
@@ -71,34 +94,41 @@ class _RadioScreenState extends State<RadioScreen> {
             right: 0,
             top: screenHeight * 0.2,
             height: screenHeight * 0.36,
+            
             child: Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.circular(40)),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: screenHeight * 0.1,
-                  ),
-                  const Text(
-                    'THITSARPARAMI',
-                    style: TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: screenHeight * 0.1,
                     ),
-                  ),
-                  const Text(
-                    '24 Hours Radio',
-                    style: TextStyle(
-                      fontSize: 18,
-                      // fontWeight: FontWeight.bold,
+                    const Text(
+                      'THITSARPARAMI',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  AudioFile(
-                    advancedPlayer: advancedPlayer,
-                    audioPath: 'https://edge.mixlr.com/channel/nmtev',
-                  )
-                ],
+                    const Text(
+                      '24 Hours Radio',
+                      style: TextStyle(
+                        fontSize: 18,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    // AudioFile(
+                    //   advancedPlayer: advancedPlayer,
+                    //   audioPath: 'https://edge.mixlr.com/channel/nmtev',
+                    // )
+                    // const Expanded(child: Playlist()),
+                    const AudioProgressBar(),
+                    const AudioControlButtons(),
+                  ],
+                ),
               ),
             ),
           ),
@@ -133,6 +163,102 @@ class _RadioScreenState extends State<RadioScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class Playlist extends StatelessWidget {
+  const Playlist({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final playerManager = getIt<PlayerManager>();
+    return Expanded(
+      child: ValueListenableBuilder<List<String>>(
+        valueListenable: playerManager.playlistNotifier,
+        builder: (context, playlistTitles, _) {
+          return ListView.builder(
+            itemCount: playlistTitles.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(playlistTitles[index]),
+              );
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class AudioProgressBar extends StatelessWidget {
+  const AudioProgressBar({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final playerManager = getIt<PlayerManager>();
+    return ValueListenableBuilder<ProgressBarState>(
+      valueListenable: playerManager.progressNotifier,
+      builder: (_, value, __) {
+        return ProgressBar(
+          progress: value.current,
+          buffered: value.buffered,
+          total: value.total,
+          onSeek: playerManager.seek,
+        );
+      },
+    );
+  }
+}
+
+class AudioControlButtons extends StatelessWidget {
+  const AudioControlButtons({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: const [
+          //RepeatButton(),
+          //PreviousSongButton(),
+          PlayButton(),
+          //NextSongButton(),
+          //ShuffleButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class PlayButton extends StatelessWidget {
+  const PlayButton({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final playerManager = getIt<PlayerManager>();
+    return ValueListenableBuilder<ButtonState>(
+      valueListenable: playerManager.playButtonNotifier,
+      builder: (_, value, __) {
+        switch (value) {
+          case ButtonState.loading:
+            return Container(
+              margin: const EdgeInsets.all(8.0),
+              width: 32.0,
+              height: 32.0,
+              child: const CircularProgressIndicator(),
+            );
+          case ButtonState.paused:
+            return IconButton(
+              icon: const Icon(Icons.play_arrow),
+              iconSize: 32.0,
+              onPressed: playerManager.play,
+            );
+          case ButtonState.playing:
+            return IconButton(
+              icon: const Icon(Icons.pause),
+              iconSize: 32.0,
+              onPressed: playerManager.pause,
+            );
+        }
+      },
     );
   }
 }

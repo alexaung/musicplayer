@@ -5,10 +5,12 @@ import 'package:thitsarparami/routes.dart';
 import 'package:thitsarparami/settings/preferences.dart';
 import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
 import 'package:thitsarparami/blocs/theme/theme_state.dart';
+import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
+  await setupServiceLocator();
   runApp(const MyApp());
 }
 
