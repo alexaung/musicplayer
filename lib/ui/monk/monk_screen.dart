@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/blocs/monk/monk_bloc.dart';
 import 'package:thitsarparami/models/models.dart';
-import 'package:thitsarparami/widgets/dotted_line_widget.dart';
 
 class MonkScreen extends StatefulWidget {
   static const routeName = '/monk';
@@ -88,70 +87,69 @@ class _MonkScreenState extends State<MonkScreen> {
   }
 
   Widget _listView(int index, List<MonkModel> monks) {
-    double screenWidth = MediaQuery.of(context).size.width;
 
-    return Container(
-      color: Theme.of(context).backgroundColor,
-      // height: 135,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: NetworkImage(monks[index].imageUrl),
-                      fit: BoxFit.cover),
-                ),
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                    image: NetworkImage(monks[index].imageUrl),
+                    fit: BoxFit.cover),
               ),
-              const SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Text(
-                  monks[index].title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-              )
-            ],
-          ),
-          // const SizedBox(
-          //   height: 15,
-          // ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-              children: [
-                // Container(
-                //   width: 80,
-                //   height: 20,
-                //   decoration: BoxDecoration(
-                //     color: Theme.of(context).scaffoldBackgroundColor,
-                //     borderRadius: BorderRadius.circular(10),
-                //   ),
-                //   // child: const Center(
-                //   //   child: Text(
-                //   //     '15s rest',
-                //   //     style: TextStyle(
-                //   //       color: Color(0xFF839fed),
-                //   //     ),
-                //   //   ),
-                //   // ),
-                // ),
-                DottedLineWidget(
-                    dottedCount: (screenWidth - 60), context: context)
-              ],
             ),
-          )
-        ],
-      ),
+            const SizedBox(
+              width: 10,
+            ),
+            Expanded(
+              child: Text(
+                monks[index].title,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                    fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+            )
+          ],
+        ),
+        // const SizedBox(
+        //   height: 15,
+        // ),
+        Divider(color: Theme.of(context).dividerColor,),
+        // Padding(
+        //   padding: const EdgeInsets.symmetric(vertical: 10),
+        //   child: Row(
+        //     children: [
+        //       // Container(
+        //       //   width: 80,
+        //       //   height: 20,
+        //       //   decoration: BoxDecoration(
+        //       //     color: Theme.of(context).scaffoldBackgroundColor,
+        //       //     borderRadius: BorderRadius.circular(10),
+        //       //   ),
+        //       //   // child: const Center(
+        //       //   //   child: Text(
+        //       //   //     '15s rest',
+        //       //   //     style: TextStyle(
+        //       //   //       color: Color(0xFF839fed),
+        //       //   //     ),
+        //       //   //   ),
+        //       //   // ),
+        //       // ),
+        //       // DottedLineWidget(
+        //       //   dottedCount: (screenWidth - 60),
+        //       //   context: context,
+        //       // )
+        //       Divider(color: Theme.of(context).scaffoldBackgroundColor,)
+        //     ],
+        //   ),
+        // )
+      ],
     );
   }
 }

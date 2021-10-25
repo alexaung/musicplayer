@@ -20,9 +20,10 @@ class SettingScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,
         title: Text(
           'Settings',
@@ -66,9 +67,10 @@ class SettingScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const Divider(
+                     Divider(
                       height: 20,
                       thickness: 1,
+                      color: Theme.of(context).dividerColor,
                     ),
                     const SizedBox(
                       height: 5,
@@ -129,10 +131,10 @@ Padding buidCupertinoSwitch(
       children: [
         Text(
           title,
-          style: TextStyle(
+          style: const TextStyle(
             // fontSize: 18,
             fontWeight: FontWeight.w500,
-            color: Colors.grey[600],
+            // color: Colors.grey[600],
           ),
         ),
         Transform.scale(

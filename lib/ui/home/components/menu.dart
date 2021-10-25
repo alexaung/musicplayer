@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/ui/home/components/monk_carousel.dart';
-import 'package:thitsarparami/ui/just_audio/my_audio_player.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/radio/radio_screen.dart';
-//import 'package:thitsarparami/ui/youtube/youtube_screen.dart';
+import 'package:thitsarparami/ui/youtube/youtube_screen.dart';
 
 class MenuContainer extends StatelessWidget {
   const MenuContainer({
@@ -237,7 +236,7 @@ class MenuContainer extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () =>
-                      pushNewScreen(context, screen: const MyAudioPlayer()),
+                      pushNewScreen(context, screen: const YoutubeScreen()),
                   child: Container(
                     constraints: const BoxConstraints(
                       minWidth: 75,
@@ -321,7 +320,7 @@ class MenuContainer extends StatelessWidget {
                         Icon(
                           Icons.radio_outlined,
                           size: 40,
-                          color: Theme.of(context).primaryIconTheme.color,
+                          color: Theme.of(context).primaryIconTheme.color
                         ),
                         const SizedBox(
                           height: 5,

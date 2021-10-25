@@ -12,7 +12,7 @@ class AppThemes {
       primaryColorDark: const Color(0xff002a7f),
       scaffoldBackgroundColor: const Color(0xfff5f5f5),
       backgroundColor: const Color(0xffffffff),
-      primaryIconTheme: const IconThemeData(color: Color(0xff1751AF)),
+      primaryIconTheme: const IconThemeData(color: Color(0xff1751af)),
       textTheme: const TextTheme(
         headline1: TextStyle(color: Colors.white, fontSize: 25),
         headline2: TextStyle(color: Colors.white, fontSize: 18),
@@ -32,6 +32,7 @@ class AppThemes {
         selectedItemColor: Color(0xff002a7f),
         unselectedItemColor: Color(0xff616161),
       ),
+      dividerColor: const Color(0xff999999),
     ),
     AppTheme.dark: ThemeData(
       brightness: Brightness.dark,
@@ -61,6 +62,7 @@ class AppThemes {
         selectedItemColor: Color(0xffFAFAFA),
         unselectedItemColor: Color(0xff616161),
       ),
+      dividerColor: const Color(0xff999999),
     ),
   };
 }
