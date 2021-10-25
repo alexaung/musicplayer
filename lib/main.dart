@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thitsarparami/blocs/bloc.dart';
+import 'package:thitsarparami/repositories/repository.dart';
 import 'package:thitsarparami/routes.dart';
+import 'package:thitsarparami/services/monk_api_provider.dart';
 import 'package:thitsarparami/settings/preferences.dart';
-import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
-import 'package:thitsarparami/blocs/theme/theme_state.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 void main() async {
@@ -24,8 +25,15 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent, // transparent status bar
     ));
 
-    return BlocProvider(
-      create: (context) => ThemeBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ThemeBloc(),
+        ),
+        BlocProvider(
+          create: (context) => MonkBloc(monkRespository: MonkRespository(MonkApiProvider())),
+        ),
+      ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (BuildContext context, ThemeState themeState) {
           return MaterialApp(

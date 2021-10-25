@@ -1,10 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
+import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/settings/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
-import 'package:thitsarparami/blocs/theme/theme_event.dart';
 import 'package:thitsarparami/settings/preferences.dart';
 
 class SettingScreen extends StatelessWidget {

@@ -1,4 +1,5 @@
-import '../../settings/theme.dart';
+
+part of 'theme_bloc.dart';
 
 class ThemeEvent {
   final AppTheme? appTheme;

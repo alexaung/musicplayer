@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:thitsarparami/blocs/theme/theme_bloc.dart';
-import 'package:thitsarparami/blocs/theme/theme_event.dart';
+import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/settings/preferences.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
