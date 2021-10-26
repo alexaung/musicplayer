@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
+import 'package:thitsarparami/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
+import 'package:thitsarparami/ui/song/song_screen.dart';
 
 class AlbumScreen extends StatefulWidget {
   static const routeName = '/album';
@@ -56,9 +59,9 @@ class _AlbumScreenState extends State<AlbumScreen> {
       body: BlocBuilder<AlbumBloc, AlbumState>(
         builder: (BuildContext context, AlbumState albumState) {
           if (albumState is AlbumError) {
-            final error = albumState.error;
-            String message = '$error\n Tap to Retry.';
-            return Text(message);
+            // final error = albumState.error;
+            // String message = '$error\n Tap to Retry.';
+            return const SomethingWentWrongScreen();
           } else if (albumState is AlbumLoaded) {
             return Column(
               children: [
@@ -69,7 +72,15 @@ class _AlbumScreenState extends State<AlbumScreen> {
                     itemCount: albumState.albums.length,
                     itemBuilder: (_, int index) {
                       return GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: SongScreen(
+                              monk: widget.monk,
+                              album: albumState.albums[index],
+                            ),
+                          );
+                        },
                         child: _listView(index, albumState.albums),
                       );
                     },

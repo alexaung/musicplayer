@@ -36,6 +36,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AlbumBloc(albumRespository: AlbumRespository(AlbumApiProvider())),
         ),
+        BlocProvider(
+          create: (context) => SongBloc(songRespository: SongRespository(SongApiProvider())),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (BuildContext context, ThemeState themeState) {

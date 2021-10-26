@@ -1,5 +1,8 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
+import 'package:thitsarparami/models/album.dart';
+import 'package:thitsarparami/models/models.dart';
+import 'package:thitsarparami/repositories/repositories.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
@@ -22,7 +25,7 @@ class PlayerManager {
 
   // Events: Calls coming from the UI
   void init(PlayerMode mode) async {
-    // await _loadPlaylist();
+    //await _loadPlaylist();
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
@@ -32,14 +35,16 @@ class PlayerManager {
   }
 
   // Future<void> _loadPlaylist() async {
-  //   final songRepository = getIt<PlaylistRepository>();
-  //   final playlist = await songRepository.fetchInitialPlaylist();
+  //   final songRepository = getIt<SongRespository>();
+  //   final playlist = await songRepository.fetchSongs();
   //   final mediaItems = playlist
   //       .map((song) => MediaItem(
-  //             id: song['id'] ?? '',
-  //             album: song['album'] ?? '',
-  //             title: song['title'] ?? '',
-  //             extras: {'url': song['url']},
+  //             id: song.id.toString(),
+  //             // album: widget.album!.title, //song['album'] ?? '',
+  //             title: song.title,
+  //             // artist: widget.monk!.title,
+  //             // artUri: Uri.parse(widget.monk!.imageUrl),
+  //             extras: {'url': song.url},
   //           ))
   //       .toList();
   //   _audioHandler.addQueueItems(mediaItems);
@@ -128,8 +133,30 @@ class PlayerManager {
     }
   }
 
+  Future<void> loadPlaylist(Monk monk, Album album) async {
+    final songRepository = getIt<SongRespository>();
+    final playlist = await songRepository.fetchSongs();
+    final mediaItems = playlist
+        .map((song) => MediaItem(
+              id: song.id.toString(),
+              album: album.title, 
+              title: song.title,
+              artist: monk.title,
+              artUri: Uri.parse(monk.imageUrl),
+              extras: {'url': song.url},
+            ))
+        .toList();
+    _audioHandler.addQueueItems(mediaItems);
+  }
+
+  Future<void> updateQueue(List<MediaItem> queue) async {
+    _audioHandler.addQueueItems(queue);
+  }
+
   void play() => _audioHandler.play();
   void pause() => _audioHandler.pause();
+
+  void skipToQueueItem(int index) => _audioHandler.skipToQueueItem(index);
 
   void seek(Duration position) => _audioHandler.seek(position);
 

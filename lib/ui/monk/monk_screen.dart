@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
+import 'package:thitsarparami/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';
 
@@ -55,9 +56,9 @@ class _MonkScreenState extends State<MonkScreen> {
       body: BlocBuilder<MonkBloc, MonkState>(
         builder: (BuildContext context, MonkState monkState) {
           if (monkState is MonkError) {
-            final error = monkState.error;
-            String message = '$error\n Tap to Retry.';
-            return Text(message);
+            //final error = monkState.error;
+            //String message = '$error\n Tap to Retry.';
+            return const SomethingWentWrongScreen();
           } else if (monkState is MonkLoaded) {
             return Column(
               children: [
@@ -69,20 +70,12 @@ class _MonkScreenState extends State<MonkScreen> {
                     itemBuilder: (_, int index) {
                       return GestureDetector(
                         onTap: () {
-                          // pushNewScreenWithRouteSettings(
-                          //   context,
-                          //   screen: const AlbumScreen(),
-                          //   settings:
-                          // );
-                          // pushNewScreen(context, screen: const AlbumScreen());
-                          pushNewScreen(context,
-                              screen: AlbumScreen(
-                                monk: monkState.monks[index],
-                              ));
-                          // Navigator.of(context).pushNamed(
-                          //   AlbumScreen.routeName,
-                          //   arguments: monkState.monks[index],
-                          // );
+                          pushNewScreen(
+                            context,
+                            screen: AlbumScreen(
+                              monk: monkState.monks[index],
+                            ),
+                          );
                         },
                         child: _listView(index, monkState.monks),
                       );

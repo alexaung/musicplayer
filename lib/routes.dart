@@ -7,6 +7,7 @@ import 'package:thitsarparami/ui/more/more_screen.dart';
 import 'package:thitsarparami/ui/radio/radio_screen.dart';
 import 'package:thitsarparami/ui/root/root_screen.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
+import 'package:thitsarparami/ui/song/song_screen.dart';
 import 'package:thitsarparami/ui/youtube/youtube_screen.dart';
 
 final Map<String, WidgetBuilder> routes = {
@@ -21,4 +22,5 @@ final Map<String, WidgetBuilder> routes = {
   MyAudioPlayer.routeName: (ctx) => const MyAudioPlayer(),
   MonkScreen.routeName: (ctx) => const MonkScreen(),
   AlbumScreen.routeName: (ctx) => const AlbumScreen(),
+  SongScreen.routeName: (ctx) => const SongScreen(),
 };

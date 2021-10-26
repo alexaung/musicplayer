@@ -8,6 +8,7 @@ import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
+import 'package:thitsarparami/ui/song/song_screen.dart';
 
 BuildContext? testContext;
 
@@ -93,6 +94,7 @@ class _RootScreenState extends State<RootScreen> {
           routes: {
             '/monk': (context) => const MonkScreen(),
             '/album': (context) => const AlbumScreen(),
+            '/song': (context) => const SongScreen(),
           },
         ),
       ),
