@@ -9,7 +9,7 @@ part 'monk_state.dart';
 
 class MonkBloc extends Bloc<MonkEvent, MonkState> {
   final MonkRespository monkRespository;
-  late List<MonkModel> monks;
+  late List<Monk> monks;
 
   MonkBloc({required this.monkRespository}) : super(MonkInitial());
 
@@ -18,7 +18,7 @@ class MonkBloc extends Bloc<MonkEvent, MonkState> {
     if (event is GetMonksEvent) {
       yield MonkLoading();
       try {
-        final List<MonkModel> monks = await monkRespository.fetchMonks();
+        final List<Monk> monks = await monkRespository.fetchMonks();
         yield MonkLoaded(monks: monks);
       } catch (e) {
         yield MonkError(error: (e.toString()));

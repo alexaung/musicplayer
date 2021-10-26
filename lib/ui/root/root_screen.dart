@@ -3,8 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/settings/preferences.dart';
+import 'package:thitsarparami/ui/album/album_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
+import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
+import 'package:thitsarparami/ui/setting/setting_screen.dart';
 
 BuildContext? testContext;
 
@@ -85,6 +88,13 @@ class _RootScreenState extends State<RootScreen> {
         inactiveColorPrimary:
             Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         inactiveColorSecondary: Theme.of(context).primaryColorLight,
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: '/',
+          routes: {
+            '/monk': (context) => const MonkScreen(),
+            '/album': (context) => const AlbumScreen(),
+          },
+        ),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.create_new_folder_outlined),
@@ -97,10 +107,10 @@ class _RootScreenState extends State<RootScreen> {
         // routeAndNavigatorSettings: RouteAndNavigatorSettings(
         //   initialRoute: '/',
         //   routes: {
-        //     '/first': (context) => MainScreen2(),
-        //     '/second': (context) => MainScreen3(),
+        //     '/monk': (context) => const MonkScreen(),
+        //     '/album': (context) => const AlbumScreen(),
         //   },
-        //),
+        // ),
       ),
       PersistentBottomNavBarItem(
         icon: const Icon(Icons.play_circle_outlined),
@@ -130,12 +140,12 @@ class _RootScreenState extends State<RootScreen> {
         inactiveColorPrimary:
             Theme.of(context).bottomNavigationBarTheme.unselectedItemColor,
         inactiveColorSecondary: Theme.of(context).primaryColorLight,
-        // routeAndNavigatorSettings: RouteAndNavigatorSettings(
-        //   initialRoute: '/',
-        //   routes: {
-        //     '/settings': (context) => const SettingScreen(),
-        //   },
-        // ),
+        routeAndNavigatorSettings: RouteAndNavigatorSettings(
+          initialRoute: '/',
+          routes: {
+            '/settings': (context) => const SettingScreen(),
+          },
+        ),
       ),
     ];
   }

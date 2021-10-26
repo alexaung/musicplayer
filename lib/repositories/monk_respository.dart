@@ -1,12 +1,12 @@
 import 'package:thitsarparami/models/models.dart';
-import 'package:thitsarparami/services/monk_api_provider.dart';
+import 'package:thitsarparami/services/services.dart';
 
 class MonkRespository {
   MonkApiProvider monkApiProvider;
   // ignore: unnecessary_null_comparison
   MonkRespository(this.monkApiProvider) : assert(monkApiProvider != null);
 
-  Future<List<MonkModel>> fetchMonks() async {
+  Future<List<Monk>> fetchMonks() async {
     return await monkApiProvider.fetchMonks();
   }
 }

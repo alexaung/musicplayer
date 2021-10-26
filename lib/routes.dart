@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:thitsarparami/ui/album/album_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/just_audio/my_audio_player.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
@@ -19,4 +20,5 @@ final Map<String, WidgetBuilder> routes = {
   YoutubeScreen.routeName: (ctx) => const YoutubeScreen(),
   MyAudioPlayer.routeName: (ctx) => const MyAudioPlayer(),
   MonkScreen.routeName: (ctx) => const MonkScreen(),
+  AlbumScreen.routeName: (ctx) => const AlbumScreen(),
 };

@@ -1,3 +1,4 @@
 export './channel.dart';
-export 'monk_model.dart';
+export 'monk.dart';
 export './video.dart';
+export './album.dart';

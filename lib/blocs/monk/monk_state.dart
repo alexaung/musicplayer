@@ -14,7 +14,7 @@ class MonkLoading extends MonkState {}
 class MonkInitial extends MonkState {}
 
 class MonkLoaded extends MonkState {
-  final List<MonkModel> monks;
+  final List<Monk> monks;
   const MonkLoaded({required this.monks});
 }
 

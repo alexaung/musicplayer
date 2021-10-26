@@ -2,25 +2,25 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class MonkModel extends Equatable {
+class Monk extends Equatable {
   // final id;
   final String title;
   final String imageUrl;
 
-  const MonkModel({required this.title, required this.imageUrl});
+  const Monk({required this.title, required this.imageUrl});
 
   @override
   List<Object> get props => [title, imageUrl];
 
-  static MonkModel fromJson(dynamic json) {
-    return MonkModel(
+  static Monk fromJson(dynamic json) {
+    return Monk(
       title: json['title'],
       imageUrl: json['imageUrl'],
     );
   }
 
-  static List<MonkModel> monksFromJson(String str) =>
-      List<MonkModel>.from(json.decode(str).map((x) => MonkModel.fromJson(x)));
+  static List<Monk> monksFromJson(String str) =>
+      List<Monk>.from(json.decode(str).map((x) => Monk.fromJson(x)));
 
   @override
   String toString() => 'Monk {id: $title}';
