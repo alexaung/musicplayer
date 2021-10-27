@@ -2,7 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:thitsarparami/models/models.dart';
 
 class SongApiProvider {
-  Future<List<Song>> fetchSongs() async {
+  Future<List<Song>> fetchSongs(int id) async {
     // final response = await client.get(Uri.parse('$_baseUrl/popular?api_key=$_apiKey'));
     final String response = await rootBundle.loadString('json/dhamma.json');
     // if (response.statusCode == 200) {

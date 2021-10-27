@@ -17,7 +17,7 @@ class SongBloc extends Bloc<SongEvent, SongState> {
     if (event is GetSongsEvent) {
       yield SongLoading();
       try {
-        final List<Song> songs = await songRespository.fetchSongs();
+        final List<Song> songs = await songRespository.fetchSongs(event.id);
         yield SongLoaded(songs: songs);
       } catch (e) {
         yield SongError(error: (e.toString()));

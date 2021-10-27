@@ -3,16 +3,19 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class Album extends Equatable {
-  // final id;
+  final int id;
   final String title;
 
-  const Album({required this.title});
+  const Album({required this.id, required this.title});
 
   @override
   List<Object> get props => [title];
 
   static Album fromJson(dynamic json) {
-    return Album(title: json['title']);
+    return Album(
+      id: json['id'],
+      title: json['title'],
+    );
   }
 
   static List<Album> monksFromJson(String str) =>

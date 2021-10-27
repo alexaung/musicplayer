@@ -5,7 +5,8 @@ abstract class SongEvent extends Equatable {
 }
 
 class GetSongsEvent extends SongEvent {
-  const GetSongsEvent();
+  final int id;
+  const GetSongsEvent({required this.id});
 
   @override
   List<Object> get props => [];

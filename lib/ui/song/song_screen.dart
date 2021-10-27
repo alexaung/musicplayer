@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thitsarparami/blocs/bloc.dart';
+import 'package:thitsarparami/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/player_manager.dart';
@@ -20,18 +23,7 @@ class _SongScreenState extends State<SongScreen> {
   void initState() {
     super.initState();
     getIt<PlayerManager>().init(PlayerMode.mp3);
-    _deleteRadioUrl();
-    _loadPlayList();
-  }
-
-  _deleteRadioUrl() {
-    final playerManager = getIt<PlayerManager>();
-    playerManager.deleteRadioUrl();
-  }
-
-  _loadPlayList() {
-    final playerManager = getIt<PlayerManager>();
-    playerManager.loadPlaylist(widget.monk!, widget.album!);
+    BlocProvider.of<SongBloc>(context).add(GetSongsEvent(id: widget.album!.id));
   }
 
   @override
@@ -66,9 +58,12 @@ class _SongScreenState extends State<SongScreen> {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Playlist(),
-          SizedBox(
+        children: [
+          Playlist(
+            monk: widget.monk,
+            album: widget.album,
+          ),
+          const SizedBox(
             height: 50,
           ),
         ],
@@ -78,19 +73,17 @@ class _SongScreenState extends State<SongScreen> {
 }
 
 class Playlist extends StatefulWidget {
-  const Playlist({Key? key}) : super(key: key);
+  final Monk? monk;
+  final Album? album;
+  const Playlist({Key? key, this.monk, this.album}) : super(key: key);
 
   @override
   State<Playlist> createState() => _PlaylistState();
 }
 
 class _PlaylistState extends State<Playlist> {
-  late int _selectedIndex = -1;
-
   _onTap(int index) {
     final playerManager = getIt<PlayerManager>();
-
-    setState(() => _selectedIndex = index);
     playerManager.skipToQueueItem(index);
     playerManager.play();
   }
@@ -98,12 +91,17 @@ class _PlaylistState extends State<Playlist> {
   @override
   Widget build(BuildContext context) {
     final playerManager = getIt<PlayerManager>();
-    return Expanded(
-      child: ValueListenableBuilder<List<String>>(
-        valueListenable: playerManager.playlistNotifier,
-        builder: (context, playlistTitles, _) {
-          return ListView.builder(
-            itemCount: playlistTitles.length,
+    return BlocBuilder<SongBloc, SongState>(
+      builder: (BuildContext context, SongState state) {
+        if (state is SongError) {
+          // final error = albumState.error;
+          // String message = '$error\n Tap to Retry.';
+          return const SomethingWentWrongScreen();
+        } else if (state is SongLoaded) {
+          playerManager.loadPlaylist(widget.monk!, widget.album!, state.songs);
+          return Expanded(
+              child: ListView.builder(
+            itemCount: state.songs.length,
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () => _onTap(index),
@@ -114,46 +112,52 @@ class _PlaylistState extends State<Playlist> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
-                          ValueListenableBuilder<ButtonState>(
-                            valueListenable: playerManager.playButtonNotifier,
-                            builder: (_, value, __) {
-                              if (_selectedIndex == index) {
-                                switch (value) {
-                                  case ButtonState.loading:
-                                    return Container(
-                                      margin: const EdgeInsets.all(8.0),
-                                      width: 32.0,
-                                      height: 32.0,
-                                      child: const CircularProgressIndicator(),
-                                    );
-                                  case ButtonState.paused:
-                                    return IconButton(
-                                      icon: const Icon(Icons.play_arrow),
-                                      iconSize: 32.0,
-                                      onPressed: () => _onTap(index),
-                                    );
-                                  case ButtonState.playing:
-                                    return IconButton(
-                                      icon: const Icon(Icons.pause),
-                                      iconSize: 32.0,
-                                      onPressed: playerManager.pause,
-                                    );
+                          ValueListenableBuilder<String>(
+                            valueListenable:
+                                playerManager.currentSongTitleNotifier,
+                            builder: (_, title, __) =>
+                                ValueListenableBuilder<ButtonState>(
+                              valueListenable: playerManager.playButtonNotifier,
+                              builder: (_, value, __) {
+                                if (title == state.songs[index].title) {
+                                  switch (value) {
+                                    case ButtonState.loading:
+                                      return Container(
+                                        margin: const EdgeInsets.all(8.0),
+                                        width: 32.0,
+                                        height: 32.0,
+                                        child:
+                                            const CircularProgressIndicator(),
+                                      );
+                                    case ButtonState.paused:
+                                      return IconButton(
+                                        icon: const Icon(Icons.play_arrow),
+                                        iconSize: 32.0,
+                                        onPressed: () => _onTap(index),
+                                      );
+                                    case ButtonState.playing:
+                                      return IconButton(
+                                        icon: const Icon(Icons.pause),
+                                        iconSize: 32.0,
+                                        onPressed: playerManager.pause,
+                                      );
+                                  }
+                                } else {
+                                  return IconButton(
+                                    icon: const Icon(Icons.play_arrow),
+                                    iconSize: 32.0,
+                                    onPressed: () => _onTap(index),
+                                  );
                                 }
-                              } else {
-                                return IconButton(
-                                  icon: const Icon(Icons.play_arrow),
-                                  iconSize: 32.0,
-                                  onPressed: () => _onTap(index),
-                                );
-                              }
-                            },
+                              },
+                            ),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
                           Expanded(
                             child: Text(
-                              playlistTitles[index],
+                              state.songs[index].title,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
@@ -170,9 +174,12 @@ class _PlaylistState extends State<Playlist> {
                 ),
               );
             },
-          );
-        },
-      ),
+          ));
+        }
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
     );
   }
 }

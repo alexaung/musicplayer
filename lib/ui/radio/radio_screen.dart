@@ -1,15 +1,10 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
-//import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
-// import 'package:thitsarparami/ui/radio/radio_manager.dart';
-// import 'package:thitsarparami/ui/radio/services/service_locator.dart';
-// import 'package:thitsarparami/ui/radio/components/audio_file.dart';
 
 class RadioScreen extends StatefulWidget {
   static const routeName = '/radio';
@@ -20,18 +15,15 @@ class RadioScreen extends StatefulWidget {
 }
 
 class _RadioScreenState extends State<RadioScreen> {
-  // late AudioPlayer advancedPlayer = AudioPlayer(playerId: 'THITSARPARAMI');
   @override
   void initState() {
     super.initState();
     getIt<PlayerManager>().init(PlayerMode.radio);
     _loadUrl();
-    // advancedPlayer = AudioPlayer();
   }
 
   _loadUrl() {
     final pageManager = getIt<PlayerManager>();
-    pageManager.emptyPlaylist();
     pageManager.addRadioUrl('https://edge.mixlr.com/channel/nmtev');
   }
 

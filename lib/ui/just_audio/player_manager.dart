@@ -2,7 +2,6 @@ import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:thitsarparami/models/album.dart';
 import 'package:thitsarparami/models/models.dart';
-import 'package:thitsarparami/repositories/repositories.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
@@ -26,6 +25,11 @@ class PlayerManager {
   // Events: Calls coming from the UI
   void init(PlayerMode mode) async {
     //await _loadPlaylist();
+    if (mode == PlayerMode.mp3) {
+      deleteRadioUrl();
+    } else if (mode == PlayerMode.radio) {
+      emptyPlaylist();
+    }
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
     _listenToCurrentPosition();
@@ -133,20 +137,19 @@ class PlayerManager {
     }
   }
 
-  Future<void> loadPlaylist(Monk monk, Album album) async {
-    final songRepository = getIt<SongRespository>();
-    final playlist = await songRepository.fetchSongs();
+  Future<void> loadPlaylist(Monk monk, Album album, List<Song> playlist) async {
     final mediaItems = playlist
         .map((song) => MediaItem(
               id: song.id.toString(),
-              album: album.title, 
+              album: album.title,
               title: song.title,
               artist: monk.title,
               artUri: Uri.parse(monk.imageUrl),
               extras: {'url': song.url},
             ))
         .toList();
-    _audioHandler.addQueueItems(mediaItems);
+    mediaItems.removeWhere((item) => _audioHandler.queue.value.contains(item));
+    if (mediaItems.isNotEmpty) _audioHandler.addQueueItems(mediaItems);
   }
 
   Future<void> updateQueue(List<MediaItem> queue) async {
@@ -154,6 +157,7 @@ class PlayerManager {
   }
 
   void play() => _audioHandler.play();
+
   void pause() => _audioHandler.pause();
 
   void skipToQueueItem(int index) => _audioHandler.skipToQueueItem(index);
@@ -161,6 +165,7 @@ class PlayerManager {
   void seek(Duration position) => _audioHandler.seek(position);
 
   void previous() => _audioHandler.skipToPrevious();
+
   void next() => _audioHandler.skipToNext();
 
   void repeat() {
@@ -190,10 +195,13 @@ class PlayerManager {
   }
 
   Future<void> addRadioUrl(String url) async {
-    const mediaItem = MediaItem(
+
+    MediaItem mediaItem = const MediaItem(
       id: 'radio',
       album: 'Radio',
       title: '24 Hours Radio',
+      artist: 'Radio DJ',
+      //artUri: Uri.parse("https://www.thitsarparamisociety.com/"),
       extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
     );
 
