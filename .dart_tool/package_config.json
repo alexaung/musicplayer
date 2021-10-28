@@ -350,12 +350,6 @@
       "languageVersion": "2.12"
     },
     {
-      "name": "sliding_up_panel",
-      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/sliding_up_panel-2.0.0+1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "source_span",
       "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/source_span-1.8.1",
       "packageUri": "lib/",
@@ -458,7 +452,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-10-27T10:36:03.561092Z",
+  "generated": "2021-10-28T14:53:34.952184Z",
   "generator": "pub",
   "generatorVersion": "2.14.3"
 }
