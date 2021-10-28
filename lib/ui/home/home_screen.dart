@@ -1,11 +1,11 @@
 // ignore_for_file: prefer_const_constructors_in_immutables
 import 'package:flutter/material.dart';
+import 'package:thitsarparami/widgets/base_widget.dart';
 import 'components/header.dart';
 import 'components/menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
-  // HomeScreen({Key? key}) : super(key: key);
   final BuildContext? menuScreenContext;
   final Function? onScreenHideButtonPressed;
   final bool hideStatus;
@@ -24,50 +24,38 @@ class _HomeState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // _loadTheme();
   }
-
-  // _loadTheme() async {
-  //   BlocProvider.of<ThemeBloc>(context)
-  //       .add(ThemeEvent(appTheme: Preferences.getTheme()));
-  // }
-
-  // _setTheme(bool darkTheme) {
-  //   AppTheme selectedTheme = darkTheme ? AppTheme.light : AppTheme.dark;
-  //   BlocProvider.of<ThemeBloc>(context)
-  //       .add(ThemeEvent(appTheme: selectedTheme));
-  //   Preferences.saveTheme(selectedTheme);
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [
-            Theme.of(context).primaryColorDark,
-            Theme.of(context).primaryColor,
-            Theme.of(context).primaryColorLight,
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    return BaseWidget(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Theme.of(context).primaryColorDark,
+              Theme.of(context).primaryColor,
+              Theme.of(context).primaryColorLight,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
         ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Column(
-                children: const [
-                  HeaderContainer(),
-                  MenuContainer(),
-                  
-                ],
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: CustomScrollView(
+            slivers: [
+              SliverFillRemaining(
+                hasScrollBody: false,
+                child: Column(
+                  children: const [
+                    HeaderContainer(),
+                    MenuContainer(),
+                  ],
+                ),
               ),
-            )
-          ],
+            ],
+          ),
         ),
       ),
     );

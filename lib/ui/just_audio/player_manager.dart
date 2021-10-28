@@ -11,7 +11,10 @@ import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 class PlayerManager {
   // Listeners: Updates going to the UI
+  final MediaItem currentSong = const MediaItem(id: '', title: '');
   final currentSongTitleNotifier = ValueNotifier<String>('');
+  final currentSongNotifier =
+      ValueNotifier<MediaItem>(const MediaItem(id: '', title: ''));
   final playlistNotifier = ValueNotifier<List<String>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
@@ -59,6 +62,7 @@ class PlayerManager {
       if (playlist.isEmpty) {
         playlistNotifier.value = [];
         currentSongTitleNotifier.value = '';
+        currentSongNotifier.value = const MediaItem(id: '', title: '');
       } else {
         final newList = playlist.map((item) => item.title).toList();
         playlistNotifier.value = newList;
@@ -121,6 +125,7 @@ class PlayerManager {
   void _listenToChangesInSong() {
     _audioHandler.mediaItem.listen((mediaItem) {
       currentSongTitleNotifier.value = mediaItem?.title ?? '';
+      currentSongNotifier.value = mediaItem!;
       _updateSkipButtons();
     });
   }
@@ -195,7 +200,6 @@ class PlayerManager {
   }
 
   Future<void> addRadioUrl(String url) async {
-
     MediaItem mediaItem = const MediaItem(
       id: 'radio',
       album: 'Radio',

@@ -39,6 +39,9 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => SongBloc(songRespository: SongRespository(SongApiProvider())),
         ),
+        BlocProvider(
+          create: (context) => PlayerBloc(),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (BuildContext context, ThemeState themeState) {
@@ -46,7 +49,7 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',
             theme: themeState.themeData,
-            //home: const RootScreen(),
+            // home: const HomeScreen(),
             initialRoute: '/',
             routes: routes,
           );

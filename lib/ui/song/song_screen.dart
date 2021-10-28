@@ -7,6 +7,8 @@ import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart'
 import 'package:thitsarparami/ui/just_audio/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
+import 'package:thitsarparami/ui/song/components/music_icons.dart';
+import 'package:thitsarparami/widgets/base_widget.dart';
 
 class SongScreen extends StatefulWidget {
   static const routeName = '/song';
@@ -34,39 +36,41 @@ class _SongScreenState extends State<SongScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
+    return BaseWidget(
+      child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        elevation: 0,
-        title: Text(
-          widget.monk!.title,
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).primaryIconTheme.color!,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0,
+          title: Text(
+            widget.monk!.title,
+            style: Theme.of(context).appBarTheme.titleTextStyle,
+          ),
+          leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).primaryIconTheme.color!,
+            ),
           ),
         ),
-      ),
-      body: Column(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Playlist(
-            monk: widget.monk,
-            album: widget.album,
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-        ],
+        body: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Playlist(
+              monk: widget.monk,
+              album: widget.album,
+            ),
+            const SizedBox(
+              height: 50,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -86,6 +90,7 @@ class _PlaylistState extends State<Playlist> {
     final playerManager = getIt<PlayerManager>();
     playerManager.skipToQueueItem(index);
     playerManager.play();
+    BlocProvider.of<PlayerBloc>(context).add(const IsPlayingEvent(isPlaying: true));
   }
 
   @override
@@ -94,8 +99,6 @@ class _PlaylistState extends State<Playlist> {
     return BlocBuilder<SongBloc, SongState>(
       builder: (BuildContext context, SongState state) {
         if (state is SongError) {
-          // final error = albumState.error;
-          // String message = '$error\n Tap to Retry.';
           return const SomethingWentWrongScreen();
         } else if (state is SongLoaded) {
           playerManager.loadPlaylist(widget.monk!, widget.album!, state.songs);
@@ -112,56 +115,94 @@ class _PlaylistState extends State<Playlist> {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
-                          ValueListenableBuilder<String>(
-                            valueListenable:
-                                playerManager.currentSongTitleNotifier,
-                            builder: (_, title, __) =>
-                                ValueListenableBuilder<ButtonState>(
-                              valueListenable: playerManager.playButtonNotifier,
-                              builder: (_, value, __) {
-                                if (title == state.songs[index].title) {
-                                  switch (value) {
-                                    case ButtonState.loading:
-                                      return Container(
-                                        margin: const EdgeInsets.all(8.0),
-                                        width: 32.0,
-                                        height: 32.0,
-                                        child:
-                                            const CircularProgressIndicator(),
-                                      );
-                                    case ButtonState.paused:
-                                      return IconButton(
-                                        icon: const Icon(Icons.play_arrow),
-                                        iconSize: 32.0,
-                                        onPressed: () => _onTap(index),
-                                      );
-                                    case ButtonState.playing:
-                                      return IconButton(
-                                        icon: const Icon(Icons.pause),
-                                        iconSize: 32.0,
-                                        onPressed: playerManager.pause,
-                                      );
+                          Flexible(
+                            flex: 2,
+                            child: ValueListenableBuilder<String>(
+                              valueListenable:
+                                  playerManager.currentSongTitleNotifier,
+                              builder: (_, title, __) =>
+                                  ValueListenableBuilder<ButtonState>(
+                                valueListenable:
+                                    playerManager.playButtonNotifier,
+                                builder: (_, value, __) {
+                                  if (title == state.songs[index].title) {
+                                    switch (value) {
+                                      case ButtonState.loading:
+                                        return CircularProgressIndicatorIcon(
+                                            color: Theme.of(context)
+                                                .iconTheme
+                                                .color!);
+                                      case ButtonState.paused:
+                                        return GestureDetector(
+                                          onTap: () => _onTap(index),
+                                          child: PlayIcon(
+                                            color: Theme.of(context)
+                                                .iconTheme
+                                                .color!,
+                                          ),
+                                        );
+                                      case ButtonState.playing:
+                                        return GestureDetector(
+                                          onTap: playerManager.pause,
+                                          child: PauseIcon(
+                                            color:
+                                                Theme.of(context).primaryColor,
+                                          ),
+                                        );
+                                    }
+                                  } else {
+                                    return GestureDetector(
+                                      onTap: () => _onTap(index),
+                                      child: PlayIcon(
+                                        color:
+                                            Theme.of(context).iconTheme.color!,
+                                      ),
+                                    );
                                   }
-                                } else {
-                                  return IconButton(
-                                    icon: const Icon(Icons.play_arrow),
-                                    iconSize: 32.0,
-                                    onPressed: () => _onTap(index),
-                                  );
-                                }
-                              },
+                                },
+                              ),
                             ),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: Text(
-                              state.songs[index].title,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                          Flexible(
+                            flex: 10,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 8.0),
+                              child: SizedBox(
+                                width: double.infinity,
+                                child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        state.songs[index].title,
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                        style: TextStyle(
+                                          color: Theme.of(context)
+                                              .textTheme
+                                              .bodyText1!
+                                              .color,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
+                                      const Divider(
+                                        height: 10,
+                                        color: Colors.transparent,
+                                      ),
+                                      Text(
+                                        widget.monk!.title,
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                          color: Color(0xFFADB9CD),
+                                          letterSpacing: 1,
+                                        ),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ]),
+                              ),
                             ),
                           )
                         ],

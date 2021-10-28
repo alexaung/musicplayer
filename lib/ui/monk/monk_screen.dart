@@ -5,6 +5,7 @@ import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';
+import 'package:thitsarparami/widgets/base_widget.dart';
 
 class MonkScreen extends StatefulWidget {
   static const routeName = '/monk';
@@ -29,69 +30,71 @@ class _MonkScreenState extends State<MonkScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-      appBar: AppBar(
-        centerTitle: true,
+    return BaseWidget(
+      child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
-        elevation: 0,
-        title: Text(
-          widget.title!,
-          style: Theme.of(context).appBarTheme.titleTextStyle,
-        ),
-        leading: IconButton(
-          onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const RootScreen()),
-            // );
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back,
-            color: Theme.of(context).primaryIconTheme.color!,
+        appBar: AppBar(
+          centerTitle: true,
+          backgroundColor: Theme.of(context).backgroundColor,
+          elevation: 0,
+          title: Text(
+            widget.title!,
+            style: Theme.of(context).appBarTheme.titleTextStyle,
+          ),
+          leading: IconButton(
+            onPressed: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => const RootScreen()),
+              // );
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).primaryIconTheme.color!,
+            ),
           ),
         ),
-      ),
-      body: BlocBuilder<MonkBloc, MonkState>(
-        builder: (BuildContext context, MonkState monkState) {
-          if (monkState is MonkError) {
-            //final error = monkState.error;
-            //String message = '$error\n Tap to Retry.';
-            return const SomethingWentWrongScreen();
-          } else if (monkState is MonkLoaded) {
-            return Column(
-              children: [
-                Expanded(
-                  child: ListView.builder(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                    itemCount: monkState.monks.length,
-                    itemBuilder: (_, int index) {
-                      return GestureDetector(
-                        onTap: () {
-                          pushNewScreen(
-                            context,
-                            screen: AlbumScreen(
-                              monk: monkState.monks[index],
-                            ),
-                          );
-                        },
-                        child: _listView(index, monkState.monks),
-                      );
-                    },
+        body: BlocBuilder<MonkBloc, MonkState>(
+          builder: (BuildContext context, MonkState monkState) {
+            if (monkState is MonkError) {
+              //final error = monkState.error;
+              //String message = '$error\n Tap to Retry.';
+              return const SomethingWentWrongScreen();
+            } else if (monkState is MonkLoaded) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      padding:
+                          const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      itemCount: monkState.monks.length,
+                      itemBuilder: (_, int index) {
+                        return GestureDetector(
+                          onTap: () {
+                            pushNewScreen(
+                              context,
+                              screen: AlbumScreen(
+                                monk: monkState.monks[index],
+                              ),
+                            );
+                          },
+                          child: _listView(index, monkState.monks),
+                        );
+                      },
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
-              ],
+                  const SizedBox(
+                    height: 50,
+                  ),
+                ],
+              );
+            }
+            return const Center(
+              child: CircularProgressIndicator(),
             );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+          },
+        ),
       ),
     );
   }
@@ -102,26 +105,42 @@ class _MonkScreenState extends State<MonkScreen> {
       children: [
         Row(
           children: [
-            Container(
-              width: 80,
-              height: 80,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                image: DecorationImage(
-                    image: NetworkImage(monks[index].imageUrl),
-                    fit: BoxFit.cover),
+            Flexible(
+              flex: 4,
+              child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                      image: NetworkImage(monks[index].imageUrl),
+                      fit: BoxFit.cover),
+                ),
               ),
             ),
-            const SizedBox(
-              width: 10,
-            ),
-            Expanded(
-              child: Text(
-                monks[index].title,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Flexible(
+              flex: 8,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          monks[index].title,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1!.color,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        
+                      ]),
+                ),
               ),
             )
           ],

@@ -159,28 +159,7 @@ class _RadioScreenState extends State<RadioScreen> {
   }
 }
 
-class Playlist extends StatelessWidget {
-  const Playlist({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final playerManager = getIt<PlayerManager>();
-    return Expanded(
-      child: ValueListenableBuilder<List<String>>(
-        valueListenable: playerManager.playlistNotifier,
-        builder: (context, playlistTitles, _) {
-          return ListView.builder(
-            itemCount: playlistTitles.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(playlistTitles[index]),
-              );
-            },
-          );
-        },
-      ),
-    );
-  }
-}
+
 
 class AudioProgressBar extends StatelessWidget {
   const AudioProgressBar({Key? key}) : super(key: key);

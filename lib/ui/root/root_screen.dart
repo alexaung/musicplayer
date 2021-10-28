@@ -155,6 +155,7 @@ class _RootScreenState extends State<RootScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: PersistentTabView(
         context,
         controller: _controller,
@@ -195,20 +196,23 @@ class _RootScreenState extends State<RootScreen> {
         },
         hideNavigationBar: _hideNavBar,
         decoration: const NavBarDecoration(
-            border: Border(
-                top: BorderSide(
-                    color: Colors.grey, width: 0.2, style: BorderStyle.solid))
-            // colorBehindNavBar: Colors.grey,
-            // boxShadow: [
-            //   BoxShadow(
-            //     blurRadius: 40,
-            //     offset: Offset(8, 10),
-            //     //color: Color(0xFFEEEEEE),
-            //     color: Theme.of(context).primaryColor!,
-            //   ),
-            // ],
-            // borderRadius: BorderRadius.circular(20.0),
-            ),
+          border: Border(
+              top: BorderSide(
+                  color: Colors.grey, width: 0.2, style: BorderStyle.solid)),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   stops: const [
+          //     0.0,
+          //     0.7,
+          //   ],
+          //   colors: [
+          //     //Theme.of(context).primaryColorDark,
+          //     Theme.of(context).primaryColor,
+          //     Theme.of(context).primaryColorLight,
+          //   ],
+          // ),
+        ),
         popAllScreensOnTapOfSelectedTab: true,
         itemAnimationProperties: const ItemAnimationProperties(
           duration: Duration(milliseconds: 400),
