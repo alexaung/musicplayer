@@ -37,6 +37,11 @@ class _HomeState extends State<HomeScreen> {
               Theme.of(context).primaryColor,
               Theme.of(context).primaryColorLight,
             ],
+            stops: const [
+              0.0,
+              0.5,
+              0.7,
+            ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

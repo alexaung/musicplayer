@@ -5,19 +5,35 @@ import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart'
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/roatate_image.dart';
 import 'package:thitsarparami/ui/radio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
 
-class NowPlayingScreen extends StatelessWidget {
-  
-  const NowPlayingScreen({Key? key})
-      : super(key: key);
+class NowPlayingScreen extends StatefulWidget {
+  const NowPlayingScreen({Key? key}) : super(key: key);
+
+  @override
+  State<NowPlayingScreen> createState() => _NowPlayingScreenState();
+}
+
+class _NowPlayingScreenState extends State<NowPlayingScreen> with SingleTickerProviderStateMixin {
+  late AnimationController animationController;
+  @override
+  void initState() {
+    super.initState();
+
+    animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 5),
+    );
+
+    animationController.repeat();
+  }
 
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
-
     return Scaffold(
       // backgroundColor: Colors.transparent,
 
@@ -86,9 +102,11 @@ class NowPlayingScreen extends StatelessWidget {
                       height: screenHeight * 0.1,
                     ),
                     const CurrentSongTitle(),
-                    const SizedBox(height: 10,),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const AudioProgressBar(),
-                    const AudioControlButtons(),
+                     AudioControlButtons(animationController: animationController,),
                   ],
                 ),
               ),
@@ -98,16 +116,18 @@ class NowPlayingScreen extends StatelessWidget {
             top: screenHeight * 0.11,
             left: (screenWidth - 150) / 2,
             right: (screenWidth - 150) / 2,
-            height: screenHeight * 0.17,
+            height: screenHeight * 0.18,
             child: Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColorLight,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                       color: Theme.of(context).primaryColorLight, width: 2)),
-              child: const Padding(
-                padding: EdgeInsets.all(10),
-                child: CurrentSongImage(),
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: CurrentSongImage(
+                  animationController: animationController,
+                ),
               ),
             ),
           ),
@@ -135,7 +155,6 @@ class CurrentSongTitle extends StatelessWidget {
                   song.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    
                     fontSize: 20,
                     fontWeight: FontWeight.w600,
                     color: Theme.of(context).textTheme.bodyText1!.color,
@@ -166,7 +185,9 @@ class CurrentSongTitle extends StatelessWidget {
 }
 
 class CurrentSongImage extends StatelessWidget {
-  const CurrentSongImage({Key? key}) : super(key: key);
+  final AnimationController animationController;
+  const CurrentSongImage({Key? key, required this.animationController})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final playerManager = getIt<PlayerManager>();
@@ -174,18 +195,17 @@ class CurrentSongImage extends StatelessWidget {
       valueListenable: playerManager.currentSongNotifier,
       builder: (_, song, __) {
         return Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Theme.of(context).primaryColorDark,
-              width: 4,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: Theme.of(context).primaryColorDark,
+                width: 2,
+              ),
             ),
-            image: DecorationImage(
-              image: NetworkImage(song.artUri.toString()),
-              fit: BoxFit.contain,
-            ),
-          ),
-        );
+            child: RotateImage(
+              animationController: animationController,
+              imageUrl: song.artUri == null ? "" : song.artUri.toString(),
+            ));
       },
     );
   }
@@ -211,19 +231,21 @@ class AudioProgressBar extends StatelessWidget {
 }
 
 class AudioControlButtons extends StatelessWidget {
-  const AudioControlButtons({Key? key}) : super(key: key);
+  final AnimationController animationController;
+  const AudioControlButtons({Key? key, required this.animationController})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: const [
-          RepeatButton(),
-          PreviousSongButton(),
-          PlayButton(),
-          NextSongButton(),
-          ShuffleButton(),
+        children: [
+          const RepeatButton(),
+          const PreviousSongButton(),
+          PlayButton(animationController: animationController),
+          const NextSongButton(),
+          const ShuffleButton(),
         ],
       ),
     );
@@ -277,7 +299,9 @@ class PreviousSongButton extends StatelessWidget {
 }
 
 class PlayButton extends StatelessWidget {
-  const PlayButton({Key? key}) : super(key: key);
+  final AnimationController animationController;
+  const PlayButton({Key? key, required this.animationController})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     final playerManager = getIt<PlayerManager>();
@@ -286,23 +310,27 @@ class PlayButton extends StatelessWidget {
       builder: (_, value, __) {
         switch (value) {
           case ButtonState.loading:
-            return Container(
-              margin: const EdgeInsets.all(8.0),
-              width: 32.0,
-              height: 32.0,
-              child: const CircularProgressIndicator(),
-            );
+            return CircularProgressIndicatorIcon(
+                color: Theme.of(context).iconTheme.color!);
           case ButtonState.paused:
-            return IconButton(
-              icon: const Icon(Icons.play_arrow),
-              iconSize: 32.0,
-              onPressed: playerManager.play,
+            return GestureDetector(
+              onTap: () {
+                playerManager.play();
+                animationController.repeat();
+              },
+              child: PlayIcon(
+                color: Theme.of(context).iconTheme.color!,
+              ),
             );
           case ButtonState.playing:
-            return IconButton(
-              icon: const Icon(Icons.pause),
-              iconSize: 32.0,
-              onPressed: playerManager.pause,
+            return GestureDetector(
+              onTap: () {
+                playerManager.pause();
+                animationController.stop();
+              },
+              child: PauseIcon(
+                color: Theme.of(context).iconTheme.color!,
+              ),
             );
         }
       },
