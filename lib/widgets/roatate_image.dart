@@ -42,7 +42,7 @@ class RotateImageState extends State<RotateImage>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Theme.of(context).primaryColorDark,
+                  color: Theme.of(context).primaryColor,
                   width: 2,
                 ),
                 image: const DecorationImage(
@@ -55,7 +55,7 @@ class RotateImageState extends State<RotateImage>
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: Theme.of(context).primaryColorDark,
+                  color: Theme.of(context).primaryColor,
                   width: 2,
                 ),
                 image: DecorationImage(

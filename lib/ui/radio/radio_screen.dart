@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/player_manager.dart';
-import 'package:thitsarparami/ui/just_audio/roatate_image.dart';
+import 'package:thitsarparami/widgets/roatate_image.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
@@ -147,7 +147,7 @@ class _RadioScreenState extends State<RadioScreen>
             height: screenHeight * 0.18,
             child: Container(
               decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColorLight,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
                       color: Theme.of(context).primaryColorLight, width: 2)),
