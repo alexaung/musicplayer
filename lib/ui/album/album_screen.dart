@@ -70,7 +70,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                   Expanded(
                     child: ListView.builder(
                       padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                          const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                       itemCount: albumState.albums.length,
                       itemBuilder: (_, int index) {
                         return GestureDetector(
@@ -107,57 +107,60 @@ class _AlbumScreenState extends State<AlbumScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Flexible(
-              flex: 2,
-              child: Container(
-                width: double.infinity,
-                alignment: Alignment.centerLeft,
-                child: AlbumIcon(
-                  color: Theme.of(context).iconTheme.color!,
-                ),
-              ),
-            ),
-            Flexible(
-              flex: 10,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: SizedBox(
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            children: [
+              Flexible(
+                flex: 2,
+                child: Container(
                   width: double.infinity,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          albums[index].title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const Divider(
-                          height: 10,
-                          color: Colors.transparent,
-                        ),
-                        Text(
-                          widget.monk!.title,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            color: Color(0xFFADB9CD),
-                            letterSpacing: 1,
-                          ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ]),
+                  alignment: Alignment.centerLeft,
+                  child: AlbumIcon(
+                    color: Theme.of(context).iconTheme.color!,
+                  ),
                 ),
               ),
-            )
-          ],
+              Flexible(
+                flex: 10,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            albums[index].title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const Divider(
+                            height: 10,
+                            color: Colors.transparent,
+                          ),
+                          Text(
+                            widget.monk!.title,
+                            style: const TextStyle(
+                              fontSize: 16,
+                              color: Color(0xFFADB9CD),
+                              letterSpacing: 1,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ]),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
         // const SizedBox(
         //   height: 15,

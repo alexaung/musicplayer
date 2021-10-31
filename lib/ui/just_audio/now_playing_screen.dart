@@ -5,6 +5,8 @@ import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart'
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/services/components/favourite_form.dart';
+import 'package:thitsarparami/ui/just_audio/services/components/favourite_list.dart';
 import 'package:thitsarparami/widgets/roatate_image.dart';
 import 'package:thitsarparami/ui/radio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
@@ -16,7 +18,8 @@ class NowPlayingScreen extends StatefulWidget {
   State<NowPlayingScreen> createState() => _NowPlayingScreenState();
 }
 
-class _NowPlayingScreenState extends State<NowPlayingScreen> with SingleTickerProviderStateMixin {
+class _NowPlayingScreenState extends State<NowPlayingScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController animationController;
   @override
   void initState() {
@@ -28,6 +31,41 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> with SingleTickerPr
     );
 
     animationController.repeat();
+  }
+
+  _showModalBottomSheet() {
+    const double _radius = 25.0;
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(_radius),
+          topRight: Radius.circular(_radius),
+        ),
+      ),
+      builder: (BuildContext context) {
+        return DraggableScrollableSheet(
+          maxChildSize: 0.9,
+          expand: false,
+          builder: (context, scrollController) {
+            return Column(
+              children: [
+                const FavouriteForm(),
+                Divider(
+                  color: Theme.of(context).dividerColor,
+                ),
+                Expanded(
+                  child: FavouriteListView(
+                    controller: scrollController,
+                  ),
+                )
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -89,7 +127,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> with SingleTickerPr
             left: 0,
             right: 0,
             top: screenHeight * 0.2,
-            height: screenHeight * 0.36,
+            height: screenHeight * 0.50,
             child: Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
@@ -105,8 +143,16 @@ class _NowPlayingScreenState extends State<NowPlayingScreen> with SingleTickerPr
                     const SizedBox(
                       height: 10,
                     ),
+                    SocailButtoms(
+                      showFavouriteModalBottomSheet: _showModalBottomSheet,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const AudioProgressBar(),
-                     AudioControlButtons(animationController: animationController,),
+                    AudioControlButtons(
+                      animationController: animationController,
+                    ),
                   ],
                 ),
               ),
@@ -226,8 +272,8 @@ class AudioProgressBar extends StatelessWidget {
           onSeek: playerManager.seek,
           progressBarColor: Theme.of(context).primaryColorDark,
           bufferedBarColor: Theme.of(context).primaryColor,
-          baseBarColor:Theme.of(context).primaryColorLight,
-          thumbColor:Theme.of(context).primaryColor,
+          baseBarColor: Theme.of(context).primaryColorLight,
+          thumbColor: Theme.of(context).primaryColor,
         );
       },
     );
@@ -250,6 +296,29 @@ class AudioControlButtons extends StatelessWidget {
           PlayButton(animationController: animationController),
           const NextSongButton(),
           const ShuffleButton(),
+        ],
+      ),
+    );
+  }
+}
+
+class SocailButtoms extends StatelessWidget {
+  final Function showFavouriteModalBottomSheet;
+  const SocailButtoms({Key? key, required this.showFavouriteModalBottomSheet})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          FavouriteButton(
+            showModalBottomSheet: showFavouriteModalBottomSheet,
+          ),
+          const DownloadButton(),
+          const ShareButton(),
         ],
       ),
     );
@@ -374,6 +443,64 @@ class ShuffleButton extends StatelessWidget {
           onPressed: playerManager.shuffle,
         );
       },
+    );
+  }
+}
+
+class FavouriteButton extends StatelessWidget {
+  final Function showModalBottomSheet;
+  const FavouriteButton({Key? key, required this.showModalBottomSheet})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final playerManager = getIt<PlayerManager>();
+    return ValueListenableBuilder<MediaItem>(
+        valueListenable: playerManager.currentSongNotifier,
+        builder: (_, song, __) {
+          if (song.rating != null) {
+            return IconButton(
+                icon: song.rating!.hasHeart()
+                    ? Icon(
+                        Icons.favorite,
+                        color: Theme.of(context).primaryColor,
+                      )
+                    : const Icon(Icons.favorite_outline),
+                onPressed: () {
+                  song.rating!.hasHeart() ? null : showModalBottomSheet();
+                });
+          } else {
+            return IconButton(
+              icon: const Icon(Icons.favorite_outline),
+              onPressed: () {
+                showModalBottomSheet();
+              },
+            );
+          }
+        });
+  }
+}
+
+class DownloadButton extends StatelessWidget {
+  const DownloadButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.download_outlined),
+      onPressed: () {},
+    );
+  }
+}
+
+class ShareButton extends StatelessWidget {
+  const ShareButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: const Icon(Icons.share_outlined),
+      onPressed: () {},
     );
   }
 }

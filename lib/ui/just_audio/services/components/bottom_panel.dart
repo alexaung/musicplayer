@@ -20,11 +20,18 @@ class BottomPanel extends StatefulWidget {
 
 class _BottomPanelState extends State<BottomPanel> {
   _showModalBottomSheet() {
+    const double _radius = 25.0;
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(_radius),
+          topRight: Radius.circular(_radius),
+        ),
+      ),
       builder: (BuildContext context) {
-        const double _radius = 25.0;
+        
         final double screenHeight = MediaQuery.of(context).size.height;
         return Container(
           height: screenHeight,

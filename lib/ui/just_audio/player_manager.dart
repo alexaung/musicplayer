@@ -11,10 +11,10 @@ import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 class PlayerManager {
   // Listeners: Updates going to the UI
-  final MediaItem currentSong = const MediaItem(id: '', title: '');
+  // late MediaItem currentSong = const MediaItem(id: '', title: '');
   final currentSongTitleNotifier = ValueNotifier<String>('');
-  final currentSongNotifier =
-      ValueNotifier<MediaItem>(const MediaItem(id: '', title: ''));
+  final currentSongNotifier = ValueNotifier<MediaItem>(
+      const MediaItem(id: '', title: '', rating: Rating.newHeartRating(false)));
   final playlistNotifier = ValueNotifier<List<String>>([]);
   final progressNotifier = ProgressNotifier();
   final repeatButtonNotifier = RepeatButtonNotifier();
@@ -39,6 +39,7 @@ class PlayerManager {
     _listenToBufferedPosition();
     _listenToTotalDuration();
     _listenToChangesInSong();
+    //_listenRatingStyle();
   }
 
   // Future<void> _loadPlaylist() async {
@@ -62,7 +63,8 @@ class PlayerManager {
       if (playlist.isEmpty) {
         playlistNotifier.value = [];
         currentSongTitleNotifier.value = '';
-        currentSongNotifier.value = const MediaItem(id: '', title: '');
+        currentSongNotifier.value = const MediaItem(
+            id: '', title: '', rating: Rating.newHeartRating(false));
       } else {
         final newList = playlist.map((item) => item.title).toList();
         playlistNotifier.value = newList;
@@ -151,6 +153,9 @@ class PlayerManager {
               artist: monk.title,
               artUri: Uri.parse(monk.imageUrl),
               extras: {'url': song.url},
+              rating: song.isFavourite
+                  ? const Rating.newHeartRating(true)
+                  : const Rating.newHeartRating(false),
             ))
         .toList();
     mediaItems.removeWhere((item) => _audioHandler.queue.value.contains(item));
@@ -200,16 +205,37 @@ class PlayerManager {
   }
 
   Future<void> addRadioUrl(String url) async {
-    MediaItem mediaItem = const MediaItem(
-      id: 'radio',
-      album: 'Radio',
-      title: '24 Hours Radio',
-      artist: 'Radio DJ',
-      //artUri: Uri.parse("https://www.thitsarparamisociety.com/"),
-      extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
-    );
+    MediaItem mediaItem = MediaItem(
+        id: 'radio',
+        album: 'Radio',
+        title: '24 Hours Radio',
+        artist: 'Radio DJ',
+        artUri: Uri.parse("asset:///assets/images/logo.png"),
+        extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
+        rating: const Rating.newHeartRating(true));
 
     _audioHandler.addQueueItem(mediaItem);
+  }
+
+  Future<void> setRating(bool hasHeart) async {
+    MediaItem currentSong = currentSongNotifier.value;
+    currentSongNotifier.value = const MediaItem(
+        id: '', title: '', rating: Rating.newHeartRating(false));
+    MediaItem newMediaItem = MediaItem(
+      id: currentSong.id,
+      album: currentSong.album,
+      title: currentSong.title,
+      artist: currentSong.artist,
+      artUri: currentSong.artUri,
+      extras: currentSong.extras,
+      rating: Rating.newHeartRating(hasHeart),
+    );
+    currentSongNotifier.value = newMediaItem;
+    _audioHandler.updateMediaItem(newMediaItem);
+  }
+
+  MediaItem get currentMediaItem {
+    return currentSongNotifier.value;
   }
 
   void emptyPlaylist() {

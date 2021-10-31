@@ -66,8 +66,8 @@ class _MonkScreenState extends State<MonkScreen> {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 0, vertical: 8),
                       itemCount: monkState.monks.length,
                       itemBuilder: (_, int index) {
                         return GestureDetector(
@@ -103,47 +103,50 @@ class _MonkScreenState extends State<MonkScreen> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Flexible(
-              flex: 4,
-              child: Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: NetworkImage(monks[index].imageUrl),
-                      fit: BoxFit.cover),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            children: [
+              Flexible(
+                flex: 4,
+                child: Container(
+                  width: 80,
+                  height: 80,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                        image: NetworkImage(monks[index].imageUrl),
+                        fit: BoxFit.cover),
+                  ),
                 ),
               ),
-            ),
-            Flexible(
-              flex: 8,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          monks[index].title,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1!.color,
-                            fontSize: 18,
-                            fontWeight: FontWeight.w600,
+              Flexible(
+                flex: 8,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            monks[index].title,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color:
+                                  Theme.of(context).textTheme.bodyText1!.color,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w600,
+                            ),
                           ),
-                        ),
-                        
-                      ]),
+                        ]),
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
         // const SizedBox(
         //   height: 15,

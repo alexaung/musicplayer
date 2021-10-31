@@ -6,8 +6,9 @@ class Song extends Equatable {
   final int id;
   final String title;
   final String url;
+  final bool isFavourite;
 
-  const Song({required this.id, required this.title, required this.url});
+  const Song({required this.id, required this.title, required this.url, this.isFavourite = false});
 
   @override
   List<Object> get props => [title, url];

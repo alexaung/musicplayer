@@ -135,6 +135,21 @@ class MyAudioHandler extends BaseAudioHandler {
       Uri.parse(mediaItem.extras!['url']),
       tag: mediaItem,
     );
+
+    // AudioSource.uri(
+    //   Uri.parse('asset:///assets/audios/song1.mp3'),
+    //   tag: AudioMetadata(title: 'Relaxation', artwork: 'assets/images/album-art-1.png'),
+    // ),
+  }
+
+  @override
+  Future<void> updateMediaItem(MediaItem mediaItem) async {
+    int index = queue.value.indexWhere((item) => item.id == mediaItem.id);
+    if (index != -1) {
+      queue.value[index] = mediaItem;
+      _playlist.children[index] = _createAudioSource(mediaItem);
+      _player.sequenceState!.sequence[index] = _createAudioSource(mediaItem);
+    }
   }
 
   @override
