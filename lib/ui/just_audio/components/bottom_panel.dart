@@ -6,7 +6,7 @@ import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/now_playing_screen.dart';
-import 'package:thitsarparami/ui/just_audio/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/radio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
 

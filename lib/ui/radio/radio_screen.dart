@@ -3,7 +3,7 @@ import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
-import 'package:thitsarparami/ui/just_audio/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/widgets/roatate_image.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';

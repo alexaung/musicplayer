@@ -205,14 +205,14 @@ class PlayerManager {
   }
 
   Future<void> addRadioUrl(String url) async {
-    MediaItem mediaItem = MediaItem(
+    MediaItem mediaItem = const MediaItem(
         id: 'radio',
         album: 'Radio',
         title: '24 Hours Radio',
         artist: 'Radio DJ',
-        artUri: Uri.parse("asset:///assets/images/logo.png"),
+        //artUri: Uri.parse("asset:///assets/images/logo.png"),
         extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
-        rating: const Rating.newHeartRating(true));
+        rating: Rating.newHeartRating(true));
 
     _audioHandler.addQueueItem(mediaItem);
   }

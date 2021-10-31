@@ -45,6 +45,13 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
       } catch (e) {
         yield FavouriteError(error: (e.toString()));
       }
+    } else if (event is UpdateFavouriteStatus) {
+      try {
+        await favouriteRepository.updateFavouriteStatus(event.id!, event.status == true ? 1 : 0 );
+        yield Success(successMessage: event.favourite!.name! + ' updated');
+      } catch (e) {
+        yield FavouriteError(error: (e.toString()));
+      }
     } else if (event is DeleteFavourite) {
       try {
         await favouriteRepository.deleteFavouriteById(event.id!);

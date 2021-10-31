@@ -4,7 +4,7 @@ import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
-import 'package:thitsarparami/ui/just_audio/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';

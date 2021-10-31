@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:thitsarparami/ui/just_audio/services/components/bottom_panel.dart';
+import 'package:thitsarparami/ui/just_audio/components/bottom_panel.dart';
 
 class BaseWidget extends StatelessWidget {
   final Widget child;

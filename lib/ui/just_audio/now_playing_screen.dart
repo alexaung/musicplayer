@@ -1,12 +1,14 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:thitsarparami/db/blocs/blocs.dart';
+import 'package:thitsarparami/ui/just_audio/components/favourite_form.dart';
+import 'package:thitsarparami/ui/just_audio/notifiers/components/favourite_list.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
-import 'package:thitsarparami/ui/just_audio/player_manager.dart';
-import 'package:thitsarparami/ui/just_audio/services/components/favourite_form.dart';
-import 'package:thitsarparami/ui/just_audio/services/components/favourite_list.dart';
+import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/widgets/roatate_image.dart';
 import 'package:thitsarparami/ui/radio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
@@ -33,7 +35,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
     animationController.repeat();
   }
 
-  _showModalBottomSheet() {
+  _showModalBottomSheet(String mode) {
     const double _radius = 25.0;
     showModalBottomSheet(
       context: context,
@@ -454,6 +456,19 @@ class FavouriteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _unFavourite() {
+      final playerManager = getIt<PlayerManager>();
+      playerManager.setRating(false);
+      MediaItem currentSong = playerManager.currentMediaItem;
+
+      BlocProvider.of<FavouriteBloc>(context).add(
+        UpdateFavouriteStatus(
+          id: int.parse(currentSong.id),
+          status: false,
+        ),
+      );
+    }
+
     final playerManager = getIt<PlayerManager>();
     return ValueListenableBuilder<MediaItem>(
         valueListenable: playerManager.currentSongNotifier,
@@ -467,7 +482,9 @@ class FavouriteButton extends StatelessWidget {
                       )
                     : const Icon(Icons.favorite_outline),
                 onPressed: () {
-                  song.rating!.hasHeart() ? null : showModalBottomSheet();
+                  song.rating!.hasHeart()
+                      ? _unFavourite()
+                      : showModalBottomSheet();
                 });
           } else {
             return IconButton(

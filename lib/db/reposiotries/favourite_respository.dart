@@ -21,6 +21,9 @@ class FavouriteRepository {
   Future updateFavourite(Favourite favourite) =>
       favouriteDao.updateFavourite(favourite);
 
+  Future updateFavouriteStatus(int id, int status) =>
+      songDao.updateFavouriteStatus(id: id, status: status);
+
   Future deleteFavouriteById(int id) => favouriteDao.deleteFavourite(id);
 
   Future deleteAllFavourites() => favouriteDao.deleteAllFavourites();
