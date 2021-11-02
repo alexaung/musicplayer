@@ -127,7 +127,9 @@ class PlayerManager {
   void _listenToChangesInSong() {
     _audioHandler.mediaItem.listen((mediaItem) {
       currentSongTitleNotifier.value = mediaItem?.title ?? '';
-      currentSongNotifier.value = mediaItem!;
+      if (mediaItem != null) {
+        currentSongNotifier.value = mediaItem;
+      }
       _updateSkipButtons();
     });
   }
