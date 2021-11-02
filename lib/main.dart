@@ -14,6 +14,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Preferences.init();
   await setupServiceLocator();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent, // transparent status bar
+  ));
   runApp(const MyApp());
 }
 
@@ -23,38 +26,42 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // transparent status bar
-    ));
-
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (context) => ThemeBloc(),
         ),
         BlocProvider(
-          create: (context) => MonkBloc(monkRespository: MonkRespository(MonkApiProvider())),
+          create: (context) =>
+              MonkBloc(monkRespository: MonkRespository(MonkApiProvider())),
         ),
         BlocProvider(
-          create: (context) => AlbumBloc(albumRespository: AlbumRespository(AlbumApiProvider())),
+          create: (context) =>
+              AlbumBloc(albumRespository: AlbumRespository(AlbumApiProvider())),
         ),
         BlocProvider(
-          create: (context) => SongBloc(songRespository: SongRespository(SongApiProvider())),
+          create: (context) =>
+              SongBloc(songRespository: SongRespository(SongApiProvider())),
         ),
         BlocProvider(
-          create: (context) => EbookBloc(eBookRespository: EbookRespository(EbookApiProvider())),
+          create: (context) =>
+              EbookBloc(eBookRespository: EbookRespository(EbookApiProvider())),
         ),
         BlocProvider(
-          create: (context) => AppointmentBloc(appointmentRespository: AppointmentRespository(AppointmentApiProvider())),
+          create: (context) => AppointmentBloc(
+              appointmentRespository:
+                  AppointmentRespository(AppointmentApiProvider())),
         ),
         BlocProvider(
           create: (context) => PlayerBloc(),
         ),
         BlocProvider(
-          create: (context) => FavouriteBloc(favouriteRepository: FavouriteRepository()),
+          create: (context) =>
+              FavouriteBloc(favouriteRepository: FavouriteRepository()),
         ),
         BlocProvider(
-          create: (context) => DownloadBloc(downloadRepository: DownloadRepository()),
+          create: (context) =>
+              DownloadBloc(downloadRepository: DownloadRepository()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
