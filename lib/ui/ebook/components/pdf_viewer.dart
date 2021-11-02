@@ -11,7 +11,7 @@ class PdfViewer extends StatefulWidget {
 
 class _PdfViewerState extends State<PdfViewer> {
   // PDFDocument? document;
-  final bool _isLoading = true;
+  // bool _isLoading = true;
 
   // loadDocument() async {
   //   document = await PDFDocument.fromURL(widget.eBook!.url);
@@ -50,11 +50,12 @@ class _PdfViewerState extends State<PdfViewer> {
           ),
         ),
       ),
-      body: Center(
-          child: _isLoading
-              ? const Center(child: CircularProgressIndicator())
-              : Container() //PDFViewer(document: document!)),
-          ),
+      body: Container()
+      // Center(
+      //   child: _isLoading
+      //       ? const Center(child: CircularProgressIndicator())
+      //       : PDFViewer(document: document!),
+      // ),
     );
   }
 }

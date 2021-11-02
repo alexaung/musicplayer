@@ -61,8 +61,6 @@ class _AlbumScreenState extends State<AlbumScreen> {
         body: BlocBuilder<AlbumBloc, AlbumState>(
           builder: (BuildContext context, AlbumState albumState) {
             if (albumState is AlbumError) {
-              // final error = albumState.error;
-              // String message = '$error\n Tap to Retry.';
               return const SomethingWentWrongScreen();
             } else if (albumState is AlbumLoaded) {
               return Column(
