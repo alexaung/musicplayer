@@ -77,7 +77,18 @@ class SongDao {
     var result = await db.rawUpdate('''
     UPDATE $songTable  
     SET is_favourite = ?
-    WHERE _id = ?
+    WHERE id = ?
+    ''', [status, id]);
+
+    return result;
+  }
+
+  Future<int> updateDownloadStatus({required int id, required int status}) async {
+    final db = await dbProvider.database;
+    var result = await db.rawUpdate('''
+    UPDATE $songTable  
+    SET is_downloaded = ?
+    WHERE id = ?
     ''', [status, id]);
 
     return result;

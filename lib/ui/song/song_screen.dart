@@ -24,6 +24,7 @@ class _SongScreenState extends State<SongScreen> {
   @override
   void initState() {
     super.initState();
+
     getIt<PlayerManager>().init(PlayerMode.mp3);
     BlocProvider.of<SongBloc>(context).add(GetSongsEvent(id: widget.album!.id));
   }
@@ -31,6 +32,7 @@ class _SongScreenState extends State<SongScreen> {
   @override
   void dispose() {
     //getIt<PageManager>().dispose();
+
     super.dispose();
   }
 
@@ -86,11 +88,28 @@ class Playlist extends StatefulWidget {
 }
 
 class _PlaylistState extends State<Playlist> {
-  _onTap(int index) {
+  late bool hasQueued;
+  @override
+  void initState() {
+    super.initState();
+    hasQueued = false;
+  }
+
+  _onTap(int index, List<Song> songs) async {
     final playerManager = getIt<PlayerManager>();
+
+    if (hasQueued == false) {
+      playerManager.loadPlaylist(widget.monk!, widget.album!, songs);
+      setState(() {
+        hasQueued = true;
+      });
+      await Future.delayed(const Duration(milliseconds: 100));
+    }
+    BlocProvider.of<PlayerBloc>(context)
+        .add(const IsPlayingEvent(isPlaying: true));
+
     playerManager.skipToQueueItem(index);
     playerManager.play();
-    BlocProvider.of<PlayerBloc>(context).add(const IsPlayingEvent(isPlaying: true));
   }
 
   @override
@@ -101,13 +120,12 @@ class _PlaylistState extends State<Playlist> {
         if (state is SongError) {
           return const SomethingWentWrongScreen();
         } else if (state is SongLoaded) {
-          playerManager.loadPlaylist(widget.monk!, widget.album!, state.songs);
           return Expanded(
               child: ListView.builder(
             itemCount: state.songs.length,
             itemBuilder: (context, index) {
               return GestureDetector(
-                onTap: () => _onTap(index),
+                onTap: () => _onTap(index, state.songs),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -134,7 +152,8 @@ class _PlaylistState extends State<Playlist> {
                                                 .color!);
                                       case ButtonState.paused:
                                         return GestureDetector(
-                                          onTap: () => _onTap(index),
+                                          onTap: () =>
+                                              _onTap(index, state.songs),
                                           child: PlayIcon(
                                             color: Theme.of(context)
                                                 .iconTheme
@@ -152,7 +171,7 @@ class _PlaylistState extends State<Playlist> {
                                     }
                                   } else {
                                     return GestureDetector(
-                                      onTap: () => _onTap(index),
+                                      onTap: () => _onTap(index, state.songs),
                                       child: PlayIcon(
                                         color:
                                             Theme.of(context).iconTheme.color!,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
-import 'package:thitsarparami/db/blocs/favourite/favourite_bloc.dart';
-import 'package:thitsarparami/db/reposiotries/favourite_respository.dart';
+import 'package:thitsarparami/db/blocs/blocs.dart';
+import 'package:thitsarparami/db/reposiotries/repositories.dart';
 import 'package:thitsarparami/repositories/repositories.dart';
 import 'package:thitsarparami/routes.dart';
 import 'package:thitsarparami/services/services.dart';
@@ -42,10 +42,16 @@ class MyApp extends StatelessWidget {
           create: (context) => SongBloc(songRespository: SongRespository(SongApiProvider())),
         ),
         BlocProvider(
+          create: (context) => EbookBloc(eBookRespository: EbookRespository(EbookApiProvider())),
+        ),
+        BlocProvider(
           create: (context) => PlayerBloc(),
         ),
         BlocProvider(
           create: (context) => FavouriteBloc(favouriteRepository: FavouriteRepository()),
+        ),
+        BlocProvider(
+          create: (context) => DownloadBloc(downloadRepository: DownloadRepository()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(

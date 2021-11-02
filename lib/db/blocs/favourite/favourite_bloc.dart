@@ -60,14 +60,6 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
       } catch (e) {
         yield FavouriteError(error: (e.toString()));
       }
-    } else if (event is DeleteFavourite) {
-      try {
-        await favouriteRepository.deleteFavouriteById(event.id!);
-        yield Success(
-            successMessage: event.favourite!.name! + ' have been deleted');
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
     } else if (event is DeleteAllFavourite) {
       try {
         await favouriteRepository.deleteAllFavourites();

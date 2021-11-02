@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/error/something_went_wrong.dart';
+import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';
+import 'package:thitsarparami/ui/ebook/ebook_screen.dart';
 import 'package:thitsarparami/widgets/base_widget.dart';
 
 class MonkScreen extends StatefulWidget {
   static const routeName = '/monk';
   final String? title;
-  const MonkScreen({Key? key, this.title}) : super(key: key);
+  final MonkScreenMode? screenMode;
+  const MonkScreen({Key? key, this.title, this.screenMode}) : super(key: key);
 
   @override
   State<MonkScreen> createState() => _MonkScreenState();
@@ -74,9 +77,13 @@ class _MonkScreenState extends State<MonkScreen> {
                           onTap: () {
                             pushNewScreen(
                               context,
-                              screen: AlbumScreen(
-                                monk: monkState.monks[index],
-                              ),
+                              screen: MonkScreenMode.album == widget.screenMode
+                                  ? AlbumScreen(
+                                      monk: monkState.monks[index],
+                                    )
+                                  : EbookScreen(
+                                      monk: monkState.monks[index],
+                                    ),
                             );
                           },
                           child: _listView(index, monkState.monks),

@@ -4,11 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
 import 'package:thitsarparami/helper/constants.dart';
+import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 class FavouriteForm extends StatefulWidget {
-  const FavouriteForm({Key? key}) : super(key: key);
+  final SocialMode socialMode;
+
+  const FavouriteForm({Key? key, required this.socialMode}) : super(key: key);
 
   @override
   State<FavouriteForm> createState() => _FavouriteFormState();
@@ -37,9 +40,8 @@ class _FavouriteFormState extends State<FavouriteForm> {
     }
   }
 
-  void create() {
+  void create(SocialMode socialMode) {
     final playerManager = getIt<PlayerManager>();
-    playerManager.setRating(true);
     MediaItem currentSong = playerManager.currentMediaItem;
     FavouriteSong song = FavouriteSong(
       id: int.parse(currentSong.id),
@@ -49,13 +51,24 @@ class _FavouriteFormState extends State<FavouriteForm> {
       artist: currentSong.artist!,
       artUrl: currentSong.artUri.toString(),
       audioUrl: currentSong.extras!['url'],
-      isFavourite: true,
+      isFavourite: socialMode == SocialMode.favourite ? true : false,
+      isDownloaded: socialMode == SocialMode.download ? true : false,
     );
-    BlocProvider.of<FavouriteBloc>(context).add(
-      CreateFavourite(
-        favourite: Favourite(id: null, name: nameControler.text, song: song),
-      ),
-    );
+    if (socialMode == SocialMode.favourite) {
+      playerManager.setRating(true);
+
+      BlocProvider.of<FavouriteBloc>(context).add(
+        CreateFavourite(
+          favourite: Favourite(id: null, name: nameControler.text, song: song),
+        ),
+      );
+    } else {
+      BlocProvider.of<DownloadBloc>(context).add(
+        CreateDownload(
+          favourite: Favourite(id: null, name: nameControler.text, song: song),
+        ),
+      );
+    }
   }
 
   @override
@@ -70,11 +83,11 @@ class _FavouriteFormState extends State<FavouriteForm> {
           Navigator.of(context).pop();
         }
       },
-      child: _favouriteForm(),
+      child: _favouriteForm(widget.socialMode),
     );
   }
 
-  Widget _favouriteForm() {
+  Widget _favouriteForm(SocialMode socialMode) {
     return Form(
       key: _formKey,
       child: Padding(
@@ -86,7 +99,7 @@ class _FavouriteFormState extends State<FavouriteForm> {
             const SizedBox(
               height: 10,
             ),
-            _submitBotton(),
+            _submitBotton(socialMode),
           ],
         ),
       ),
@@ -129,10 +142,10 @@ class _FavouriteFormState extends State<FavouriteForm> {
     );
   }
 
-  Widget _submitBotton() {
+  Widget _submitBotton(SocialMode socialMode) {
     return ElevatedButton(
       onPressed: () {
-        create();
+        create(socialMode);
       },
       child: const Text('Create Playlist'),
     );

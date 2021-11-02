@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/ui/home/components/monk_carousel.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/radio/radio_screen.dart';
@@ -27,7 +28,13 @@ class MenuContainer extends StatelessWidget {
             height: 10,
           ),
           GestureDetector(
-            onTap: () => pushNewScreen(context, screen:  const MonkScreen(title: 'MP3 တရားတော်များ')),
+            onTap: () => pushNewScreen(
+              context,
+              screen: const MonkScreen(
+                title: 'MP3 တရားတော်များ',
+                screenMode: MonkScreenMode.album,
+              ),
+            ),
             child: SizedBox(
               height: 85,
               width: MediaQuery.of(context).size.width,
@@ -36,8 +43,7 @@ class MenuContainer extends StatelessWidget {
                   Container(
                     alignment: Alignment.topLeft,
                     width: MediaQuery.of(context).size.width,
-                    margin:
-                        const EdgeInsets.only(top: 10, left: 20, right: 20),
+                    margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
                     height: 85,
                     decoration: BoxDecoration(
                       color: Theme.of(context).scaffoldBackgroundColor,
@@ -91,7 +97,10 @@ class MenuContainer extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            onTap: () => pushNewScreen(context, screen: const MonkScreen(title: 'ဓမ္မပို့ချချက် MP3 တရားတော်များ',)),
+            onTap: () => pushNewScreen(context,
+                screen: const MonkScreen(
+                  title: 'ဓမ္မပို့ချချက် MP3 တရားတော်များ',
+                )),
             child: SizedBox(
               height: 85,
               width: MediaQuery.of(context).size.width,
@@ -167,7 +176,11 @@ class MenuContainer extends StatelessWidget {
             ),
           ),
           GestureDetector(
-            // onTap: () => pushNewScreen(context, screen: MonkScreen()),
+            onTap: () => pushNewScreen(context,
+                screen: const MonkScreen(
+                  title: 'ဓမ္မစာအုပ်များ',
+                  screenMode: MonkScreenMode.book,
+                )),
             child: SizedBox(
               height: 85,
               width: MediaQuery.of(context).size.width,
@@ -177,8 +190,7 @@ class MenuContainer extends StatelessWidget {
                   Container(
                     alignment: Alignment.topLeft,
                     width: MediaQuery.of(context).size.width,
-                    margin:
-                        const EdgeInsets.only(top: 10, left: 20, right: 20),
+                    margin: const EdgeInsets.only(top: 10, left: 20, right: 20),
                     height: 85,
                     //color: AppColor.gradientFirst,
                     decoration: BoxDecoration(
@@ -255,8 +267,7 @@ class MenuContainer extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 40,
                         offset: const Offset(8, 10),
-                        color:
-                            Theme.of(context).primaryColor.withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
                       ),
                     ],
                   ),
@@ -307,8 +318,7 @@ class MenuContainer extends StatelessWidget {
                       BoxShadow(
                         blurRadius: 40,
                         offset: const Offset(8, 10),
-                        color:
-                            Theme.of(context).primaryColor.withOpacity(0.3),
+                        color: Theme.of(context).primaryColor.withOpacity(0.3),
                       ),
                     ],
                   ),
@@ -317,11 +327,9 @@ class MenuContainer extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Icon(
-                        Icons.radio_outlined,
-                        size: 40,
-                        color: Theme.of(context).primaryIconTheme.color
-                      ),
+                      Icon(Icons.radio_outlined,
+                          size: 40,
+                          color: Theme.of(context).primaryIconTheme.color),
                       const SizedBox(
                         height: 5,
                       ),

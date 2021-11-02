@@ -4,13 +4,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
 import 'package:thitsarparami/error/something_went_wrong.dart';
+import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 class FavouriteListView extends StatefulWidget {
+  final SocialMode socialMode;
   final ScrollController controller;
 
-  const FavouriteListView({Key? key, required this.controller})
+  const FavouriteListView(
+      {Key? key, required this.controller, required this.socialMode})
       : super(key: key);
 
   @override
@@ -28,6 +31,33 @@ class _FavouriteListViewState extends State<FavouriteListView> {
     _loadFavourites();
   }
 
+  _onTap(Favourite favourite) async {
+    final playerManager = getIt<PlayerManager>();
+    MediaItem currentSong = playerManager.currentMediaItem;
+    FavouriteSong song = FavouriteSong(
+      id: int.parse(currentSong.id),
+      favouriteId: favourite.id,
+      album: currentSong.album!,
+      title: currentSong.title,
+      artist: currentSong.artist!,
+      artUrl: currentSong.artUri.toString(),
+      audioUrl: currentSong.extras!['url'],
+      isFavourite: widget.socialMode == SocialMode.favourite ? true : false,
+      isDownloaded: widget.socialMode == SocialMode.download ? true : false,
+    );
+    Favourite newFavourite =
+        Favourite(id: favourite.id, name: favourite.name, song: song);
+
+    if (widget.socialMode == SocialMode.favourite) {
+      playerManager.setRating(true);
+      BlocProvider.of<FavouriteBloc>(context)
+          .add(CreateFavourite(favourite: newFavourite));
+    } else {
+      
+      Navigator.of(context).pop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<FavouriteBloc, FavouriteState>(
@@ -43,25 +73,7 @@ class _FavouriteListViewState extends State<FavouriteListView> {
                   itemBuilder: (_, int index) {
                     return GestureDetector(
                       onTap: () {
-                        final playerManager = getIt<PlayerManager>();
-                        playerManager.setRating(true);
-                        MediaItem currentSong = playerManager.currentMediaItem;
-                        FavouriteSong song = FavouriteSong(
-                          id: int.parse(currentSong.id),
-                          favouriteId: state.favourites[index].id,
-                          album: currentSong.album!,
-                          title: currentSong.title,
-                          artist: currentSong.artist!,
-                          artUrl: currentSong.artUri.toString(),
-                          audioUrl: currentSong.extras!['url'],
-                          isFavourite: true,
-                        );
-                        BlocProvider.of<FavouriteBloc>(context).add(
-                            CreateFavourite(
-                                favourite: Favourite(
-                                    id: state.favourites[index].id,
-                                    name: state.favourites[index].name,
-                                    song: song)));
+                        _onTap(state.favourites[index]);
                       },
                       child: _listView(index, state.favourites),
                     );

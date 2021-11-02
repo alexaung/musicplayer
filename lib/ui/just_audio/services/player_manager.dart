@@ -145,6 +145,7 @@ class PlayerManager {
   }
 
   Future<void> loadPlaylist(Monk monk, Album album, List<Song> playlist) async {
+    emptyPlaylist();
     final mediaItems = playlist
         .map((song) => MediaItem(
               id: song.id.toString(),
@@ -158,8 +159,10 @@ class PlayerManager {
                   : const Rating.newHeartRating(false),
             ))
         .toList();
-    mediaItems.removeWhere((item) => _audioHandler.queue.value.contains(item));
-    if (mediaItems.isNotEmpty) _audioHandler.addQueueItems(mediaItems);
+    //mediaItems.removeWhere((item) => _audioHandler.queue.value.contains(item));
+    if (mediaItems.isNotEmpty) {
+      await _audioHandler.addQueueItems(mediaItems);
+    }
   }
 
   Future<void> updateQueue(List<MediaItem> queue) async {
@@ -170,7 +173,8 @@ class PlayerManager {
 
   void pause() => _audioHandler.pause();
 
-  void skipToQueueItem(int index) => _audioHandler.skipToQueueItem(index);
+  Future<void> skipToQueueItem(int index) async =>
+      _audioHandler.skipToQueueItem(index);
 
   void seek(Duration position) => _audioHandler.seek(position);
 
@@ -238,7 +242,7 @@ class PlayerManager {
     return currentSongNotifier.value;
   }
 
-  void emptyPlaylist() {
+  Future<void> emptyPlaylist() async {
     while (_audioHandler.queue.value.isNotEmpty) {
       final lastIndex = _audioHandler.queue.value.length - 1;
       if (lastIndex < 0) return;

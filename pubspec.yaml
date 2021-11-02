@@ -48,6 +48,8 @@ dependencies:
   youtube_player_flutter: ^8.0.0
   sqflite: ^2.0.0+4
   path_provider: ^2.0.6
+  flowder: ^0.2.0
+  percent_indicator: ^3.4.0
 
 
 dev_dependencies:

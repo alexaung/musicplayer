@@ -1,16 +1,14 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:thitsarparami/db/blocs/blocs.dart';
-import 'package:thitsarparami/ui/just_audio/components/favourite_form.dart';
-import 'package:thitsarparami/ui/just_audio/notifiers/components/favourite_list.dart';
+import 'package:thitsarparami/ui/just_audio/components/download_button.dart';
+import 'package:thitsarparami/ui/just_audio/components/favourite_button.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
+import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 import 'package:thitsarparami/widgets/roatate_image.dart';
-import 'package:thitsarparami/ui/radio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
 
 class NowPlayingScreen extends StatefulWidget {
@@ -35,40 +33,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
     animationController.repeat();
   }
 
-  _showModalBottomSheet(String mode) {
-    const double _radius = 25.0;
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(_radius),
-          topRight: Radius.circular(_radius),
-        ),
-      ),
-      builder: (BuildContext context) {
-        return DraggableScrollableSheet(
-          maxChildSize: 0.9,
-          expand: false,
-          builder: (context, scrollController) {
-            return Column(
-              children: [
-                const FavouriteForm(),
-                Divider(
-                  color: Theme.of(context).dividerColor,
-                ),
-                Expanded(
-                  child: FavouriteListView(
-                    controller: scrollController,
-                  ),
-                )
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +110,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
                     const SizedBox(
                       height: 10,
                     ),
-                    SocailButtoms(
-                      showFavouriteModalBottomSheet: _showModalBottomSheet,
-                    ),
+                    const SocailButtoms(),
                     const SizedBox(
                       height: 10,
                     ),
@@ -305,8 +268,7 @@ class AudioControlButtons extends StatelessWidget {
 }
 
 class SocailButtoms extends StatelessWidget {
-  final Function showFavouriteModalBottomSheet;
-  const SocailButtoms({Key? key, required this.showFavouriteModalBottomSheet})
+  const SocailButtoms({Key? key})
       : super(key: key);
 
   @override
@@ -315,12 +277,10 @@ class SocailButtoms extends StatelessWidget {
       height: 60,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          FavouriteButton(
-            showModalBottomSheet: showFavouriteModalBottomSheet,
-          ),
-          const DownloadButton(),
-          const ShareButton(),
+        children: const [
+          FavouriteButton(),
+          DownloadButton(),
+          ShareButton(),
         ],
       ),
     );
@@ -445,67 +405,6 @@ class ShuffleButton extends StatelessWidget {
           onPressed: playerManager.shuffle,
         );
       },
-    );
-  }
-}
-
-class FavouriteButton extends StatelessWidget {
-  final Function showModalBottomSheet;
-  const FavouriteButton({Key? key, required this.showModalBottomSheet})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    _unFavourite() {
-      final playerManager = getIt<PlayerManager>();
-      playerManager.setRating(false);
-      MediaItem currentSong = playerManager.currentMediaItem;
-
-      BlocProvider.of<FavouriteBloc>(context).add(
-        UpdateFavouriteStatus(
-          id: int.parse(currentSong.id),
-          status: false,
-        ),
-      );
-    }
-
-    final playerManager = getIt<PlayerManager>();
-    return ValueListenableBuilder<MediaItem>(
-        valueListenable: playerManager.currentSongNotifier,
-        builder: (_, song, __) {
-          if (song.rating != null) {
-            return IconButton(
-                icon: song.rating!.hasHeart()
-                    ? Icon(
-                        Icons.favorite,
-                        color: Theme.of(context).primaryColor,
-                      )
-                    : const Icon(Icons.favorite_outline),
-                onPressed: () {
-                  song.rating!.hasHeart()
-                      ? _unFavourite()
-                      : showModalBottomSheet();
-                });
-          } else {
-            return IconButton(
-              icon: const Icon(Icons.favorite_outline),
-              onPressed: () {
-                showModalBottomSheet();
-              },
-            );
-          }
-        });
-  }
-}
-
-class DownloadButton extends StatelessWidget {
-  const DownloadButton({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      icon: const Icon(Icons.download_outlined),
-      onPressed: () {},
     );
   }
 }

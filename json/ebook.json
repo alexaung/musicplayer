@@ -1,0 +1,62 @@
+[
+    {
+        "id" : 1,
+        "title" : "ဒါနခန်းတရားတော်",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/4.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/image/4.jpg"
+    },
+    {
+        "id" : 2,
+        "title" : "ဖြစ်ပျက်မြင်တုန်း နိဗ္ဗာန်အတုဝင်တက်တယ် (တရားထိုင်သူများအတွက် ) (၁၉.၆.၆၂)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/5.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/512.jpg"
+    },
+    {
+        "id" : 3,
+        "title" : "ဘုရားအကြိုက်ဆုံးပူဇော်နည်းနှင့် သကြားမင်းကြိုက်သောဂါထာ",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/6.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/65.jpg"
+    },
+    {
+        "id" : 4,
+        "title" : "ဘုရားဝါဒနှင့် အလုပ်စဉ် (၂၆.၆.၆၂)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/7.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/73.jpg"
+    },
+    {
+        "id" : 5,
+        "title" : "သုညတ တရား ကြိုးစားပြီး ဟောရစ်ပါ (၁၁.၉.၆၁)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/8.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/82.jpg"
+    },
+    {
+        "id" : 6,
+        "title" : "သောတပန်ဖြစ်ဖို့ နှစ်ချက် (ဝေဒနာနုပဿ နာ ရှုနည်း) (၃၁.၁၂.၅၈)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/9.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/92.jpg"
+    },
+    {
+        "id" : 7,
+        "title" : "မဂ္ဂင်အလုပ်မှတစ်ပါး ကယ်မည့်သူမရှိ",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/10.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/image/10.jpg"
+    },
+    {
+        "id" : 8,
+        "title" : "သေနည်းကောင်း တရားတော် (၂၁.၁၁.၆၁)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/11.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/114.jpg"
+    },
+    {
+        "id" : 9,
+        "title" : "ကံလေးမျိုး တရားတော် (သေနိယ နှင့် ပုဏ္ဏကျွတ်ခန်း) (၂၂.၄.၆၂)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/12.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/122.jpg"
+    },
+    {
+        "id" : 10,
+        "title" : "ပြီးပြီးသားအကြောင်းရှိကြလို့ ဒီလိုဆရာကောင်းနဲ့ ကြုံရတာ (ဝိသုဒ္ဓိ-၇-ပါး)",
+        "url" : "https://www.thitsarparamisociety.com/wp-content/uploads/Books/Mogoke/Thitsar-Lay-Par/13.pdf",
+        "thumbnail": "https://www.thitsarparamisociety.com/wp-content/uploads/2014/02/132.jpg"
+    }
+]

@@ -58,6 +58,10 @@ cupertino_icons
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.3/
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.3/lib/
+dio
+2.12
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.1/
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/dio-4.0.1/lib/
 equatable
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/equatable-2.0.3/
@@ -74,6 +78,10 @@ file
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/file-6.1.2/lib/
+flowder
+2.12
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flowder-0.2.0/
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flowder-0.2.0/lib/
 flutter_bloc
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.3.1/
@@ -166,6 +174,10 @@ pedantic
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1/
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/pedantic-1.11.1/lib/
+percent_indicator
+2.12
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/percent_indicator-3.4.0/
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/percent_indicator-3.4.0/lib/
 persistent_bottom_nav_bar
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/persistent_bottom_nav_bar-4.0.2/
