@@ -102,6 +102,10 @@ flutter_inappwebview
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2/
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_inappwebview-5.3.2/lib/
+flutter_js
+2.12
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_js-0.5.0+3/
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_js-0.5.0+3/lib/
 flutter_lints
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_lints-1.0.4/
@@ -278,6 +282,10 @@ string_scanner
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/string_scanner-1.1.0/lib/
+sync_http
+2.12
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/sync_http-0.3.0/
+file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/sync_http-0.3.0/lib/
 synchronized
 2.12
 file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/synchronized-3.0.0/
