@@ -95,6 +95,12 @@ class _PlaylistState extends State<Playlist> {
     hasQueued = false;
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    hasQueued = false;
+  }
+
   _onTap(int index, List<Song> songs) async {
     final playerManager = getIt<PlayerManager>();
 
@@ -103,7 +109,7 @@ class _PlaylistState extends State<Playlist> {
       setState(() {
         hasQueued = true;
       });
-      // await Future.delayed(const Duration(milliseconds: 100));
+      await Future.delayed(const Duration(milliseconds: 100));
     }
     BlocProvider.of<PlayerBloc>(context)
         .add(const IsPlayingEvent(isPlaying: true));
