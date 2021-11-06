@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/models/models.dart';
 
@@ -32,7 +33,7 @@ class _PdfViewerState extends State<PdfViewer> {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,
-        title: Text(
+        title: AutoSizeText(
           widget.eBook!.title,
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),

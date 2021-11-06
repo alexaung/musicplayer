@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/ui/appointment/appointment_screen.dart';
@@ -25,7 +26,7 @@ class MoreScreen extends StatelessWidget {
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0,
           // centerTitle: true,
-          title: Text(
+          title: AutoSizeText(
             'More',
             style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
@@ -49,14 +50,14 @@ class MoreScreen extends StatelessWidget {
             
             ListTile(
               leading: const Icon(Icons.calendar_today_outlined),
-              title: const Text('ဆွမ်းစားပင့်လျောက်ရန် (စင်ကာပူသီးသန့်)'),
+              title: const AutoSizeText('ဆွမ်းစားပင့်လျောက်ရန် (စင်ကာပူသီးသန့်)'),
               onTap: () => pushNewScreen(context, screen: const AppointmentScreen()),
               // Navigator.of(context)
               //     .pushReplacementNamed(SettingScreen.routeName),
             ),
             ListTile(
               leading: const Icon(Icons.settings_outlined),
-              title: const Text('ဆက်တင်'),
+              title: const AutoSizeText('ဆက်တင်'),
               onTap: () => pushNewScreen(context, screen: const SettingScreen()),
               // Navigator.of(context)
               //     .pushReplacementNamed(SettingScreen.routeName),

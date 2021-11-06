@@ -1,4 +1,6 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:thitsarparami/ui/home/components/menu.dart';
 import 'package:thitsarparami/ui/home/components/myanmar_calender.dart';
 
 class HeaderContainer extends StatelessWidget {
@@ -8,54 +10,38 @@ class HeaderContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double screeWidth = MediaQuery.of(context).size.width;
     return Container(
       padding: const EdgeInsets.only(top: 30, left: 0, right: 0),
-      width: MediaQuery.of(context).size.width,
-      height: 270,
+      width: screeWidth,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                // color: Colors.amber,
+                width: screeWidth * 0.5,
                 padding: const EdgeInsets.only(top: 20, left: 30, right: 0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
+                    AutoSizeText(
                       'ဘုရားရှိခိုးအမျိူးမျိူးနှင့်',
-                      // style: TextStyle(
-                      //   fontSize: 18,
-                      //   color: color.AppColor.homePageTitleColor,
-                      // ),
                       style: Theme.of(context).textTheme.headline2,
+                      maxLines: 1,
                     ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
+                    AutoSizeText(
                       'ဝတ်ရွတ်စဥ်',
-                      // style: TextStyle(
-                      //   fontSize: 25,
-                      //   color: color.AppColor.homePageTitleColor,
-                      // ),
                       style: Theme.of(context).textTheme.headline1,
-                    ),
-                    const SizedBox(
-                      height: 10,
+                      maxLines: 1,
                     ),
                     Row(
                       children: [
-                        Text(
+                        AutoSizeText(
                           'တရားနာရန်',
-                          // style: TextStyle(
-                          //   fontSize: 14,
-                          //   color: color.AppColor.homePageTitleColor,
-                          // ),
                           style: Theme.of(context).textTheme.headline3,
+                          maxLines: 1,
                         ),
                         const SizedBox(
                           width: 5,
@@ -70,25 +56,22 @@ class HeaderContainer extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(
-                width: 10,
-              ),
               Container(
-                width: 150,
-                height: 150,
+                width: 150,//screeWidth * 0.5,
+                height: 150,//screeHeight * 0.19,
                 decoration: const BoxDecoration(
-                  //color: Colors.amber,
                   image: DecorationImage(
                       image: AssetImage("assets/images/buddha.png"),
-                      fit: BoxFit.cover),
+                      fit: BoxFit.contain),
                 ),
               )
             ],
           ),
           Container(
-            padding: const EdgeInsets.only(top: 10, left: 30, right: 30),
+            padding: const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 10),
             child: const MyanmarCalender(),
-          )
+          ),
+       const MenuContainer(),
         ],
       ),
     );

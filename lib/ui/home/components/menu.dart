@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/helper/enum.dart';
@@ -82,7 +83,7 @@ class MenuContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
-                        Text(
+                        AutoSizeText(
                           'MP3 တရားတော်များ',
                           style: TextStyle(
                             fontSize: 18,
@@ -154,14 +155,14 @@ class MenuContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
-                        Text(
+                        AutoSizeText(
                           'ဓမ္မပို့ချချက်',
                           style: TextStyle(
                             fontSize: 16,
                             // color: color.AppColor.homePageTitleColor,
                           ),
                         ),
-                        Text(
+                        AutoSizeText(
                           'MP3 တရားတော်များ',
                           style: TextStyle(
                             fontSize: 16,
@@ -230,7 +231,7 @@ class MenuContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [
-                        Text(
+                        AutoSizeText(
                           'ဓမ္မစာအုပ်များ',
                           style: TextStyle(
                             fontSize: 18,
@@ -285,7 +286,7 @@ class MenuContainer extends StatelessWidget {
                         height: 5,
                       ),
                       const Flexible(
-                        child: Text(
+                        child: AutoSizeText(
                           'Live Streaming',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -334,7 +335,7 @@ class MenuContainer extends StatelessWidget {
                         height: 5,
                       ),
                       const Flexible(
-                        child: Text(
+                        child: AutoSizeText(
                           'Online Radio',
                           overflow: TextOverflow.ellipsis,
                           style: TextStyle(
@@ -351,7 +352,7 @@ class MenuContainer extends StatelessWidget {
           const SizedBox(
             height: 10,
           ),
-          const Text(
+          const AutoSizeText(
             'တရားတော်အသစ်များ',
             style: TextStyle(
               fontSize: 18,

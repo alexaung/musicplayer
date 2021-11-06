@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -40,7 +41,7 @@ class _MonkScreenState extends State<MonkScreen> {
           centerTitle: true,
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0,
-          title: Text(
+          title: AutoSizeText(
             widget.title!,
             style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
@@ -137,7 +138,7 @@ class _MonkScreenState extends State<MonkScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          AutoSizeText(
                             monks[index].title,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -161,34 +162,6 @@ class _MonkScreenState extends State<MonkScreen> {
         Divider(
           color: Theme.of(context).dividerColor,
         ),
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(vertical: 10),
-        //   child: Row(
-        //     children: [
-        //       // Container(
-        //       //   width: 80,
-        //       //   height: 20,
-        //       //   decoration: BoxDecoration(
-        //       //     color: Theme.of(context).scaffoldBackgroundColor,
-        //       //     borderRadius: BorderRadius.circular(10),
-        //       //   ),
-        //       //   // child: const Center(
-        //       //   //   child: Text(
-        //       //   //     '15s rest',
-        //       //   //     style: TextStyle(
-        //       //   //       color: Color(0xFF839fed),
-        //       //   //     ),
-        //       //   //   ),
-        //       //   // ),
-        //       // ),
-        //       // DottedLineWidget(
-        //       //   dottedCount: (screenWidth - 60),
-        //       //   context: context,
-        //       // )
-        //       Divider(color: Theme.of(context).scaffoldBackgroundColor,)
-        //     ],
-        //   ),
-        // )
       ],
     );
   }

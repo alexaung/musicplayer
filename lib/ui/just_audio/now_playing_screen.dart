@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/components/download_button.dart';
 import 'package:thitsarparami/ui/just_audio/components/favourite_button.dart';
@@ -12,7 +13,11 @@ import 'package:thitsarparami/widgets/roatate_image.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
 
 class NowPlayingScreen extends StatefulWidget {
-  const NowPlayingScreen({Key? key}) : super(key: key);
+  final ScrollController controller;
+  const NowPlayingScreen({
+    Key? key,
+    required this.controller,
+  }) : super(key: key);
 
   @override
   State<NowPlayingScreen> createState() => _NowPlayingScreenState();
@@ -21,10 +26,19 @@ class NowPlayingScreen extends StatefulWidget {
 class _NowPlayingScreenState extends State<NowPlayingScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
+  final _itemsView = GlobalKey();
+  double _stackHeight = 0;
+  
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      RenderBox stackRB =
+          _itemsView.currentContext?.findRenderObject() as RenderBox;
+      setState(() {
+        _stackHeight = stackRB.size.height;
+      });
+    });
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 5),
@@ -33,116 +47,121 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
     animationController.repeat();
   }
 
-  
-
   @override
   Widget build(BuildContext context) {
     final double screenHeight = MediaQuery.of(context).size.height;
     final double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      // backgroundColor: Colors.transparent,
-
-      body: Stack(
-        children: [
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            height: screenHeight / 3,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Theme.of(context).primaryColorDark,
-                    Theme.of(context).primaryColor,
-                    Theme.of(context).primaryColorLight,
-                  ],
-                  stops: const [
-                    0.0,
-                    0.5,
-                    0.7,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-              ),
-            ),
-          ),
-          Positioned(
-            top: 30,
-            left: 0,
-            right: 0,
-            // height: screenHeight / 3,
-            child: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              leading: Container(
-                width: double.infinity,
-                alignment: Alignment.centerRight,
-                child: GestureDetector(
-                  onTap: () {
-                    Navigator.pop(context);
-                  },
-                  child: HideIcon(
-                    color: Theme.of(context).iconTheme.color!,
+      backgroundColor: Colors.transparent,
+      body: SingleChildScrollView(
+        controller: widget.controller,
+        child: Stack(
+          children: [
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              height: screenHeight * 0.5,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      Theme.of(context).primaryColorDark,
+                      Theme.of(context).primaryColor,
+                      Theme.of(context).primaryColorLight,
+                    ],
+                    stops: const [
+                      0.0,
+                      0.5,
+                      0.7,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
                   ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            top: screenHeight * 0.2,
-            height: screenHeight * 0.50,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
-                  borderRadius: BorderRadius.circular(40)),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: screenHeight * 0.1,
+            Positioned(
+              top: 30,
+              left: 0,
+              right: 0,
+              // height: screenHeight / 3,
+              child: AppBar(
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                leading: Container(
+                  width: double.infinity,
+                  alignment: Alignment.centerRight,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: HideIcon(
+                      color: Theme.of(context).iconTheme.color!,
                     ),
-                    const CurrentSongTitle(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const SocailButtoms(),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const AudioProgressBar(),
-                    AudioControlButtons(
-                      animationController: animationController,
-                    ),
-                  ],
+                  ),
                 ),
               ),
             ),
-          ),
-          Positioned(
-            top: screenHeight * 0.11,
-            left: (screenWidth - 150) / 2,
-            right: (screenWidth - 150) / 2,
-            height: screenHeight * 0.18,
-            child: Container(
-              decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: Theme.of(context).primaryColorLight, width: 2)),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: CurrentSongImage(
-                  animationController: animationController,
+            Positioned(
+              left: 0,
+              right: 0,
+              top: screenHeight * 0.11 + 75,
+              //height: screenHeight,
+              key: _itemsView,
+              child: Container(
+                decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: BorderRadius.circular(40)),
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 80,
+                      ),
+                      const CurrentSongTitle(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const SocailButtoms(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const AudioProgressBar(),
+                      AudioControlButtons(
+                        animationController: animationController,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+            Positioned(
+              top: screenHeight * 0.11,
+              left: (screenWidth - 150) / 2,
+              right: (screenWidth - 150) / 2,
+              child: Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                        color: Theme.of(context).primaryColorLight, width: 2)),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: CurrentSongImage(
+                    animationController: animationController,
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              height: _stackHeight + (screenHeight * 0.11 + 75 + 25),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -162,7 +181,7 @@ class CurrentSongTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                AutoSizeText(
                   song.title,
                   textAlign: TextAlign.center,
                   style: TextStyle(
@@ -178,7 +197,7 @@ class CurrentSongTitle extends StatelessWidget {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                Text(
+                AutoSizeText(
                   song.artist ?? '',
                   style: const TextStyle(
                     fontSize: 18,
@@ -268,8 +287,7 @@ class AudioControlButtons extends StatelessWidget {
 }
 
 class SocailButtoms extends StatelessWidget {
-  const SocailButtoms({Key? key})
-      : super(key: key);
+  const SocailButtoms({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

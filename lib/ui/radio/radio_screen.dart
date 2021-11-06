@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
@@ -20,9 +21,21 @@ class RadioScreen extends StatefulWidget {
 class _RadioScreenState extends State<RadioScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
+  final _itemsView = GlobalKey();
+  double _stackHeight = 0;
+
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      RenderBox stackRB =
+          _itemsView.currentContext?.findRenderObject() as RenderBox;
+      setState(() {
+        _stackHeight = stackRB.size.height;
+      });
+    });
+
     getIt<PlayerManager>().init(PlayerMode.radio);
     _loadUrl();
 
@@ -39,7 +52,6 @@ class _RadioScreenState extends State<RadioScreen>
 
   @override
   void dispose() {
-    //getIt<PageManager>().dispose();
     super.dispose();
   }
 
@@ -57,7 +69,7 @@ class _RadioScreenState extends State<RadioScreen>
             top: 0,
             left: 0,
             right: 0,
-            height: screenHeight / 3,
+            height: screenHeight * 0.4,
             child: Container(
               decoration: BoxDecoration(
                 gradient: LinearGradient(
@@ -99,38 +111,33 @@ class _RadioScreenState extends State<RadioScreen>
           Positioned(
             left: 0,
             right: 0,
-            top: screenHeight * 0.2,
-            height: screenHeight * 0.36,
+            top: screenHeight * 0.11 + 75,
+            key: _itemsView,
             child: Container(
               decoration: BoxDecoration(
                   color: Theme.of(context).backgroundColor,
                   borderRadius: BorderRadius.circular(40)),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: screenHeight * 0.1,
+                    const SizedBox(
+                      height: 80,
                     ),
-                    const Text(
+                    const AutoSizeText(
                       'THITSARPARAMI',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    const Text(
+                    const AutoSizeText(
                       '24 Hours Radio',
                       style: TextStyle(
                         fontSize: 18,
                         // fontWeight: FontWeight.bold,
                       ),
                     ),
-                    // AudioFile(
-                    //   advancedPlayer: advancedPlayer,
-                    //   audioPath: 'https://edge.mixlr.com/channel/nmtev',
-                    // )
-                    // const Expanded(child: Playlist()),
                     const AudioProgressBar(),
                     AudioControlButtons(
                       animationController: animationController,
@@ -144,8 +151,9 @@ class _RadioScreenState extends State<RadioScreen>
             top: screenHeight * 0.11,
             left: (screenWidth - 150) / 2,
             right: (screenWidth - 150) / 2,
-            height: screenHeight * 0.18,
             child: Container(
+              width: 150,
+              height: 150,
               decoration: BoxDecoration(
                   color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(20),
@@ -159,6 +167,9 @@ class _RadioScreenState extends State<RadioScreen>
               ),
             ),
           ),
+          Container(
+            height: _stackHeight + (screenHeight * 0.11 + 75 + 25),
+          )
         ],
       ),
     );
@@ -241,9 +252,11 @@ class PlayButton extends StatelessWidget {
       builder: (_, value, __) {
         switch (value) {
           case ButtonState.loading:
+            animationController.stop();
             return CircularProgressIndicatorIcon(
                 color: Theme.of(context).iconTheme.color!);
           case ButtonState.paused:
+            animationController.stop();
             return GestureDetector(
               onTap: () {
                 playerManager.play();

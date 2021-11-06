@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/models/channel.dart';
 import 'package:thitsarparami/models/video.dart';
@@ -59,7 +60,7 @@ class YoutubeScreenState extends State<YoutubeScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                AutoSizeText(
                   _channel!.title!,
                   style: const TextStyle(
                     color: Colors.black,
@@ -68,7 +69,7 @@ class YoutubeScreenState extends State<YoutubeScreen> {
                   ),
                   overflow: TextOverflow.ellipsis,
                 ),
-                Text(
+                AutoSizeText(
                   '${_channel!.subscriberCount ?? 0} subscribers',
                   style: TextStyle(
                     color: Colors.grey[600],
@@ -120,7 +121,7 @@ class YoutubeScreenState extends State<YoutubeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  AutoSizeText(
                     video.title,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -130,7 +131,7 @@ class YoutubeScreenState extends State<YoutubeScreen> {
                     ),
                   ),
                   const SizedBox(height: 10.0),
-                  Text(
+                  AutoSizeText(
                     // StringExtension.displayTimeAgoFromTimestamp(video.publishedAt),
                     timeago.format(DateTime.parse(video.publishedAt)), 
                     maxLines: 2,
@@ -168,7 +169,7 @@ class YoutubeScreenState extends State<YoutubeScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,
-        title: Text(
+        title: AutoSizeText(
           'YouTube Channel',
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),

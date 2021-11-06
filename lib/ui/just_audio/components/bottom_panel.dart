@@ -1,5 +1,6 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
@@ -31,18 +32,14 @@ class _BottomPanelState extends State<BottomPanel> {
         ),
       ),
       builder: (BuildContext context) {
-        
-        final double screenHeight = MediaQuery.of(context).size.height;
-        return Container(
-          height: screenHeight,
-          decoration: const BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(_radius),
-              topRight: Radius.circular(_radius),
-            ),
-          ),
-          child: const NowPlayingScreen(),
+        return DraggableScrollableSheet(
+          initialChildSize: 1,
+          expand: false,
+          builder: (context, scrollController) {
+            return NowPlayingScreen(
+              controller: scrollController,
+            );
+          },
         );
       },
     );
@@ -55,7 +52,7 @@ class _BottomPanelState extends State<BottomPanel> {
       builder: (BuildContext context, PlayerState playerState) {
         if (playerState is Playing) {
           return Container(
-            height: 150,
+            height: 170,
             width: double.infinity,
             alignment: Alignment.bottomCenter,
             decoration: BoxDecoration(
@@ -94,51 +91,27 @@ class _BottomPanelState extends State<BottomPanel> {
                 children: [
                   Row(
                     children: [
-                      Flexible(
-                        flex: 2,
-                        child: GestureDetector(
-                          onTap: () {},
-                          child: Container(
-                            width: double.infinity,
-                            alignment: Alignment.centerLeft,
-                            child: const AudioControlButtons(),
-                          ),
-                        ),
+                      GestureDetector(
+                        onTap: () {},
+                        child: const AudioControlButtons(),
                       ),
-                      Flexible(
-                        flex: 8,
+                      Expanded(
                         child: GestureDetector(
                           onTap: () {
                             _showModalBottomSheet();
                           },
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: SizedBox(
-                              width: double.infinity,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: const [
-                                  CurrentSongTitle(),
-                                ],
-                              ),
-                            ),
+                          child: const Padding(
+                            padding: EdgeInsets.only(left: 8.0),
+                            child: CurrentSongTitle(),
                           ),
                         ),
                       ),
-                      Flexible(
-                        flex: 1,
-                        child: GestureDetector(
-                          onTap: () {
-                            _showModalBottomSheet();
-                          },
-                          child: Container(
-                            width: double.infinity,
-                            alignment: Alignment.centerRight,
-                            child: ShowIcon(
-                              color: Theme.of(context).iconTheme.color!,
-                            ),
-                          ),
+                      GestureDetector(
+                        onTap: () {
+                          _showModalBottomSheet();
+                        },
+                        child: ShowIcon(
+                          color: Theme.of(context).iconTheme.color!,
                         ),
                       ),
                     ],
@@ -189,7 +162,7 @@ class CurrentSongTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   song.title,
                   style: TextStyle(
                     fontSize: 16,
@@ -203,7 +176,7 @@ class CurrentSongTitle extends StatelessWidget {
                   height: 10,
                   color: Colors.transparent,
                 ),
-                Text(
+                AutoSizeText(
                   song.artist ?? '',
                   style: const TextStyle(
                     fontSize: 14,

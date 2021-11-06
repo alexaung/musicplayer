@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:thitsarparami/helper/enum.dart';
@@ -5,7 +6,7 @@ import 'package:thitsarparami/models/models.dart';
 
 class AppointmentTile extends StatelessWidget {
   final Appointment appointment;
-   const AppointmentTile(this.appointment, {Key? key}) : super(key: key);
+  const AppointmentTile(this.appointment, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class AppointmentTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                AutoSizeText(
                   appointment.donarName,
                   style: const TextStyle(
                       fontSize: 16,
@@ -46,14 +47,15 @@ class AppointmentTile extends StatelessWidget {
                       size: 18,
                     ),
                     const SizedBox(width: 4),
-                    Text(
-                      "${DateFormat.yMMMMd().format(appointment.startDate) } - ${DateFormat.yMMMMd().format(appointment.endDate)}",
+                    AutoSizeText(
+                      DateFormat.yMMMMd().format(appointment.startDate),
+                      maxLines: 1,
                       style: TextStyle(fontSize: 13, color: Colors.grey[100]),
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
-                Text(
+                AutoSizeText(
                   appointment.note,
                   style: TextStyle(fontSize: 15, color: Colors.grey[100]),
                 ),
@@ -68,7 +70,7 @@ class AppointmentTile extends StatelessWidget {
           ),
           RotatedBox(
             quarterTurns: 3,
-            child: Text(
+            child: AutoSizeText(
               appointment.type == AppointmentType.breakfast
                   ? "အရုဏ်ဆွမ်း"
                   : "နေ့ဆွမ်း",

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
@@ -25,7 +26,7 @@ class SettingScreen extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
         elevation: 0,
-        title: Text(
+        title: AutoSizeText(
           'Settings',
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
@@ -60,7 +61,7 @@ class SettingScreen extends StatelessWidget {
                         SizedBox(
                           width: 10,
                         ),
-                        Text(
+                        AutoSizeText(
                           'Dark Mode',
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
@@ -100,7 +101,7 @@ class SettingScreen extends StatelessWidget {
               child: FutureBuilder<PackageInfo>(
                 future: PackageInfo.fromPlatform(),
                 builder: (context, snapshot) {
-                  return Text(
+                  return AutoSizeText(
                     snapshot.hasData
                         ? ('Version: ' +
                             snapshot.data!.version +
@@ -129,7 +130,7 @@ Padding buidCupertinoSwitch(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
+        AutoSizeText(
           title,
           style: const TextStyle(
             // fontSize: 18,

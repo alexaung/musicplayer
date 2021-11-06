@@ -1,4 +1,5 @@
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
@@ -72,7 +73,7 @@ class CurrentSongTitle extends StatelessWidget {
           color: Colors.amber,
           child: Padding(
             padding: const EdgeInsets.only(top: 8.0),
-            child: Text(title, style: const TextStyle(fontSize: 40)),
+            child: AutoSizeText(title, style: const TextStyle(fontSize: 40)),
           ),
         );
       },
@@ -93,7 +94,7 @@ class Playlist extends StatelessWidget {
             itemCount: playlistTitles.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(playlistTitles[index]),
+                title: AutoSizeText(playlistTitles[index]),
               );
             },
           );

@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -39,7 +40,7 @@ class _EbookScreenState extends State<EbookScreen> {
           centerTitle: true,
           backgroundColor: Theme.of(context).backgroundColor,
           elevation: 0,
-          title: Text(
+          title: AutoSizeText(
             widget.monk!.title,
             style: Theme.of(context).appBarTheme.titleTextStyle,
           ),
@@ -123,7 +124,7 @@ class _EbookScreenState extends State<EbookScreen> {
                   children: <Widget>[
                     SizedBox(
                       width: MediaQuery.of(context).size.width - 180,
-                      child: Text(
+                      child: AutoSizeText(
                         eBook.title,
                         style: const TextStyle(
                           fontSize: 18.0,

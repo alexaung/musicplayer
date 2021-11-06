@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
@@ -147,7 +148,7 @@ class _FavouriteFormState extends State<FavouriteForm> {
       onPressed: () {
         create(socialMode);
       },
-      child: const Text('Create Playlist'),
+      child: const AutoSizeText('Create Playlist'),
     );
   }
 }
@@ -163,12 +164,12 @@ class AlertDialogView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text("Error"),
-      content: Text(error),
+      title: const AutoSizeText("Error"),
+      content: AutoSizeText(error),
       actions: <Widget>[
         // usually buttons at the bottom of the dialog
         TextButton(
-          child: const Text("Close"),
+          child: const AutoSizeText("Close"),
           onPressed: () {
             Navigator.of(context).pop();
           },

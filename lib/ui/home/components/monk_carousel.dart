@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -68,7 +69,7 @@ class MonkCarousel extends StatelessWidget {
                       height: 5,
                     ),
                     const Flexible(
-                      child: Text(
+                      child: AutoSizeText(
                         'မင်းကွန်းဆရာတော်ဘုရားကြီ:',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

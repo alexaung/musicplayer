@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
@@ -33,10 +34,12 @@ class _MyanmarCalenderState extends State<MyanmarCalender> {
     return ValueListenableBuilder(
       valueListenable: dateString,
       builder: (context, value, widget) {
-        return Text(
+        return AutoSizeText(
           value.toString(),
-          style: const TextStyle(color: Colors.white),
+          style: Theme.of(context).textTheme.headline3,
           textAlign: TextAlign.center,
+          maxLines: 2, 
+          //overflow: TextOverflow.ellipsis,
         );
       }
     );

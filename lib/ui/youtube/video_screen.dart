@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
@@ -34,7 +35,7 @@ class _VideoScreenState extends State<VideoScreen> {
         centerTitle: true,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
-        title: Text(
+        title: AutoSizeText(
           'YouTube Channel',
           style: Theme.of(context).appBarTheme.titleTextStyle,
         ),

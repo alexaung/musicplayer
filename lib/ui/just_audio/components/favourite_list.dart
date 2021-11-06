@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
@@ -80,7 +81,7 @@ class _FavouriteListViewState extends State<FavouriteListView> {
                   },
                 )
               : const Center(
-                  child: Text('Empty Playlist'),
+                  child: AutoSizeText('Empty Playlist'),
                 );
         }
         return const Center(
@@ -110,7 +111,7 @@ class _FavouriteListViewState extends State<FavouriteListView> {
               flex: 10,
               child: Padding(
                 padding: const EdgeInsets.only(left: 6.0),
-                child: Text(
+                child: AutoSizeText(
                   favourites[index].name!,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,

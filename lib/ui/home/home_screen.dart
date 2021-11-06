@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/widgets/base_widget.dart';
 import 'components/header.dart';
-import 'components/menu.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -29,37 +28,21 @@ class _HomeState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseWidget(
-      child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).primaryColorDark,
-              Theme.of(context).primaryColor,
-              Theme.of(context).primaryColorLight,
-            ],
-            stops: const [
-              0.0,
-              0.5,
-              0.7,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-        ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          body: CustomScrollView(
-            slivers: [
-              SliverFillRemaining(
-                hasScrollBody: false,
-                child: Column(
-                  children: const [
-                    HeaderContainer(),
-                    MenuContainer(),
-                  ],
-                ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Theme.of(context).primaryColorDark,
+                  Theme.of(context).primaryColorLight,
+                ],
+                begin: const FractionalOffset(0.0, 0.4),
+                end: Alignment.centerRight,
               ),
-            ],
+            ),
+            child: const HeaderContainer(),
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:audio_service/audio_service.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flowder/flowder.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -44,7 +45,7 @@ class _DownloadButtonState extends State<DownloadButton> {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: const Text('Download Completed'),
+        content: const AutoSizeText('Download Completed'),
         action: SnackBarAction(
             label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
@@ -119,7 +120,6 @@ class _DownloadButtonState extends State<DownloadButton> {
           radius: 55.0,
           lineWidth: 3.0,
           percent: progress / 100,
-          //header: new Text("Icon header"),
           center: IconButton(
             icon: const Icon(Icons.download_outlined),
             onPressed: () async {

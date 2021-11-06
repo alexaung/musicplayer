@@ -50,6 +50,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "auto_size_text",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/auto_size_text-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "bloc",
       "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/bloc-7.2.1",
       "packageUri": "lib/",
@@ -560,7 +566,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-03T19:06:13.100283Z",
+  "generated": "2021-11-04T23:37:36.054478Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }
