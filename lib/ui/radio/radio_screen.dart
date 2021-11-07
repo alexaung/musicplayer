@@ -52,6 +52,7 @@ class _RadioScreenState extends State<RadioScreen>
 
   @override
   void dispose() {
+    animationController.dispose();
     super.dispose();
   }
 
@@ -125,14 +126,14 @@ class _RadioScreenState extends State<RadioScreen>
                       height: 80,
                     ),
                     const AutoSizeText(
-                      'THITSARPARAMI',
+                      'သစ္စာပါရမီ',
                       style: TextStyle(
                         fontSize: 22,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const AutoSizeText(
-                      '24 Hours Radio',
+                      '၂၄ နာရီရေဒီယို',
                       style: TextStyle(
                         fontSize: 18,
                         // fontWeight: FontWeight.bold,
@@ -252,11 +253,9 @@ class PlayButton extends StatelessWidget {
       builder: (_, value, __) {
         switch (value) {
           case ButtonState.loading:
-            animationController.stop();
             return CircularProgressIndicatorIcon(
                 color: Theme.of(context).iconTheme.color!);
           case ButtonState.paused:
-            animationController.stop();
             return GestureDetector(
               onTap: () {
                 playerManager.play();

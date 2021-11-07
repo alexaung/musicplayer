@@ -194,7 +194,7 @@ class _PlaylistState extends State<Playlist> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.start,
                                   children: [
-                                    AutoSizeText(
+                                    Text(
                                       state.songs[index].title,
                                       maxLines: 2,
                                       overflow: TextOverflow.ellipsis,

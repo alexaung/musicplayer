@@ -214,11 +214,11 @@ class PlayerManager {
     MediaItem mediaItem = const MediaItem(
         id: 'radio',
         album: 'Radio',
-        title: '24 Hours Radio',
-        artist: 'Radio DJ',
+        title: 'သစ္စာပါရမီ',
+        artist: '၂၄ နာရီရေဒီယို',
         //artUri: Uri.parse("asset:///assets/images/logo.png"),
         extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
-        rating: Rating.newHeartRating(true));
+        rating: Rating.newHeartRating(false));
 
     _audioHandler.addQueueItem(mediaItem);
   }

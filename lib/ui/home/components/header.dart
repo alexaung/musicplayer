@@ -36,23 +36,23 @@ class HeaderContainer extends StatelessWidget {
                       style: Theme.of(context).textTheme.headline1,
                       maxLines: 1,
                     ),
-                    Row(
-                      children: [
-                        AutoSizeText(
-                          'တရားနာရန်',
-                          style: Theme.of(context).textTheme.headline3,
-                          maxLines: 1,
-                        ),
-                        const SizedBox(
-                          width: 5,
-                        ),
-                        Icon(
-                          Icons.play_circle_outline,
-                          size: 20,
-                          color: Theme.of(context).appBarTheme.iconTheme!.color,
-                        ),
-                      ],
-                    ),
+                    // Row(
+                    //   children: [
+                    //     AutoSizeText(
+                    //       'တရားနာရန်',
+                    //       style: Theme.of(context).textTheme.headline3,
+                    //       maxLines: 1,
+                    //     ),
+                    //     const SizedBox(
+                    //       width: 5,
+                    //     ),
+                    //     Icon(
+                    //       Icons.play_circle_outline,
+                    //       size: 20,
+                    //       color: Theme.of(context).appBarTheme.iconTheme!.color,
+                    //     ),
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

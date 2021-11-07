@@ -14,24 +14,6 @@ class RotateImage extends StatefulWidget {
 
 class RotateImageState extends State<RotateImage>
     with SingleTickerProviderStateMixin {
-  // late final AnimationController animationController;
-
-  @override
-  void initState() {
-    super.initState();
-    // widget.animationController = AnimationController(
-    //   vsync: this,
-    //   duration: const Duration(seconds: 5),
-    // );
-
-    widget.animationController.repeat();
-  }
-
-  @override
-  void dispose() {
-    widget.animationController.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

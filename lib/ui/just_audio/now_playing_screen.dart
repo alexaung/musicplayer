@@ -13,10 +13,18 @@ import 'package:thitsarparami/widgets/roatate_image.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
 
 class NowPlayingScreen extends StatefulWidget {
-  final ScrollController controller;
+  final ScrollController? controller;
+  final BuildContext? menuScreenContext;
+  final Function? onScreenHideButtonPressed;
+  final bool hideStatus;
+  final bool hideCloseButton;
   const NowPlayingScreen({
     Key? key,
-    required this.controller,
+    this.menuScreenContext,
+    this.onScreenHideButtonPressed,
+    this.hideStatus = false,
+    this.hideCloseButton = false,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -28,7 +36,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
   late AnimationController animationController;
   final _itemsView = GlobalKey();
   double _stackHeight = 0;
-  
+
   @override
   void initState() {
     super.initState();
@@ -43,8 +51,12 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
       vsync: this,
       duration: const Duration(seconds: 5),
     );
+  }
 
-    animationController.repeat();
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -96,7 +108,7 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: HideIcon(
+                    child: widget.hideCloseButton ? null : HideIcon(
                       color: Theme.of(context).iconTheme.color!,
                     ),
                   ),
@@ -114,7 +126,8 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
                     color: Theme.of(context).backgroundColor,
                     borderRadius: BorderRadius.circular(40)),
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 20, right: 20, bottom: 50),
+                  padding:
+                      const EdgeInsets.only(left: 20, right: 20, bottom: 50),
                   child: Column(
                     children: [
                       const SizedBox(

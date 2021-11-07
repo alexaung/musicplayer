@@ -160,7 +160,7 @@ class CurrentSongTitle extends StatelessWidget {
           width: double.infinity,
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              //crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 AutoSizeText(
                   song.title,
@@ -169,7 +169,8 @@ class CurrentSongTitle extends StatelessWidget {
                     color: Theme.of(context).textTheme.bodyText1!.color,
                     letterSpacing: 1,
                   ),
-                  maxLines: 1,
+                  maxLines: 2,
+                  textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
                 const Divider(
@@ -184,6 +185,7 @@ class CurrentSongTitle extends StatelessWidget {
                     letterSpacing: 1,
                   ),
                   maxLines: 1,
+                  textAlign: TextAlign.center,
                   overflow: TextOverflow.ellipsis,
                 ),
               ]),

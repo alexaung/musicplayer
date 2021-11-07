@@ -48,6 +48,10 @@ class MyApp extends StatelessWidget {
               EbookBloc(eBookRespository: EbookRespository(EbookApiProvider())),
         ),
         BlocProvider(
+          create: (context) =>
+              ChantingBloc(chantingRespository: ChantingRespository(ChantingApiProvider())),
+        ),
+        BlocProvider(
           create: (context) => AppointmentBloc(
               appointmentRespository:
                   AppointmentRespository(AppointmentApiProvider())),

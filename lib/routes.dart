@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';
 import 'package:thitsarparami/ui/appointment/appointment_screen.dart';
+import 'package:thitsarparami/ui/chanting/chanting_screen.dart';
 import 'package:thitsarparami/ui/ebook/ebook_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/just_audio/my_audio_player.dart';
@@ -27,4 +28,5 @@ final Map<String, WidgetBuilder> routes = {
   SongScreen.routeName: (ctx) => const SongScreen(),
   EbookScreen.routeName: (ctx) => const EbookScreen(),
   AppointmentScreen.routeName: (ctx) => const AppointmentScreen(),
+  ChantingScreen.routeName: (ctx) => const ChantingScreen(),
 };

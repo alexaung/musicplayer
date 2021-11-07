@@ -4,7 +4,11 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/settings/preferences.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';
+import 'package:thitsarparami/ui/chanting/chanting_screen.dart';
+import 'package:thitsarparami/ui/chanting/chapter_detial_screen.dart';
+import 'package:thitsarparami/ui/chanting/chapter_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
+import 'package:thitsarparami/ui/just_audio/now_playing_screen.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
@@ -58,7 +62,7 @@ class _RootScreenState extends State<RootScreen> {
           });
         },
       ),
-      HomeScreen(
+      NowPlayingScreen(
         menuScreenContext: widget.menuScreenContext,
         hideStatus: _hideNavBar,
         onScreenHideButtonPressed: () {
@@ -66,6 +70,7 @@ class _RootScreenState extends State<RootScreen> {
             _hideNavBar = !_hideNavBar;
           });
         },
+        hideCloseButton: true,
       ),
       MoreScreen(
         menuScreenContext: widget.menuScreenContext,
@@ -95,6 +100,9 @@ class _RootScreenState extends State<RootScreen> {
             '/monk': (context) => const MonkScreen(),
             '/album': (context) => const AlbumScreen(),
             '/song': (context) => const SongScreen(),
+            '/chanting': (context) => const ChantingScreen(),
+            '/chapter': (context) => const ChapterScreen(),
+            '/chapter_detail': (context) => const ChapterDetailScreen(),
           },
         ),
       ),
