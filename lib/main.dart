@@ -9,6 +9,7 @@ import 'package:thitsarparami/routes.dart';
 import 'package:thitsarparami/services/services.dart';
 import 'package:thitsarparami/settings/preferences.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -48,8 +49,8 @@ class MyApp extends StatelessWidget {
               EbookBloc(eBookRespository: EbookRespository(EbookApiProvider())),
         ),
         BlocProvider(
-          create: (context) =>
-              ChantingBloc(chantingRespository: ChantingRespository(ChantingApiProvider())),
+          create: (context) => ChantingBloc(
+              chantingRespository: ChantingRespository(ChantingApiProvider())),
         ),
         BlocProvider(
           create: (context) => AppointmentBloc(
@@ -65,11 +66,24 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) =>
+              FavouriteListBloc(favouriteRespository: FavouriteRepository()),
+        ),
+        BlocProvider(
+          create: (context) =>
               DownloadBloc(downloadRepository: DownloadRepository()),
+        ),
+        BlocProvider(
+          create: (context) => FavouriteSongListBloc(
+              favouriteSongRespository: FavouriteSongRepository()),
+        ),
+        BlocProvider(
+          create: (context) => FavouriteSongBloc(
+              favouriteSongRepository: FavouriteSongRepository()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (BuildContext context, ThemeState themeState) {
+          initializeDateFormatting('my_MM');
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Thitsarparami',

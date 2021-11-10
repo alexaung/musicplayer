@@ -9,6 +9,7 @@ import 'package:thitsarparami/ui/chanting/chapter_detial_screen.dart';
 import 'package:thitsarparami/ui/chanting/chapter_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/just_audio/now_playing_screen.dart';
+import 'package:thitsarparami/ui/library/library_screen.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
@@ -53,9 +54,10 @@ class _RootScreenState extends State<RootScreen> {
           });
         },
       ),
-      HomeScreen(
+      LibraryScreen(
         menuScreenContext: widget.menuScreenContext,
         hideStatus: _hideNavBar,
+        tabController: _controller,
         onScreenHideButtonPressed: () {
           setState(() {
             _hideNavBar = !_hideNavBar;
@@ -75,6 +77,7 @@ class _RootScreenState extends State<RootScreen> {
       MoreScreen(
         menuScreenContext: widget.menuScreenContext,
         hideStatus: _hideNavBar,
+        tabController: _controller,
         onScreenHideButtonPressed: () {
           setState(() {
             _hideNavBar = !_hideNavBar;

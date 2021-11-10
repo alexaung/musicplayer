@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
-import 'package:thitsarparami/error/something_went_wrong.dart';
+import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
@@ -23,7 +23,7 @@ class FavouriteListView extends StatefulWidget {
 
 class _FavouriteListViewState extends State<FavouriteListView> {
   _loadFavourites() async {
-    BlocProvider.of<FavouriteBloc>(context).add(const GetFavourites());
+    BlocProvider.of<FavouriteListBloc>(context).add(const GetFavourites());
   }
 
   @override
@@ -51,21 +51,29 @@ class _FavouriteListViewState extends State<FavouriteListView> {
 
     if (widget.socialMode == SocialMode.favourite) {
       playerManager.setRating(true);
+
       BlocProvider.of<FavouriteBloc>(context)
           .add(CreateFavourite(favourite: newFavourite));
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("${newFavourite.song!.title}ကို ${newFavourite.name} စာရင်းထဲသို့ ထည့်လိုက်ပါပြီ။")));
+      Navigator.pop(context);
     } else {
-      
-      Navigator.of(context).pop();
+      BlocProvider.of<DownloadBloc>(context).add(
+        CreateDownload(
+          favourite: newFavourite,
+        ),
+      );
+      Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavouriteBloc, FavouriteState>(
-      builder: (BuildContext context, FavouriteState state) {
+    return BlocBuilder<FavouriteListBloc, FavouriteListState>(
+      builder: (BuildContext context, FavouriteListState state) {
         if (state is Error) {
           return const SomethingWentWrongScreen();
-        } else if (state is ListLoaded) {
+        } else if (state is FavouriteListLoaded) {
           return state.favourites.isNotEmpty
               ? ListView.builder(
                   controller: widget.controller,
@@ -76,7 +84,7 @@ class _FavouriteListViewState extends State<FavouriteListView> {
                       onTap: () {
                         _onTap(state.favourites[index]);
                       },
-                      child: _listView(index, state.favourites),
+                      child: _buildCard(index, state.favourites),
                     );
                   },
                 )
@@ -91,7 +99,7 @@ class _FavouriteListViewState extends State<FavouriteListView> {
     );
   }
 
-  Widget _listView(int index, List<Favourite> favourites) {
+  Widget _buildCard(int index, List<Favourite> favourites) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -99,12 +107,8 @@ class _FavouriteListViewState extends State<FavouriteListView> {
           children: [
             Flexible(
               flex: 2,
-              child: Container(
-                width: double.infinity,
-                alignment: Alignment.centerLeft,
-                child: FolderIcon(
-                  color: Theme.of(context).iconTheme.color!,
-                ),
+              child: FolderIcon(
+                color: Theme.of(context).iconTheme.color!,
               ),
             ),
             Flexible(

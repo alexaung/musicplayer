@@ -12,6 +12,8 @@ class SongDao {
     if (song.id != null && await isExist(song.id!)) {
       result = updateSong(song);
     } else {
+      int order = await getMaxSortOrderByFavourite(song.favouriteId!);
+      song.sortOrder = order + 1;
       result = db.insert(songTable, song.toDatabaseJson());
     }
 
@@ -28,6 +30,19 @@ class SongDao {
     late List<Map<String, dynamic>> result;
 
     result = await db.query(songTable);
+
+    List<FavouriteSong> songs = result.isNotEmpty
+        ? result.map((item) => FavouriteSong.fromDatabaseJson(item)).toList()
+        : [];
+    return songs;
+  }
+
+  Future<List<FavouriteSong>> getSongsByFavouriteId(int id) async {
+    final db = await dbProvider.database;
+
+    late List<Map<String, dynamic>> result;
+
+    result = await db.query(songTable, where: 'favouriteId = ?', whereArgs: [id], orderBy: 'sort_order ASC');
 
     List<FavouriteSong> songs = result.isNotEmpty
         ? result.map((item) => FavouriteSong.fromDatabaseJson(item)).toList()
@@ -72,7 +87,8 @@ class SongDao {
     return result;
   }
 
-  Future<int> updateFavouriteStatus({required int id, required int status}) async {
+  Future<int> updateFavouriteStatus(
+      {required int id, required int status}) async {
     final db = await dbProvider.database;
     var result = await db.rawUpdate('''
     UPDATE $songTable  
@@ -83,13 +99,26 @@ class SongDao {
     return result;
   }
 
-  Future<int> updateDownloadStatus({required int id, required int status}) async {
+  Future<int> updateDownloadStatus(
+      {required int id, required int status}) async {
     final db = await dbProvider.database;
     var result = await db.rawUpdate('''
     UPDATE $songTable  
     SET is_downloaded = ?
     WHERE id = ?
     ''', [status, id]);
+
+    return result;
+  }
+
+  Future<int> updateSortOrder(
+      {required int id, required int sortOrder}) async {
+    final db = await dbProvider.database;
+    var result = await db.rawUpdate('''
+    UPDATE $songTable  
+    SET sort_order = ?
+    WHERE id = ?
+    ''', [sortOrder, id]);
 
     return result;
   }
@@ -118,5 +147,12 @@ class SongDao {
         .rawQuery('SELECT EXISTS(SELECT 1 FROM $songTable WHERE id=$id)');
     int? exist = Sqflite.firstIntValue(result);
     return exist == 1;
+  }
+
+  Future<int> getMaxSortOrderByFavourite(int id) async {
+    final db = await dbProvider.database;
+    var result = await db.rawQuery('SELECT MAX(sort_order) FROM $songTable WHERE favouriteId=?', [id]);
+    int? order = Sqflite.firstIntValue(result);
+    return order ?? 0;
   }
 }

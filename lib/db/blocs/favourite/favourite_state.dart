@@ -11,10 +11,6 @@ class FavouriteInitial extends FavouriteState {}
 
 class Loading extends FavouriteState {}
 
-class ListLoaded extends FavouriteState {
-  final List<Favourite> favourites;
-  const ListLoaded({required this.favourites});
-}
 class Loadded extends FavouriteState {
   final Favourite favourite;
   const Loadded({required this.favourite});

@@ -63,7 +63,7 @@ class _ChapterDetailScreenState extends State<ChapterDetailScreen> {
             //color: Colors.amberAccent,
             padding: const EdgeInsets.only(bottom: 10),
             child: AutoSizeText(
-              "${NumberFormat("###", "my_MM").format(currentPageIndex + 1)}. ${widget.chanting!.chapters![currentPageIndex].title}",
+              "${NumberFormat("###", "my_MM").format(currentPageIndex + 1)}။ ${widget.chanting!.chapters![currentPageIndex].title}",
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             ),
           ),

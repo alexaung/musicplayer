@@ -63,12 +63,14 @@ class _FavouriteFormState extends State<FavouriteForm> {
           favourite: Favourite(id: null, name: nameControler.text, song: song),
         ),
       );
+      Navigator.pop(context);
     } else {
       BlocProvider.of<DownloadBloc>(context).add(
         CreateDownload(
           favourite: Favourite(id: null, name: nameControler.text, song: song),
         ),
       );
+      Navigator.pop(context);
     }
   }
 

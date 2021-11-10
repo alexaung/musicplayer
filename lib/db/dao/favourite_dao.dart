@@ -9,11 +9,9 @@ class FavouriteDao {
   Future<int> createFavourite(Favourite favourite) async {
     final db = await dbProvider.database;
     Future<int> result;
-    if (favourite.id != null && await isExist(favourite.id!)) {
-      result = updateFavourite(favourite);
-    } else {
-      result = db.insert(favouriteTable, favourite.toDatabaseJson());
-    }
+
+    result = db.insert(favouriteTable, favourite.toDatabaseJson());
+
     return result;
   }
 

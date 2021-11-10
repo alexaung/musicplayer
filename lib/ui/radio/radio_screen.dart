@@ -37,7 +37,7 @@ class _RadioScreenState extends State<RadioScreen>
     });
 
     getIt<PlayerManager>().init(PlayerMode.radio);
-    _loadUrl();
+    //_loadUrl();
 
     animationController = AnimationController(
       vsync: this,
@@ -45,10 +45,10 @@ class _RadioScreenState extends State<RadioScreen>
     );
   }
 
-  _loadUrl() {
-    final pageManager = getIt<PlayerManager>();
-    pageManager.addRadioUrl('https://edge.mixlr.com/channel/nmtev');
-  }
+  // _loadUrl() {
+  //   final pageManager = getIt<PlayerManager>();
+  //   pageManager.addRadioUrl('https://edge.mixlr.com/channel/nmtev');
+  // }
 
   @override
   void dispose() {
@@ -125,20 +125,24 @@ class _RadioScreenState extends State<RadioScreen>
                     const SizedBox(
                       height: 80,
                     ),
-                    const AutoSizeText(
-                      'သစ္စာပါရမီ',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
+                    // const AutoSizeText(
+                    //   'သစ္စာပါရမီ',
+                    //   style: TextStyle(
+                    //     fontSize: 22,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // const AutoSizeText(
+                    //   '၂၄ နာရီရေဒီယို',
+                    //   style: TextStyle(
+                    //     fontSize: 18,
+                    //     // fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    const CurrentSongTitle(),
+                    const SizedBox(
+                        height: 10,
                       ),
-                    ),
-                    const AutoSizeText(
-                      '၂၄ နာရီရေဒီယို',
-                      style: TextStyle(
-                        fontSize: 18,
-                        // fontWeight: FontWeight.bold,
-                      ),
-                    ),
                     const AudioProgressBar(),
                     AudioControlButtons(
                       animationController: animationController,
@@ -173,6 +177,53 @@ class _RadioScreenState extends State<RadioScreen>
           )
         ],
       ),
+    );
+  }
+}
+
+class CurrentSongTitle extends StatelessWidget {
+  const CurrentSongTitle({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final playerManager = getIt<PlayerManager>();
+    return ValueListenableBuilder<MediaItem>(
+      valueListenable: playerManager.currentSongNotifier,
+      builder: (_, song, __) {
+        return SizedBox(
+          width: double.infinity,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                AutoSizeText(
+                  song.title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).textTheme.bodyText1!.color,
+                    letterSpacing: 1,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                const Divider(
+                  height: 10,
+                  color: Colors.transparent,
+                ),
+                AutoSizeText(
+                  song.artist ?? '',
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: Color(0xFFADB9CD),
+                    letterSpacing: 1,
+                  ),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ]),
+        );
+      },
     );
   }
 }
@@ -215,7 +266,7 @@ class AudioProgressBar extends StatelessWidget {
         return ProgressBar(
           progress: value.current,
           buffered: value.buffered,
-          total: value.total,
+          total: const Duration(hours: 24),
           onSeek: playerManager.seek,
         );
       },

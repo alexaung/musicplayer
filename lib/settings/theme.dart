@@ -17,6 +17,7 @@ class AppThemes {
         headline1: TextStyle(color: Colors.white, fontSize: 25),
         headline2: TextStyle(color: Colors.white, fontSize: 18),
         headline3: TextStyle(color: Colors.white, fontSize: 14),
+        //subtitle1: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         bodyText1: TextStyle(color: Color(0xFF4D6B9C)),
       ),
       iconTheme: const IconThemeData(color: Color(0xFFA1AFBC)),
@@ -34,7 +35,6 @@ class AppThemes {
         unselectedItemColor: Color(0xff616161),
       ),
       dividerColor: const Color(0xff999999),
-      
     ),
     AppTheme.dark: ThemeData(
       brightness: Brightness.dark,

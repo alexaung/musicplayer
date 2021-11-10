@@ -5,6 +5,8 @@ import 'package:thitsarparami/ui/chanting/chanting_screen.dart';
 import 'package:thitsarparami/ui/ebook/ebook_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
 import 'package:thitsarparami/ui/just_audio/my_audio_player.dart';
+import 'package:thitsarparami/ui/library/library_screen.dart';
+import 'package:thitsarparami/ui/library/playlist_screen.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
 import 'package:thitsarparami/ui/more/more_screen.dart';
 import 'package:thitsarparami/ui/radio/radio_screen.dart';
@@ -29,4 +31,6 @@ final Map<String, WidgetBuilder> routes = {
   EbookScreen.routeName: (ctx) => const EbookScreen(),
   AppointmentScreen.routeName: (ctx) => const AppointmentScreen(),
   ChantingScreen.routeName: (ctx) => const ChantingScreen(),
+  LibraryScreen.routeName: (ctx) => const LibraryScreen(),
+  PlaylistScreen.routeName: (ctx) => const PlaylistScreen(),
 };

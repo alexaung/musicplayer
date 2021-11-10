@@ -23,14 +23,6 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
       } catch (e) {
         yield FavouriteError(error: (e.toString()));
       }
-    } else if (event is GetFavourites) {
-      try {
-        final List<Favourite> favourites =
-            await favouriteRepository.getAllFavourites();
-        yield ListLoaded(favourites: favourites);
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
     } else if (event is CreateFavourite) {
       try {
         await favouriteRepository.insertFavourite(event.favourite!);
@@ -41,13 +33,6 @@ class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
     } else if (event is UpdateFavourite) {
       try {
         await favouriteRepository.updateFavourite(event.favourite!);
-        yield Success(successMessage: event.favourite!.name! + ' updated');
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
-    } else if (event is UpdateFavouriteStatus) {
-      try {
-        await favouriteRepository.updateFavouriteStatus(event.id!, event.status == true ? 1 : 0 );
         yield Success(successMessage: event.favourite!.name! + ' updated');
       } catch (e) {
         yield FavouriteError(error: (e.toString()));

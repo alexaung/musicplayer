@@ -37,7 +37,7 @@ class FavouriteButton extends StatelessWidget {
                 ),
                 Expanded(
                   child: FavouriteListView(
-                    socialMode: SocialMode.download,
+                    socialMode: SocialMode.favourite,
                     controller: scrollController,
                   ),
                 )
@@ -56,7 +56,7 @@ class FavouriteButton extends StatelessWidget {
       playerManager.setRating(false);
       MediaItem currentSong = playerManager.currentMediaItem;
 
-      BlocProvider.of<FavouriteBloc>(context).add(
+      BlocProvider.of<FavouriteSongBloc>(context).add(
         UpdateFavouriteStatus(
           id: int.parse(currentSong.id),
           status: false,

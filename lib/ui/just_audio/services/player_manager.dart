@@ -1,7 +1,5 @@
 import 'package:audio_service/audio_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:thitsarparami/models/album.dart';
-import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/repeat_button_notifier.dart';
@@ -24,14 +22,16 @@ class PlayerManager {
   final isShuffleModeEnabledNotifier = ValueNotifier<bool>(false);
 
   final _audioHandler = getIt<AudioHandler>();
+  //final  playeModeNotifier = ValueNotifier<PlayerMode>(PlayerMode.mp3);
 
   // Events: Calls coming from the UI
   void init(PlayerMode mode) async {
-    //await _loadPlaylist();
+    //playeModeNotifier.value = mode;
     if (mode == PlayerMode.mp3) {
       deleteRadioUrl();
     } else if (mode == PlayerMode.radio) {
       emptyPlaylist();
+      addRadioUrl();
     }
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
@@ -146,24 +146,10 @@ class PlayerManager {
     }
   }
 
-  Future<void> loadPlaylist(Monk monk, Album album, List<Song> playlist) async {
+  Future<void> loadPlaylist(List<MediaItem> playlist) async {
     emptyPlaylist();
-    final mediaItems = playlist
-        .map((song) => MediaItem(
-              id: song.id.toString(),
-              album: album.title,
-              title: song.title,
-              artist: monk.title,
-              artUri: Uri.parse(monk.imageUrl),
-              extras: {'url': song.url},
-              rating: song.isFavourite
-                  ? const Rating.newHeartRating(true)
-                  : const Rating.newHeartRating(false),
-            ))
-        .toList();
-    //mediaItems.removeWhere((item) => _audioHandler.queue.value.contains(item));
-    if (mediaItems.isNotEmpty) {
-      await _audioHandler.addQueueItems(mediaItems);
+    if (playlist.isNotEmpty) {
+      await _audioHandler.addQueueItems(playlist);
     }
   }
 
@@ -210,7 +196,7 @@ class PlayerManager {
     }
   }
 
-  Future<void> addRadioUrl(String url) async {
+  Future<void> addRadioUrl() async {
     MediaItem mediaItem = const MediaItem(
         id: 'radio',
         album: 'Radio',
@@ -219,7 +205,7 @@ class PlayerManager {
         //artUri: Uri.parse("asset:///assets/images/logo.png"),
         extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
         rating: Rating.newHeartRating(false));
-
+    currentSongNotifier.value = mediaItem;
     _audioHandler.addQueueItem(mediaItem);
   }
 

@@ -14,10 +14,6 @@ abstract class FavouriteEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetFavourites extends FavouriteEvent {
-  const GetFavourites();
-}
-
 class GetFavourite extends FavouriteEvent {
   const GetFavourite({required Favourite favourite})
       : super(favourite: favourite);
@@ -33,10 +29,10 @@ class UpdateFavourite extends FavouriteEvent {
       : super(favourite: favourite);
 }
 
-class UpdateFavouriteStatus extends FavouriteEvent {
-  const UpdateFavouriteStatus({required int id, bool status = false})
-      : super(id: id, status: status);
-}
+// class UpdateFavouriteStatus extends FavouriteEvent {
+//   const UpdateFavouriteStatus({required int id, bool status = false})
+//       : super(id: id, status: status);
+// }
 
 class DeleteFavourite extends FavouriteEvent {
   const DeleteFavourite({required int id}) : super(id: id);

@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
-import 'package:thitsarparami/error/something_went_wrong.dart';
+import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/appointment/components/appointment_tile.dart';

@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_js/flutter_js.dart';
+import 'package:intl/intl.dart';
 
 class MyanmarCalender extends StatefulWidget {
   const MyanmarCalender({Key? key}) : super(key: key);
@@ -32,17 +33,16 @@ class _MyanmarCalenderState extends State<MyanmarCalender> {
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder(
-      valueListenable: dateString,
-      builder: (context, value, widget) {
-        return AutoSizeText(
-          value.toString(),
-          style: Theme.of(context).textTheme.headline3,
-          textAlign: TextAlign.center,
-          maxLines: 2, 
-          //overflow: TextOverflow.ellipsis,
-        );
-      }
-    );
+        valueListenable: dateString,
+        builder: (context, value, widget) {
+          return AutoSizeText(
+            '${value.toString()} (${DateFormat('d MMMM y','my_MM').format(DateTime.now())})',
+            style: Theme.of(context).textTheme.headline3,
+            textAlign: TextAlign.center,
+            maxLines: 2,
+            //overflow: TextOverflow.ellipsis,
+          );
+        });
   }
 
   Future<String> getMyanmardate(

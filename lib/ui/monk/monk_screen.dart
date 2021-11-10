@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
-import 'package:thitsarparami/error/something_went_wrong.dart';
+import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';

@@ -108,9 +108,11 @@ class _NowPlayingScreenState extends State<NowPlayingScreen>
                     onTap: () {
                       Navigator.pop(context);
                     },
-                    child: widget.hideCloseButton ? null : HideIcon(
-                      color: Theme.of(context).iconTheme.color!,
-                    ),
+                    child: widget.hideCloseButton
+                        ? null
+                        : HideIcon(
+                            color: Theme.of(context).iconTheme.color!,
+                          ),
                   ),
                 ),
               ),
@@ -376,9 +378,11 @@ class PlayButton extends StatelessWidget {
       builder: (_, value, __) {
         switch (value) {
           case ButtonState.loading:
+            animationController.stop();
             return CircularProgressIndicatorIcon(
                 color: Theme.of(context).iconTheme.color!);
           case ButtonState.paused:
+            animationController.stop();
             return GestureDetector(
               onTap: () {
                 playerManager.play();
@@ -389,6 +393,7 @@ class PlayButton extends StatelessWidget {
               ),
             );
           case ButtonState.playing:
+            animationController.repeat();
             return GestureDetector(
               onTap: () {
                 playerManager.pause();

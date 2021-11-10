@@ -131,7 +131,7 @@ class ChapterCard extends StatelessWidget {
       child: Row(
         children: [
           AutoSizeText(
-            "$no. $title",
+            "$no။ $title",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -146,7 +146,9 @@ class ChapterCard extends StatelessWidget {
               Icons.arrow_forward_ios,
               size: 18,
             ),
-            onPressed: () => press,
+            onPressed: () {
+              press();
+            },
           )
         ],
       ),

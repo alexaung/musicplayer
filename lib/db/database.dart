@@ -58,13 +58,17 @@ class DatabaseProvider {
         "artUrl $textType, "
         "audioUrl $textType, "
         "is_favourite $integerType, "
-        "is_downloaded $integerType"
+        "is_downloaded $integerType, "
+        "sort_order $integerType"
         ")";
 
-    await database.execute("DROP TABLE IF EXISTS $songTable");
     await database.execute(sql);
-  }
 
+    sql = "INSERT INTO $favouriteTable (id, name)"
+        " VALUES (?,?)";
+
+        await database.execute(sql, [1, "Downloaded"] );
+  }
 
 //   Future<void> deleteDatabase() async {
 //     var databasesPath = await getDatabasesPath();

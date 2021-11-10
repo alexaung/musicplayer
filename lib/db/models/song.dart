@@ -8,20 +8,22 @@ class FavouriteSong {
   String audioUrl;
   bool isFavourite;
   bool isDownloaded;
+  int? sortOrder;
 
-  FavouriteSong({
-    this.id,
-    required this.favouriteId,
-    required this.album,
-    required this.title,
-    required this.artist,
-    required this.artUrl,
-    required this.audioUrl,
-    this.isFavourite = false,
-    this.isDownloaded = false,
-  });
+  FavouriteSong(
+      {this.id,
+      required this.favouriteId,
+      required this.album,
+      required this.title,
+      required this.artist,
+      required this.artUrl,
+      required this.audioUrl,
+      this.isFavourite = false,
+      this.isDownloaded = false,
+      this.sortOrder});
 
-  factory FavouriteSong.fromDatabaseJson(Map<String, dynamic> data) => FavouriteSong(
+  factory FavouriteSong.fromDatabaseJson(Map<String, dynamic> data) =>
+      FavouriteSong(
         id: data['id'],
         favouriteId: data['favouriteId'],
         album: data['album'],
@@ -29,8 +31,9 @@ class FavouriteSong {
         artist: data['artist'],
         artUrl: data['artUrl'],
         audioUrl: data['audioUrl'],
-        isFavourite: data['isFavourite'] == 0 ? false : true,
-        isDownloaded: data['isDownloaded'] == 0 ? false : true,
+        isFavourite: data['is_favourite'] == 0 ? false : true,
+        isDownloaded: data['is_downloaded'] == 0 ? false : true,
+        sortOrder: data['sort_order'],
       );
 
   Map<String, dynamic> toDatabaseJson() => {
@@ -43,5 +46,6 @@ class FavouriteSong {
         "audioUrl": audioUrl,
         "is_favourite": isFavourite == false ? 0 : 1,
         "is_downloaded": isDownloaded == false ? 0 : 1,
+        "sort_order": sortOrder
       };
 }

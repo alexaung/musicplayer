@@ -1,8 +1,9 @@
+import 'package:audio_service/audio_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
-import 'package:thitsarparami/error/something_went_wrong.dart';
+import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
@@ -106,7 +107,20 @@ class _PlaylistState extends State<Playlist> {
     final playerManager = getIt<PlayerManager>();
 
     if (hasQueued == false) {
-      playerManager.loadPlaylist(widget.monk!, widget.album!, songs);
+      final mediaItems = songs
+        .map((song) => MediaItem(
+              id: song.id.toString(),
+              album: widget.album!.title,
+              title: song.title,
+              artist: widget.monk!.title,
+              artUri: Uri.parse(widget.monk!.imageUrl),
+              extras: {'url': song.url},
+              rating: song.isFavourite
+                  ? const Rating.newHeartRating(true)
+                  : const Rating.newHeartRating(false),
+            ))
+        .toList();
+      playerManager.loadPlaylist(mediaItems);
       setState(() {
         hasQueued = true;
       });
