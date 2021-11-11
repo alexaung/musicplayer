@@ -76,16 +76,17 @@ class _MonkScreenState extends State<MonkScreen> {
                       itemBuilder: (_, int index) {
                         return GestureDetector(
                           onTap: () {
-                            pushNewScreen(
-                              context,
-                              screen: MonkScreenMode.album == widget.screenMode
-                                  ? AlbumScreen(
-                                      monk: monkState.monks[index],
-                                    )
-                                  : EbookScreen(
-                                      monk: monkState.monks[index],
-                                    ),
-                            );
+                            pushNewScreen(context,
+                                screen:
+                                    MonkScreenMode.album == widget.screenMode
+                                        ? AlbumScreen(
+                                            monk: monkState.monks[index],
+                                          )
+                                        : EbookScreen(
+                                            monk: monkState.monks[index],
+                                          ),
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.scale);
                           },
                           child: _listView(index, monkState.monks),
                         );

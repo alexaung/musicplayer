@@ -59,6 +59,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       pushNewScreen(
         context,
         screen: const FavouriteScreen(),
+        pageTransitionAnimation: PageTransitionAnimation.scale
       );
     }
 
@@ -66,6 +67,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       pushNewScreen(
         context,
         screen: const FavouriteScreen(),
+        pageTransitionAnimation: PageTransitionAnimation.scale
       );
     }
 
@@ -73,6 +75,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       pushNewScreen(
         context,
         screen: const FavouriteScreen(),
+        pageTransitionAnimation: PageTransitionAnimation.scale
       );
     }
 
@@ -221,6 +224,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         screen: PlaylistScreen(
           favourite: favourite,
         ),
+        pageTransitionAnimation: PageTransitionAnimation.scale
       );
     }
 

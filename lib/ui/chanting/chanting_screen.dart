@@ -72,6 +72,7 @@ class _ChantingScreenState extends State<ChantingScreen> {
                               screen: ChapterScreen(
                                 chanting: chantingState.chantings[index],
                               ),
+                              pageTransitionAnimation: PageTransitionAnimation.scale
                             );
                           },
                           child: _listView(index, chantingState.chantings),

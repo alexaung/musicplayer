@@ -44,10 +44,10 @@ class _DownloadButtonState extends State<DownloadButton> {
   void _showToast(BuildContext context) {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
-      SnackBar(
-        content: const AutoSizeText('Download Completed'),
-        action: SnackBarAction(
-            label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+      const SnackBar(
+        content: AutoSizeText('ဒေါင်းလုဒ် ပြီးပါပြီ။'),
+        // action: SnackBarAction(
+        //     label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
   }
@@ -95,7 +95,6 @@ class _DownloadButtonState extends State<DownloadButton> {
             setState(() {
               progress = (current / total) * 100;
             });
-            // print('Downloading: $progress');
           },
           file: File('$path/mp3/$fileName'),
           progress: ProgressImplementation(),

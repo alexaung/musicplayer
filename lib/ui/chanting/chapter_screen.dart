@@ -53,6 +53,7 @@ class ChapterScreen extends StatelessWidget {
                           chanting: chanting,
                           pageIndex: index,
                         ),
+                        pageTransitionAnimation: PageTransitionAnimation.scale
                       );
                     },
                     child: _listView(context, index, chanting!),
@@ -78,6 +79,7 @@ Widget _listView(BuildContext context, int index, Chanting chanting) {
         chanting: chanting,
         pageIndex: index,
       ),
+      pageTransitionAnimation: PageTransitionAnimation.scale
     );
   }
 

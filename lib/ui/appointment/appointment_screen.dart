@@ -186,6 +186,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         onDaySelected: _onDaySelected,
         rowHeight: 70,
         headerStyle: HeaderStyle(
+          formatButtonVisible: false,
           titleCentered: true,
           titleTextStyle: const TextStyle(
               color: Colors.white, fontWeight: FontWeight.w600, fontSize: 18),

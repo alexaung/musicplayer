@@ -2,6 +2,7 @@ import 'package:audio_service/audio_service.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
@@ -13,6 +14,7 @@ import 'package:thitsarparami/ui/just_audio/services/player_mode.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 import 'package:thitsarparami/ui/song/components/music_icons.dart';
 import 'package:thitsarparami/widgets/base_widget.dart';
+import 'dart:io';
 
 class PlaylistScreen extends StatefulWidget {
   static const routeName = '/playlist';
@@ -93,18 +95,34 @@ class Playlist extends StatefulWidget {
 class _PlaylistState extends State<Playlist> {
   late List<FavouriteSong> favouriteSongs;
   late bool hasQueued;
+  late final String path;
   @override
   void initState() {
     super.initState();
     hasQueued = false;
-
     favouriteSongs = [];
+    initPlatformState();
+  }
+
+  Future<void> initPlatformState() async {
+    _setPath();
+    if (!mounted) return;
+  }
+
+  void _setPath() async {
+    path = (await getApplicationDocumentsDirectory()).path;
   }
 
   @override
   void dispose() {
     super.dispose();
     hasQueued = false;
+  }
+
+  _getFilePath(FavouriteSong song) {
+    String fileName = song.audioUrl.split("/").last;
+    File file = File('$path/mp3/$fileName');
+    return file.path;
   }
 
   _onTap(int index, List<FavouriteSong> songs) async {
@@ -117,8 +135,10 @@ class _PlaylistState extends State<Playlist> {
                 album: song.album,
                 title: song.title,
                 artist: song.artist,
-                artUri: Uri.parse(song.artUrl), //Uri.parse(monk.imageUrl),
-                extras: {'url': song.audioUrl},
+                artUri: Uri.parse(song.artUrl),
+                extras: song.isDownloaded
+                    ? {'url': _getFilePath(song),'isFavourite': song.isFavourite, 'isDownloaded': song.isDownloaded}
+                    : {'url': song.audioUrl, 'isFavourite': song.isFavourite, 'isDownloaded': song.isDownloaded},
                 rating: song.isFavourite
                     ? const Rating.newHeartRating(true)
                     : const Rating.newHeartRating(false),

@@ -78,7 +78,8 @@ class _EbookScreenState extends State<EbookScreen> {
                             pushNewScreen(
                               context,
                               screen: PdfViewer(eBook: eBookState.eBooks[index],),
-                              withNavBar: false
+                              withNavBar: false,
+                              pageTransitionAnimation: PageTransitionAnimation.scale
                             );
                           },
                           child: _listView(index, eBookState.eBooks[index]),

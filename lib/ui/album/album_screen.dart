@@ -80,6 +80,7 @@ class _AlbumScreenState extends State<AlbumScreen> {
                                 monk: widget.monk,
                                 album: albumState.albums[index],
                               ),
+                              pageTransitionAnimation: PageTransitionAnimation.scale
                             );
                           },
                           child: _listView(index, albumState.albums),

@@ -250,13 +250,12 @@ class MenuContainer extends StatelessWidget {
           Row(
             children: [
               GestureDetector(
-                onTap: () => pushNewScreen(
-                  context,
-                  screen: const MonkScreen(
-                    title: 'MP3 တရားတော်များ',
-                    screenMode: MonkScreenMode.album,
-                  ),
-                ),
+                onTap: () => pushNewScreen(context,
+                    screen: const MonkScreen(
+                      title: 'MP3 တရားတော်များ',
+                      screenMode: MonkScreenMode.album,
+                    ),
+                    pageTransitionAnimation: PageTransitionAnimation.scale),
                 child: Container(
                   constraints: const BoxConstraints(
                     minWidth: 80,
@@ -291,7 +290,7 @@ class MenuContainer extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                       FittedBox(
+                      FittedBox(
                         child: AutoSizeText(
                           'MP3 တရားတော်များ',
                           group: autoSizeGroup,
@@ -306,8 +305,9 @@ class MenuContainer extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () =>
-                    pushNewScreen(context, screen: const RadioScreen()),
+                onTap: () => pushNewScreen(context,
+                    screen: const RadioScreen(),
+                    pageTransitionAnimation: PageTransitionAnimation.scale),
                 child: Container(
                   constraints: const BoxConstraints(
                     minWidth: 80,
@@ -341,7 +341,7 @@ class MenuContainer extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                       FittedBox(
+                      FittedBox(
                         child: AutoSizeText(
                           'ဓမ္မပို့ချချက်တရားတော်များ',
                           group: autoSizeGroup,
@@ -365,7 +365,8 @@ class MenuContainer extends StatelessWidget {
                     screen: const MonkScreen(
                       title: 'ဓမ္မစာအုပ်များ',
                       screenMode: MonkScreenMode.book,
-                    )),
+                    ),
+                    pageTransitionAnimation: PageTransitionAnimation.scale),
                 child: Container(
                   constraints: const BoxConstraints(
                     minWidth: 80,
@@ -405,7 +406,7 @@ class MenuContainer extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                       FittedBox(
+                      FittedBox(
                         child: AutoSizeText(
                           'ဓမ္မစာအုပ်များ',
                           group: autoSizeGroup,
@@ -420,8 +421,9 @@ class MenuContainer extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () =>
-                    pushNewScreen(context, screen: const ChantingScreen()),
+                onTap: () => pushNewScreen(context,
+                    screen: const ChantingScreen(),
+                    pageTransitionAnimation: PageTransitionAnimation.scale),
                 child: Container(
                   constraints: const BoxConstraints(
                     minWidth: 80,
@@ -457,7 +459,7 @@ class MenuContainer extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                       FittedBox(
+                      FittedBox(
                         child: AutoSizeText(
                           'ဘုရားရှိခိုးနှင့်ဝတ်ရွတ်စဥ်',
                           group: autoSizeGroup,
@@ -477,8 +479,9 @@ class MenuContainer extends StatelessWidget {
           Row(
             children: [
               GestureDetector(
-                onTap: () =>
-                    pushNewScreen(context, screen: const YoutubeScreen()),
+                onTap: () => pushNewScreen(context,
+                    screen: const YoutubeScreen(),
+                    pageTransitionAnimation: PageTransitionAnimation.scale),
                 child: Container(
                   constraints: const BoxConstraints(
                     minWidth: 80,
@@ -513,7 +516,7 @@ class MenuContainer extends StatelessWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                       FittedBox(
+                      FittedBox(
                         child: AutoSizeText(
                           'Live Streaming',
                           group: autoSizeGroup,
@@ -528,8 +531,11 @@ class MenuContainer extends StatelessWidget {
                 ),
               ),
               GestureDetector(
-                onTap: () =>
-                    pushNewScreen(context, screen: const RadioScreen()),
+                onTap: () => pushNewScreen(
+                  context,
+                  screen: const RadioScreen(),
+                  pageTransitionAnimation: PageTransitionAnimation.scale
+                ),
                 child: Container(
                   constraints: const BoxConstraints(
                     minWidth: 80,

@@ -45,9 +45,20 @@ class _RadioScreenState extends State<RadioScreen>
     );
   }
 
-  // _loadUrl() {
+  // _loadUrl() async{
   //   final pageManager = getIt<PlayerManager>();
-  //   pageManager.addRadioUrl('https://edge.mixlr.com/channel/nmtev');
+  //   List<MediaItem> mediaItems = [];
+  //   MediaItem mediaItem = const MediaItem(
+  //       id: 'radio',
+  //       album: 'Radio',
+  //       title: 'သစ္စာပါရမီ',
+  //       artist: '၂၄ နာရီရေဒီယို',
+  //       //artUri: Uri.parse("asset:///assets/images/logo.png"),
+  //       extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
+  //       rating: Rating.newHeartRating(false));
+
+  //   mediaItems.add(mediaItem);
+  //   pageManager.loadPlaylist(mediaItems);
   // }
 
   @override
@@ -125,24 +136,24 @@ class _RadioScreenState extends State<RadioScreen>
                     const SizedBox(
                       height: 80,
                     ),
-                    // const AutoSizeText(
-                    //   'သစ္စာပါရမီ',
-                    //   style: TextStyle(
-                    //     fontSize: 22,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    // const AutoSizeText(
-                    //   '၂၄ နာရီရေဒီယို',
-                    //   style: TextStyle(
-                    //     fontSize: 18,
-                    //     // fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    const CurrentSongTitle(),
-                    const SizedBox(
-                        height: 10,
+                    const AutoSizeText(
+                      'သစ္စာပါရမီ',
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
+                    const AutoSizeText(
+                      '၂၄ နာရီရေဒီယို',
+                      style: TextStyle(
+                        fontSize: 18,
+                        // fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    //const CurrentSongTitle(),
+                    const SizedBox(
+                      height: 10,
+                    ),
                     const AudioProgressBar(),
                     AudioControlButtons(
                       animationController: animationController,

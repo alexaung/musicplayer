@@ -30,8 +30,8 @@ class PlayerManager {
     if (mode == PlayerMode.mp3) {
       deleteRadioUrl();
     } else if (mode == PlayerMode.radio) {
-      emptyPlaylist();
-      addRadioUrl();
+      //emptyPlaylist();
+      await _loadRadioUrl();
     }
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
@@ -57,6 +57,20 @@ class PlayerManager {
   //       .toList();
   //   _audioHandler.addQueueItems(mediaItems);
   // }
+  Future<void> _loadRadioUrl() async {
+    MediaItem mediaItem = const MediaItem(
+        id: 'radio',
+        album: 'Radio',
+        title: 'သစ္စာပါရမီ',
+        artist: '၂၄ နာရီရေဒီယို',
+        //artUri: Uri.parse("asset:///assets/images/logo.png"),
+        extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
+        rating: Rating.newHeartRating(false));
+
+        
+    //List<MediaItem> mediaItems = [mediaItem];
+    _audioHandler.addQueueItem(mediaItem);
+  }
 
   void _listenToChangesInPlaylist() {
     _audioHandler.queue.listen((playlist) {
@@ -153,10 +167,6 @@ class PlayerManager {
     }
   }
 
-  Future<void> updateQueue(List<MediaItem> queue) async {
-    _audioHandler.addQueueItems(queue);
-  }
-
   void play() => _audioHandler.play();
 
   void pause() => _audioHandler.pause();
@@ -194,19 +204,6 @@ class PlayerManager {
     } else {
       _audioHandler.setShuffleMode(AudioServiceShuffleMode.none);
     }
-  }
-
-  Future<void> addRadioUrl() async {
-    MediaItem mediaItem = const MediaItem(
-        id: 'radio',
-        album: 'Radio',
-        title: 'သစ္စာပါရမီ',
-        artist: '၂၄ နာရီရေဒီယို',
-        //artUri: Uri.parse("asset:///assets/images/logo.png"),
-        extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
-        rating: Rating.newHeartRating(false));
-    currentSongNotifier.value = mediaItem;
-    _audioHandler.addQueueItem(mediaItem);
   }
 
   Future<void> setRating(bool hasHeart) async {

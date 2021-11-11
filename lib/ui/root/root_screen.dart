@@ -209,12 +209,12 @@ class _RootScreenState extends State<RootScreen> {
         popAllScreensOnTapOfSelectedTab: true,
         itemAnimationProperties: const ItemAnimationProperties(
           duration: Duration(milliseconds: 400),
-          curve: Curves.slowMiddle,
+          curve: Curves.ease,
         ),
         screenTransitionAnimation: const ScreenTransitionAnimation(
           animateTabTransition: true,
-          curve: Curves.ease,
-          duration: Duration(milliseconds: 200),
+          curve: Curves.easeInOut,
+          duration: Duration(milliseconds: 500),
         ),
         navBarStyle:
             NavBarStyle.style1, // Choose the nav bar style with this property

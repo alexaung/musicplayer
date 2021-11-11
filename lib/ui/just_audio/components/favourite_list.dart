@@ -53,11 +53,12 @@ class _FavouriteListViewState extends State<FavouriteListView> {
     if (widget.socialMode == SocialMode.favourite) {
       playerManager.setRating(true);
 
-      BlocProvider.of<FavouriteBloc>(context)
-          .add(AddSongIntoFavourite(favourite: newFavourite));
+      BlocProvider.of<FavouriteBloc>(context).add(
+        AddSongIntoFavourite(favourite: newFavourite),
+      );
     } else {
       BlocProvider.of<FavouriteBloc>(context).add(
-        CreateDownload(
+        DownloadSongIntoFavourite(
           favourite: newFavourite,
         ),
       );

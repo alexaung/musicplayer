@@ -45,15 +45,20 @@ class MoreScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.calendar_today_outlined),
             title: const AutoSizeText('ဆွမ်းစားပင့်လျောက်ရန် (စင်ကာပူသီးသန့်)'),
-            onTap: () =>
-                pushNewScreen(context, screen: const AppointmentScreen()),
+            onTap: () => pushNewScreen(context,
+                screen: const AppointmentScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.scale),
             // Navigator.of(context)
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),
           ListTile(
             leading: const Icon(Icons.settings_outlined),
             title: const AutoSizeText('ဆက်တင်'),
-            onTap: () => pushNewScreen(context, screen: const SettingScreen()),
+            onTap: () => pushNewScreen(
+              context,
+              screen: const SettingScreen(),
+              pageTransitionAnimation: PageTransitionAnimation.scale
+            ),
             // Navigator.of(context)
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),
