@@ -13,7 +13,7 @@ class DownloadRepository {
       song.favouriteId = result;
       if (song.id != null && await songDao.isExist(song.id!)) {
         songDao.updateDownloadStatus(
-            id: song.id!, status: song.isFavourite == true ? 1 : 0);
+            id: song.id!, status: song.isDownloaded == true ? 1 : 0);
       } else {
         result = await songDao.createSong(favourite.song!);
       }

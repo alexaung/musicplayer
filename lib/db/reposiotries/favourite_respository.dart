@@ -10,9 +10,9 @@ class FavouriteRepository {
 
   Future getFavourite(int id) => favouriteDao.getFavourite(id: id);
 
-  Future insertFavourite(Favourite favourite) async {
+  Future<int?> insertFavourite(Favourite favourite) async {
     if (favourite.id != null && await favouriteDao.isExist(favourite.id!)) {
-      var result = updateFavourite(favourite);
+      //var result = updateFavourite(favourite);
       if (favourite.song != null) {
         FavouriteSong song = favourite.song!;
         if (song.id != null && await songDao.isExist(song.id!)) {
@@ -22,7 +22,7 @@ class FavouriteRepository {
           await songDao.createSong(favourite.song!);
         }
       }
-      return result;
+      return favourite.id;
     } else {
       var result = await favouriteDao.createFavourite(favourite);
       if (favourite.song != null) {
@@ -32,7 +32,36 @@ class FavouriteRepository {
           songDao.updateFavouriteStatus(
               id: song.id!, status: song.isFavourite == true ? 1 : 0);
         } else {
-          result = await songDao.createSong(favourite.song!);
+          await songDao.createSong(favourite.song!);
+        }
+      }
+      return result;
+    }
+  }
+
+  Future insertDownload(Favourite favourite) async {
+    if (favourite.id != null && await favouriteDao.isExist(favourite.id!)) {
+      //var result = updateFavourite(favourite);
+      if (favourite.song != null) {
+        FavouriteSong song = favourite.song!;
+        if (song.id != null && await songDao.isExist(song.id!)) {
+          songDao.updateDownloadStatus(
+              id: song.id!, status: song.isDownloaded == true ? 1 : 0);
+        } else {
+          await songDao.createSong(favourite.song!);
+        }
+      }
+      return favourite.id;
+    } else {
+      var result = await favouriteDao.createFavourite(favourite);
+      if (favourite.song != null) {
+        FavouriteSong song = favourite.song!;
+        song.favouriteId = result;
+        if (song.id != null && await songDao.isExist(song.id!)) {
+          songDao.updateDownloadStatus(
+              id: song.id!, status: song.isDownloaded == true ? 1 : 0);
+        } else {
+          await songDao.createSong(favourite.song!);
         }
       }
       return result;
@@ -45,4 +74,7 @@ class FavouriteRepository {
   Future deleteFavouriteById(int id) => favouriteDao.deleteFavourite(id);
 
   Future deleteAllFavourites() => favouriteDao.deleteAllFavourites();
+
+  Future deleteAllSongsByFavouriteId(int id) =>
+      favouriteDao.deleteAllSongsByFavouriteId(id);
 }

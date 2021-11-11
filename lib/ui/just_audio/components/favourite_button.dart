@@ -1,4 +1,5 @@
 import 'package:audio_service/audio_service.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
@@ -28,9 +29,22 @@ class FavouriteButton extends StatelessWidget {
           expand: false,
           builder: (context, scrollController) {
             return Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 const FavouriteForm(
                   socialMode: SocialMode.favourite,
+                ),
+                const SizedBox(height: 10,),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                  child: AutoSizeText(
+                    'Playlists',
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
                 ),
                 Divider(
                   color: Theme.of(context).dividerColor,

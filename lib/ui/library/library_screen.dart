@@ -44,7 +44,7 @@ class CardItem {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   _loadFavourites() async {
-    BlocProvider.of<FavouriteListBloc>(context).add(const GetFavourites());
+    BlocProvider.of<FavouriteBloc>(context).add(const GetFavourites());
   }
 
   @override
@@ -98,6 +98,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     ];
 
     return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
@@ -120,7 +121,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         slivers: [
           SliverFillRemaining(
             child: Column(
-              mainAxisSize: MainAxisSize.max,
+                mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -128,170 +129,261 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10, vertical: 10),
-                    child: Flexible(
-                      child: AutoSizeText(
-                        'Playlists',
-                        style: Theme.of(context).textTheme.subtitle1,
-                      ),
+                    child: AutoSizeText(
+                      'Playlists',
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                   ),
-                  Flexible(child: _buildPlaylist(context))
+                  Flexible(child: _buildPlaylist(context)),
                 ]),
           )
         ],
       ),
     );
   }
-}
 
-Widget _topMenu(List<CardItem> items) {
-  return SizedBox(
-    height: 120,
-    child: ListView.separated(
-      scrollDirection: Axis.horizontal,
-      itemBuilder: (context, index) {
-        if (items.isEmpty) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else {
-          return buildCard(context, items[index]);
-        }
-      },
-      separatorBuilder: (context, _) => const SizedBox(
-        width: 10,
-      ),
-      itemCount: items.length,
-    ),
-  );
-}
-
-Widget buildCard(BuildContext context, CardItem cardItem) {
-  const double _radius = 55;
-  return GestureDetector(
-    onTap: () {
-      cardItem.onTap();
-    },
-    child: Container(
-      padding: const EdgeInsets.only(top: 10, bottom: 10),
-      width: 130,
-      height: 130,
-      color: cardItem.color,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: _radius,
-            height: _radius,
-            decoration: BoxDecoration(
-              color: Colors.transparent,
-              border: Border.all(
-                color: cardItem.color,
-              ),
-              borderRadius: BorderRadius.circular(
-                _radius,
-              ),
-            ),
-            child: Center(
-              child: IconButton(
-                onPressed: () {
-                  cardItem.onTap();
-                },
-                icon: Icon(
-                  cardItem.iconData,
-                  color: Theme.of(context).appBarTheme.iconTheme!.color,
-                  size: 32.0,
-                ),
-              ),
-            ),
-          ),
-          AutoSizeText(
-            cardItem.title,
-            style: Theme.of(context).textTheme.headline2,
-            maxLines: 1,
-          ),
-        ],
-      ),
-    ),
-  );
-}
-
-Widget _buildPlaylist(BuildContext context) {
-  _onTap(Favourite favourite) {
-    pushNewScreen(
-      context,
-      screen: PlaylistScreen(
-        favourite: favourite,
+  Widget _topMenu(List<CardItem> items) {
+    return SizedBox(
+      height: 120,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) {
+          if (items.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else {
+            return buildCard(context, items[index]);
+          }
+        },
+        separatorBuilder: (context, _) => const SizedBox(
+          width: 10,
+        ),
+        itemCount: items.length,
       ),
     );
   }
 
-  return BlocBuilder<FavouriteListBloc, FavouriteListState>(
-    builder: (BuildContext context, FavouriteListState state) {
-      if (state is Error) {
-        return const SomethingWentWrongScreen();
-      } else if (state is FavouriteListLoaded) {
-        return state.favourites.isNotEmpty
-            ? ListView.builder(
-                itemCount: state.favourites.length,
-                itemBuilder: (_, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      _onTap(state.favourites[index]);
-                    },
-                    child: _buildCard(context, state.favourites[index], _onTap),
-                  );
-                },
-              )
-            : const Center(
-                child: AutoSizeText('Empty Playlist'),
-              );
-      }
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
-    },
-  );
-}
-
-Widget _buildCard(BuildContext context, Favourite favourite, Function onTap) {
-  return Column(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Row(
-        children: [
-          Flexible(
-            flex: 2,
-            child: GestureDetector(
-              onTap: () {
-                onTap();
-              },
-              child: FolderIcon(
-                color: Theme.of(context).iconTheme.color!,
+  Widget buildCard(BuildContext context, CardItem cardItem) {
+    const double _radius = 55;
+    return GestureDetector(
+      onTap: () {
+        cardItem.onTap();
+      },
+      child: Container(
+        padding: const EdgeInsets.only(top: 10, bottom: 10),
+        width: 130,
+        height: 130,
+        color: cardItem.color,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: _radius,
+              height: _radius,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                border: Border.all(
+                  color: cardItem.color,
+                ),
+                borderRadius: BorderRadius.circular(
+                  _radius,
+                ),
               ),
-            ),
-          ),
-          Flexible(
-            flex: 10,
-            child: Padding(
-              padding: const EdgeInsets.only(left: 6.0),
-              child: AutoSizeText(
-                favourite.name!,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1!.color,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
+              child: Center(
+                child: IconButton(
+                  onPressed: () {
+                    cardItem.onTap();
+                  },
+                  icon: Icon(
+                    cardItem.iconData,
+                    color: Theme.of(context).appBarTheme.iconTheme!.color,
+                    size: 32.0,
+                  ),
                 ),
               ),
             ),
+            AutoSizeText(
+              cardItem.title,
+              style: Theme.of(context).textTheme.headline2,
+              maxLines: 1,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPlaylist(BuildContext context) {
+    _onTap(Favourite favourite) {
+      pushNewScreen(
+        context,
+        screen: PlaylistScreen(
+          favourite: favourite,
+        ),
+      );
+    }
+
+    void _onDismissed(BuildContext context, Favourite favourite) => {
+          BlocProvider.of<FavouriteBloc>(context).add(
+            DeleteAllSongsByFavouriteId(favourite: favourite),
+          )
+        };
+
+    Future<bool?> _confirmDismiss() async {
+      return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return CupertinoAlertDialog(
+            title: Container(
+                padding: const EdgeInsets.only(bottom: 10),
+                child: const Text(
+                  "အတည်ပြုပါ",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                )),
+            content: const Text(
+                "ဤအစီအစဉ်ကို ဖျက်လိုသည်မှာ သေချာပါသလား။ ဤလုပ်ငန်းစဉ်ကို ပြန်ပြင်၍မရပါ။"),
+            actions: [
+              CupertinoDialogAction(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  child: const Text("ဖျက်ပါ")),
+              CupertinoDialogAction(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text("မဖျက်တော့ပါ"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
+    return BlocListener<FavouriteBloc, FavouriteState>(
+      listener: (context, state) {
+        if (state is FavouriteError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: AutoSizeText(state.error),
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'ဟုတ်ပြီ',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        } else if (state is DeleteSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.successMessage),
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'ဟုတ်ပြီ',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        }
+      },
+      child: BlocBuilder<FavouriteBloc, FavouriteState>(
+        builder: (BuildContext context, FavouriteState state) {
+          if (state is Error) {
+            return const SomethingWentWrongScreen();
+          } else if (state is FavouriteListLoaded) {
+            return state.favourites.isNotEmpty
+                ? ListView.separated(
+                    itemCount: state.favourites.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const Divider(height: 1),
+                    itemBuilder: (_, int index) {
+                      return Dismissible(
+                        direction: DismissDirection.startToEnd,
+                        confirmDismiss: (direction) async {
+                          return _confirmDismiss();
+                        },
+                        onDismissed: (direction) {
+                          _onDismissed(context, state.favourites[index]);
+                        },
+                        background: Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          color: Colors.green,
+                          child: Icon(
+                            Icons.archive_outlined,
+                            color:
+                                Theme.of(context).appBarTheme.iconTheme!.color,
+                            size: 32,
+                          ),
+                        ),
+                        key: ValueKey(state.favourites[index]),
+                        child: GestureDetector(
+                          onTap: () {
+                            _onTap(state.favourites[index]);
+                          },
+                          child: _buildCard(
+                              context, state.favourites[index], _onTap),
+                        ),
+                      );
+                    },
+                  )
+                : const Center(
+                    child: AutoSizeText('Empty Playlist'),
+                  );
+          } else if (state is Processing) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return const Center(
+            child: AutoSizeText("No State"),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCard(BuildContext context, Favourite favourite, Function onTap) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          child: Row(
+            children: [
+              Flexible(
+                flex: 2,
+                child: GestureDetector(
+                  onTap: () {
+                    onTap();
+                  },
+                  child: FolderIcon(
+                    color: Theme.of(context).iconTheme.color!,
+                  ),
+                ),
+              ),
+              Flexible(
+                flex: 10,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 6.0),
+                  child: AutoSizeText(
+                    favourite.name!,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyText1!.color,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      Divider(
-        color: Theme.of(context).dividerColor,
-      ),
-    ],
-  );
+        ),
+      ],
+    );
+  }
 }

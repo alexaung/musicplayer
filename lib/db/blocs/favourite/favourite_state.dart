@@ -9,16 +9,38 @@ abstract class FavouriteState extends Equatable {
 
 class FavouriteInitial extends FavouriteState {}
 
-class Loading extends FavouriteState {}
+class Processing extends FavouriteState {}
 
-class Loadded extends FavouriteState {
-  final Favourite favourite;
-  const Loadded({required this.favourite});
+class FavouriteListLoading extends FavouriteState {}
+
+class FavouriteListLoaded extends FavouriteState {
+  final List<Favourite> favourites;
+  const FavouriteListLoaded({required this.favourites});
 }
 
-class Success extends FavouriteState {
+class CreateFavouriteSuccess extends FavouriteState {
   final String successMessage;
-  const Success({required this.successMessage});
+  const CreateFavouriteSuccess({required this.successMessage});
+}
+
+class CreateDownloadSuccess extends FavouriteState {
+  final String successMessage;
+  const CreateDownloadSuccess({required this.successMessage});
+}
+
+class AddSongInToFavouriteSuccess extends FavouriteState {
+  final String successMessage;
+  const AddSongInToFavouriteSuccess({required this.successMessage});
+}
+
+class DownloadSongInToFavouriteSuccess extends FavouriteState {
+  final String successMessage;
+  const DownloadSongInToFavouriteSuccess({required this.successMessage});
+}
+
+class DeleteSuccess extends FavouriteState {
+  final String successMessage;
+  const DeleteSuccess({required this.successMessage});
 }
 
 class FavouriteError extends FavouriteState {

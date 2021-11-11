@@ -64,10 +64,10 @@ class DatabaseProvider {
 
     await database.execute(sql);
 
-    sql = "INSERT INTO $favouriteTable (id, name)"
-        " VALUES (?,?)";
+    sql = "INSERT INTO $favouriteTable (name)"
+        " VALUES (?)";
 
-        await database.execute(sql, [1, "Downloaded"] );
+        await database.execute(sql, ["Downloaded"] );
   }
 
 //   Future<void> deleteDatabase() async {

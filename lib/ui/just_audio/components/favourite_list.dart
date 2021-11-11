@@ -22,8 +22,9 @@ class FavouriteListView extends StatefulWidget {
 }
 
 class _FavouriteListViewState extends State<FavouriteListView> {
+  bool isListItemDisable = false;
   _loadFavourites() async {
-    BlocProvider.of<FavouriteListBloc>(context).add(const GetFavourites());
+    BlocProvider.of<FavouriteBloc>(context).add(const GetFavourites());
   }
 
   @override
@@ -53,49 +54,88 @@ class _FavouriteListViewState extends State<FavouriteListView> {
       playerManager.setRating(true);
 
       BlocProvider.of<FavouriteBloc>(context)
-          .add(CreateFavourite(favourite: newFavourite));
-      ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("${newFavourite.song!.title}ကို ${newFavourite.name} စာရင်းထဲသို့ ထည့်လိုက်ပါပြီ။")));
-      Navigator.pop(context);
+          .add(AddSongIntoFavourite(favourite: newFavourite));
     } else {
-      BlocProvider.of<DownloadBloc>(context).add(
+      BlocProvider.of<FavouriteBloc>(context).add(
         CreateDownload(
           favourite: newFavourite,
         ),
       );
-      Navigator.pop(context);
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FavouriteListBloc, FavouriteListState>(
-      builder: (BuildContext context, FavouriteListState state) {
-        if (state is Error) {
-          return const SomethingWentWrongScreen();
-        } else if (state is FavouriteListLoaded) {
-          return state.favourites.isNotEmpty
-              ? ListView.builder(
-                  controller: widget.controller,
-                  //padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  itemCount: state.favourites.length,
-                  itemBuilder: (_, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        _onTap(state.favourites[index]);
-                      },
-                      child: _buildCard(index, state.favourites),
-                    );
-                  },
-                )
-              : const Center(
-                  child: AutoSizeText('Empty Playlist'),
-                );
+    return BlocListener<FavouriteBloc, FavouriteState>(
+      listener: (context, state) {
+        if (state is FavouriteError) {
+          isListItemDisable = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(state.error),
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'ဟုတ်ပြီ',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+          Navigator.of(context).pop();
+        } else if (state is Processing) {
+          setState(() {
+            isListItemDisable = true;
+          });
+        } else if (state is AddSongInToFavouriteSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.successMessage),
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'ဟုတ်ပြီ',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+          Navigator.of(context).pop();
         }
-        return const Center(
-          child: CircularProgressIndicator(),
-        );
+        if (state is DownloadSongInToFavouriteSuccess) {
+          Navigator.of(context).pop();
+        }
       },
+      child: BlocBuilder<FavouriteBloc, FavouriteState>(
+        builder: (BuildContext context, FavouriteState state) {
+          if (state is Error) {
+            return const SomethingWentWrongScreen();
+          } else if (state is FavouriteListLoaded) {
+            return state.favourites.isNotEmpty
+                ? ListView.builder(
+                    controller: widget.controller,
+                    itemCount: state.favourites.length,
+                    itemBuilder: (_, int index) {
+                      return GestureDetector(
+                        onTap: isListItemDisable
+                            ? null
+                            : () {
+                                _onTap(state.favourites[index]);
+                              },
+                        child: _buildCard(index, state.favourites),
+                      );
+                    },
+                  )
+                : const Center(
+                    child: AutoSizeText('Empty Playlist'),
+                  );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
     );
   }
 

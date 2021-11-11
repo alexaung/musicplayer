@@ -64,14 +64,7 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               FavouriteBloc(favouriteRepository: FavouriteRepository()),
         ),
-        BlocProvider(
-          create: (context) =>
-              FavouriteListBloc(favouriteRespository: FavouriteRepository()),
-        ),
-        BlocProvider(
-          create: (context) =>
-              DownloadBloc(downloadRepository: DownloadRepository()),
-        ),
+        
         BlocProvider(
           create: (context) => FavouriteSongListBloc(
               favouriteSongRespository: FavouriteSongRepository()),

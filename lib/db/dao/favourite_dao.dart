@@ -58,13 +58,28 @@ class FavouriteDao {
     return result;
   }
 
-  //Delete Favourite records
   Future<int> deleteFavourite(int id) async {
     final db = await dbProvider.database;
-    var result =
-        await db.delete(favouriteTable, where: 'id = ?', whereArgs: [id]);
+    var result = await db.delete(songTable, where: 'id = ?', whereArgs: [id]);
 
     return result;
+  }
+
+  //Delete Favourite records
+  Future deleteAllSongsByFavouriteId(int id) async {
+    final db = await dbProvider.database;
+    await db.transaction(
+      (txn) async {
+        var result1 =
+            await txn.delete(favouriteTable, where: 'id = ?', whereArgs: [id]);
+        // ignore: avoid_print
+        print(result1);
+        var result2 = await txn
+            .delete(songTable, where: 'favouriteId=?', whereArgs: [id]);
+        // ignore: avoid_print
+        print(result2);
+      },
+    );
   }
 
   //Delete All Favourite records

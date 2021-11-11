@@ -157,9 +157,6 @@ class _PlaylistState extends State<Playlist> {
           favouriteSongs.removeAt(index);
           BlocProvider.of<FavouriteSongBloc>(context)
               .add(DeleteFavouriteSong(favouriteSong: favouriteSong));
-          // Shows the information on Snackbar
-          // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          //     content: Text("${favouriteSong.title} ကိုဖျက်လိုက်ပါပြီ။")));
 
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -167,15 +164,15 @@ class _PlaylistState extends State<Playlist> {
                   AutoSizeText("${favouriteSong.title} ကိုဖျက်လိုက်ပါပြီ။"),
               duration: const Duration(seconds: 3),
               action: SnackBarAction(
-                  label: 'မဖျက်တော့ပါ',
-                  onPressed: () {
-                    setState(() {
-                      favouriteSongs.insert(index, favouriteSong);
-                    });
+                label: 'မဖျက်တော့ပါ',
+                onPressed: () {
+                  favouriteSongs.insert(index, favouriteSong);
 
-                    BlocProvider.of<FavouriteSongBloc>(context)
-                        .add(CreateFavouriteSong(favouriteSong: favouriteSong));
-                  }),
+                  BlocProvider.of<FavouriteSongBloc>(context).add(
+                    CreateFavouriteSong(favouriteSong: favouriteSong),
+                  );
+                },
+              ),
             ),
           );
         },
@@ -209,7 +206,16 @@ class _PlaylistState extends State<Playlist> {
                 onDismissed: (direction) {
                   _onDismissed(context, index);
                 },
-                background: Container(color: Colors.red),
+                background: Container(
+                  alignment: Alignment.centerLeft,
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  color: Colors.green,
+                  child: Icon(
+                    Icons.archive_outlined,
+                    color: Theme.of(context).appBarTheme.iconTheme!.color,
+                    size: 32,
+                  ),
+                ),
                 key: ValueKey(song),
                 child: GestureDetector(
                   key: ValueKey(song),

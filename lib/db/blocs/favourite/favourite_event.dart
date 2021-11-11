@@ -14,9 +14,11 @@ abstract class FavouriteEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetFavourite extends FavouriteEvent {
-  const GetFavourite({required Favourite favourite})
-      : super(favourite: favourite);
+class GetFavourites extends FavouriteEvent {
+  const GetFavourites();
+
+  @override
+  List<Object> get props => [];
 }
 
 class CreateFavourite extends FavouriteEvent {
@@ -24,20 +26,22 @@ class CreateFavourite extends FavouriteEvent {
       : super(favourite: favourite);
 }
 
-class UpdateFavourite extends FavouriteEvent {
-  const UpdateFavourite({required Favourite favourite})
+class CreateDownload extends FavouriteEvent {
+  const CreateDownload({required Favourite favourite})
       : super(favourite: favourite);
 }
 
-// class UpdateFavouriteStatus extends FavouriteEvent {
-//   const UpdateFavouriteStatus({required int id, bool status = false})
-//       : super(id: id, status: status);
-// }
-
-class DeleteFavourite extends FavouriteEvent {
-  const DeleteFavourite({required int id}) : super(id: id);
+class AddSongIntoFavourite extends FavouriteEvent {
+  const AddSongIntoFavourite({required Favourite favourite})
+      : super(favourite: favourite);
 }
 
-class DeleteAllFavourite extends FavouriteEvent {
-  const DeleteAllFavourite() : super();
+class DownloadSongIntoFavourite extends FavouriteEvent {
+  const DownloadSongIntoFavourite({required Favourite favourite})
+      : super(favourite: favourite);
+}
+
+class DeleteAllSongsByFavouriteId extends FavouriteEvent {
+  const DeleteAllSongsByFavouriteId({required Favourite favourite})
+      : super(favourite: favourite);
 }

@@ -24,6 +24,7 @@ class _FavouriteFormState extends State<FavouriteForm> {
   final List<String?> errors = [];
   Favourite favourite = Favourite();
   final nameControler = TextEditingController();
+  bool isSubmitButtonActive = true;
 
   void addError({String? error}) {
     if (!errors.contains(error)) {
@@ -65,12 +66,11 @@ class _FavouriteFormState extends State<FavouriteForm> {
       );
       Navigator.pop(context);
     } else {
-      BlocProvider.of<DownloadBloc>(context).add(
+      BlocProvider.of<FavouriteBloc>(context).add(
         CreateDownload(
           favourite: Favourite(id: null, name: nameControler.text, song: song),
         ),
       );
-      Navigator.pop(context);
     }
   }
 
@@ -79,10 +79,39 @@ class _FavouriteFormState extends State<FavouriteForm> {
     return BlocListener<FavouriteBloc, FavouriteState>(
       listener: (context, state) {
         if (state is FavouriteError) {
-          final error = state.error;
-          //String message = '$error\n Tap to Retry.';
-          AlertDialogView(error: error);
-        } else if (state is Success) {
+          isSubmitButtonActive = false;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: AutoSizeText(state.error),
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'ဟုတ်ပြီ',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+        } else if (state is Processing) {
+          setState(() {
+            isSubmitButtonActive = false;
+          });
+        } else if (state is CreateFavouriteSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: AutoSizeText(state.successMessage),
+              duration: const Duration(seconds: 3),
+              action: SnackBarAction(
+                label: 'ဟုတ်ပြီ',
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ),
+          );
+          Navigator.of(context).pop();
+        } else if (state is CreateDownloadSuccess) {
           Navigator.of(context).pop();
         }
       },
@@ -146,37 +175,33 @@ class _FavouriteFormState extends State<FavouriteForm> {
   }
 
   Widget _submitBotton(SocialMode socialMode) {
-    return ElevatedButton(
-      onPressed: () {
-        create(socialMode);
-      },
-      child: const AutoSizeText('Create Playlist'),
+    return ElevatedButton.icon(
+      style: ElevatedButton.styleFrom(
+        padding: const EdgeInsets.all(10.0),
+        //onPrimary: Theme.of(context).primaryColor,
+        onSurface: Theme.of(context).primaryColorLight,
+      ),
+      onPressed: isSubmitButtonActive
+          ? () {
+              create(socialMode);
+            }
+          : null,
+      icon: isSubmitButtonActive
+          ? const Icon(Icons.save_outlined)
+          : loadingIcon(),
+      label: const AutoSizeText('Create Playlist'),
     );
   }
-}
 
-class AlertDialogView extends StatelessWidget {
-  const AlertDialogView({
-    Key? key,
-    required this.error,
-  }) : super(key: key);
-
-  final String error;
-
-  @override
-  Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const AutoSizeText("Error"),
-      content: AutoSizeText(error),
-      actions: <Widget>[
-        // usually buttons at the bottom of the dialog
-        TextButton(
-          child: const AutoSizeText("Close"),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
+  Container loadingIcon() {
+    return Container(
+      width: 24,
+      height: 24,
+      padding: const EdgeInsets.all(2.0),
+      child: const CircularProgressIndicator(
+        color: Colors.white,
+        strokeWidth: 3,
+      ),
     );
   }
 }

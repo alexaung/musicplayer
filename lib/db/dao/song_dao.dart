@@ -141,6 +141,16 @@ class SongDao {
     return result;
   }
 
+  Future deleteAllSongsByFavouriteId(int id) async {
+    final db = await dbProvider.database;
+    var result = await db.delete(
+      songTable,
+      where: 'favouriteId=?', whereArgs: [id]
+    );
+
+    return result;
+  }
+
   Future<bool> isExist(int id) async {
     final db = await dbProvider.database;
     var result = await db
