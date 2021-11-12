@@ -1,9 +1,9 @@
-import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
+import 'package:thitsarparami/ui/just_audio/components/audio_progress_bar.dart';
+import 'package:thitsarparami/ui/just_audio/components/current_song_title.dart';
 import 'package:thitsarparami/ui/just_audio/notifiers/play_button_notifier.dart';
-import 'package:thitsarparami/ui/just_audio/notifiers/progress_notifier.dart';
 import 'package:thitsarparami/ui/just_audio/now_playing_screen.dart';
 import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
@@ -100,7 +100,7 @@ class _BottomPanelState extends State<BottomPanel> {
                           },
                           child: const Padding(
                             padding: EdgeInsets.only(left: 8.0),
-                            child: CurrentSongTitle(),
+                            child: CurrentSongTitle(titleFontSize: 16, subTitleFontSize: 14,),
                           ),
                         ),
                       ),
@@ -141,73 +141,6 @@ class _BottomPanelState extends State<BottomPanel> {
         } else {
           return Container();
         }
-      },
-    );
-  }
-}
-
-// class CurrentSongTitle extends StatelessWidget {
-//   const CurrentSongTitle({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     final playerManager = getIt<PlayerManager>();
-//     return ValueListenableBuilder<MediaItem>(
-//       valueListenable: playerManager.currentSongNotifier,
-//       builder: (_, song, __) {
-//         return SizedBox(
-//           width: double.infinity,
-//           child: Column(
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               //crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 AutoSizeText(
-//                   song.title,
-//                   style: TextStyle(
-//                     fontSize: 16,
-//                     color: Theme.of(context).textTheme.bodyText1!.color,
-//                     letterSpacing: 1,
-//                   ),
-//                   maxLines: 2,
-//                   textAlign: TextAlign.center,
-//                   overflow: TextOverflow.ellipsis,
-//                 ),
-//                 const Divider(
-//                   height: 10,
-//                   color: Colors.transparent,
-//                 ),
-//                 AutoSizeText(
-//                   song.artist ?? '',
-//                   style: const TextStyle(
-//                     fontSize: 14,
-//                     color: Color(0xFFADB9CD),
-//                     letterSpacing: 1,
-//                   ),
-//                   maxLines: 1,
-//                   textAlign: TextAlign.center,
-//                   overflow: TextOverflow.ellipsis,
-//                 ),
-//               ]),
-//         );
-//       },
-//     );
-//   }
-// }
-
-class AudioProgressBar extends StatelessWidget {
-  const AudioProgressBar({Key? key}) : super(key: key);
-  @override
-  Widget build(BuildContext context) {
-    final playerManager = getIt<PlayerManager>();
-    return ValueListenableBuilder<ProgressBarState>(
-      valueListenable: playerManager.progressNotifier,
-      builder: (_, value, __) {
-        return ProgressBar(
-          progress: value.current,
-          buffered: value.buffered,
-          total: value.total,
-          onSeek: playerManager.seek,
-          timeLabelLocation: TimeLabelLocation.none,
-        );
       },
     );
   }

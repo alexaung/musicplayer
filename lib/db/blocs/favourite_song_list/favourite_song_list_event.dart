@@ -11,3 +11,19 @@ class GetFavouriteSongs extends FavouriteSongListEvent {
   @override
   List<Object> get props => [];
 }
+
+class GetAllFavouriteSongsByFavouriteId extends FavouriteSongListEvent {
+  final int id;
+  const GetAllFavouriteSongsByFavouriteId({required this.id});
+
+  @override
+  List<Object> get props => [];
+}
+
+class GetAllDownloadedSongsByFavouriteId extends FavouriteSongListEvent {
+  final int id;
+  const GetAllDownloadedSongsByFavouriteId({required this.id});
+
+  @override
+  List<Object> get props => [];
+}

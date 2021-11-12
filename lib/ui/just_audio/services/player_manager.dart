@@ -22,16 +22,18 @@ class PlayerManager {
   final isShuffleModeEnabledNotifier = ValueNotifier<bool>(false);
 
   final _audioHandler = getIt<AudioHandler>();
-  //final  playeModeNotifier = ValueNotifier<PlayerMode>(PlayerMode.mp3);
-
+  final playeModeNotifier = ValueNotifier<PlayerMode>(PlayerMode.mp3);
+  PlayerMode playerMode = PlayerMode.mp3;
   // Events: Calls coming from the UI
   void init(PlayerMode mode) async {
-    //playeModeNotifier.value = mode;
+    
     if (mode == PlayerMode.mp3) {
+      playerMode = PlayerMode.mp3;
       deleteRadioUrl();
     } else if (mode == PlayerMode.radio) {
-      //emptyPlaylist();
+      emptyPlaylist();
       await _loadRadioUrl();
+      playerMode = PlayerMode.radio;
     }
     _listenToChangesInPlaylist();
     _listenToPlaybackState();
@@ -57,6 +59,11 @@ class PlayerManager {
   //       .toList();
   //   _audioHandler.addQueueItems(mediaItems);
   // }
+
+  PlayerMode getPlayerMode() {
+    return playerMode;
+  }
+
   Future<void> _loadRadioUrl() async {
     MediaItem mediaItem = const MediaItem(
         id: 'radio',
@@ -67,7 +74,6 @@ class PlayerManager {
         extras: {'url': 'https://edge.mixlr.com/channel/nmtev'},
         rating: Rating.newHeartRating(false));
 
-        
     //List<MediaItem> mediaItems = [mediaItem];
     _audioHandler.addQueueItem(mediaItem);
   }
@@ -140,6 +146,7 @@ class PlayerManager {
 
   void _listenToChangesInSong() {
     _audioHandler.mediaItem.listen((mediaItem) {
+      playeModeNotifier.value = playerMode;
       currentSongTitleNotifier.value = mediaItem?.title ?? '';
       if (mediaItem != null) {
         currentSongNotifier.value = mediaItem;

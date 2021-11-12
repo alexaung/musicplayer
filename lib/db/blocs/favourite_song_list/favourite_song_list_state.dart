@@ -18,6 +18,16 @@ class FavouriteSongListLoaded extends FavouriteSongListState {
   const FavouriteSongListLoaded({required this.favouriteSongs});
 }
 
+class AllFavouriteSongListLoaded extends FavouriteSongListState {
+  final List<FavouriteSong> favouriteSongs;
+  const AllFavouriteSongListLoaded({required this.favouriteSongs});
+}
+
+class AllDownloadedSongListLoaded extends FavouriteSongListState {
+  final List<FavouriteSong> favouriteSongs;
+  const AllDownloadedSongListLoaded({required this.favouriteSongs});
+}
+
 class FavouriteSongListError extends FavouriteSongListState {
   final String error;
   const FavouriteSongListError({required this.error});

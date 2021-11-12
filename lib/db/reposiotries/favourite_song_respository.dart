@@ -6,6 +6,10 @@ class FavouriteSongRepository {
 
   Future fetchFavouriteSongs(int id) => songDao.getSongsByFavouriteId(id);
 
+  Future fetchAllFavouriteSongsById(int id) => songDao.getFavouriteSongsById(id);
+
+  Future fetchAllDownloadedSongsById(int id) => songDao.getAllDownloadedSongsById(id);
+
   Future getFavouriteSong(int id) => songDao.getSong(id: id);
 
   Future insertFavouriteSong(FavouriteSong favouriteSong) =>

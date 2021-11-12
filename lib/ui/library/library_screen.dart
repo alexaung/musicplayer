@@ -7,7 +7,9 @@ import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
 import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 import 'package:thitsarparami/ui/just_audio/components/favourite_list.dart';
+import 'package:thitsarparami/ui/library/download_screen.dart';
 import 'package:thitsarparami/ui/library/favourite_screen.dart';
+import 'package:thitsarparami/ui/library/pdf_screen.dart';
 import 'package:thitsarparami/ui/library/playlist_screen.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -66,7 +68,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     _onDownloadTap() {
       pushNewScreen(
         context,
-        screen: const FavouriteScreen(),
+        screen: const DownloadScreen(),
         pageTransitionAnimation: PageTransitionAnimation.scale
       );
     }
@@ -74,7 +76,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     _onPdfTap() {
       pushNewScreen(
         context,
-        screen: const FavouriteScreen(),
+        screen: const PdfScreen(),
         pageTransitionAnimation: PageTransitionAnimation.scale
       );
     }

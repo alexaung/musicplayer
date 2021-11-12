@@ -108,28 +108,28 @@ class _PlaylistState extends State<Playlist> {
 
     if (hasQueued == false) {
       final mediaItems = songs
-        .map((song) => MediaItem(
-              id: song.id.toString(),
-              album: widget.album!.title,
-              title: song.title,
-              artist: widget.monk!.title,
-              artUri: Uri.parse(widget.monk!.imageUrl),
-              extras: {'url': song.url},
-              rating: song.isFavourite
-                  ? const Rating.newHeartRating(true)
-                  : const Rating.newHeartRating(false),
-            ))
-        .toList();
-      playerManager.loadPlaylist(mediaItems);
+          .map((song) => MediaItem(
+                id: song.id.toString(),
+                album: widget.album!.title,
+                title: song.title,
+                artist: widget.monk!.title,
+                artUri: Uri.parse(widget.monk!.imageUrl),
+                extras: {'url': song.url},
+                rating: song.isFavourite
+                    ? const Rating.newHeartRating(true)
+                    : const Rating.newHeartRating(false),
+              ))
+          .toList();
+      await playerManager.loadPlaylist(mediaItems);
       setState(() {
         hasQueued = true;
       });
+      BlocProvider.of<PlayerBloc>(context)
+          .add(const IsPlayingEvent(isPlaying: true));
       await Future.delayed(const Duration(milliseconds: 100));
     }
-    BlocProvider.of<PlayerBloc>(context)
-        .add(const IsPlayingEvent(isPlaying: true));
 
-    playerManager.skipToQueueItem(index);
+    await playerManager.skipToQueueItem(index);
     playerManager.play();
   }
 
@@ -159,8 +159,7 @@ class _PlaylistState extends State<Playlist> {
                                 playerManager.currentSongTitleNotifier,
                             builder: (_, title, __) =>
                                 ValueListenableBuilder<ButtonState>(
-                              valueListenable:
-                                  playerManager.playButtonNotifier,
+                              valueListenable: playerManager.playButtonNotifier,
                               builder: (_, value, __) {
                                 if (title == state.songs[index].title) {
                                   switch (value) {
@@ -171,8 +170,7 @@ class _PlaylistState extends State<Playlist> {
                                               .color!);
                                     case ButtonState.paused:
                                       return GestureDetector(
-                                        onTap: () =>
-                                            _onTap(index, state.songs),
+                                        onTap: () => _onTap(index, state.songs),
                                         child: PlayIcon(
                                           color: Theme.of(context)
                                               .iconTheme
@@ -183,8 +181,7 @@ class _PlaylistState extends State<Playlist> {
                                       return GestureDetector(
                                         onTap: playerManager.pause,
                                         child: PauseIcon(
-                                          color:
-                                              Theme.of(context).primaryColor,
+                                          color: Theme.of(context).primaryColor,
                                         ),
                                       );
                                   }
@@ -192,8 +189,7 @@ class _PlaylistState extends State<Playlist> {
                                   return GestureDetector(
                                     onTap: () => _onTap(index, state.songs),
                                     child: PlayIcon(
-                                      color:
-                                          Theme.of(context).iconTheme.color!,
+                                      color: Theme.of(context).iconTheme.color!,
                                     ),
                                   );
                                 }
@@ -205,8 +201,7 @@ class _PlaylistState extends State<Playlist> {
                               padding: const EdgeInsets.only(left: 8.0),
                               child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       state.songs[index].title,

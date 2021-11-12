@@ -77,6 +77,32 @@ class SongDao {
     return songs;
   }
 
+  Future<List<FavouriteSong>> getFavouriteSongsById(int id) async {
+    final db = await dbProvider.database;
+
+    var result =
+        await db.query(songTable, where: 'favouriteId=? AND is_favourite = ?', whereArgs: [id,1]);
+
+    List<FavouriteSong> songs = result.isNotEmpty
+        ? result.map((song) => FavouriteSong.fromDatabaseJson(song)).toList()
+        : [];
+
+    return songs;
+  }
+
+  Future<List<FavouriteSong>> getAllDownloadedSongsById(int id) async {
+    final db = await dbProvider.database;
+
+    var result =
+        await db.query(songTable, where: 'favouriteId=? AND is_downloaded = ?', whereArgs: [id,1]);
+
+    List<FavouriteSong> songs = result.isNotEmpty
+        ? result.map((song) => FavouriteSong.fromDatabaseJson(song)).toList()
+        : [];
+
+    return songs;
+  }
+
   //Update Song record
   Future<int> updateSong(FavouriteSong song) async {
     final db = await dbProvider.database;

@@ -4,7 +4,6 @@ import 'package:thitsarparami/ui/appointment/appointment_screen.dart';
 import 'package:thitsarparami/ui/chanting/chanting_screen.dart';
 import 'package:thitsarparami/ui/ebook/ebook_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
-import 'package:thitsarparami/ui/just_audio/my_audio_player.dart';
 import 'package:thitsarparami/ui/library/library_screen.dart';
 import 'package:thitsarparami/ui/library/playlist_screen.dart';
 import 'package:thitsarparami/ui/monk/monk_screen.dart';
@@ -24,7 +23,6 @@ final Map<String, WidgetBuilder> routes = {
   MoreScreen.routeName: (ctx) => const MoreScreen(),
   SettingScreen.routeName: (ctx) => const SettingScreen(),
   YoutubeScreen.routeName: (ctx) => const YoutubeScreen(),
-  MyAudioPlayer.routeName: (ctx) => const MyAudioPlayer(),
   MonkScreen.routeName: (ctx) => const MonkScreen(),
   AlbumScreen.routeName: (ctx) => const AlbumScreen(),
   SongScreen.routeName: (ctx) => const SongScreen(),

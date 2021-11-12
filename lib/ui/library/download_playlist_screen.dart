@@ -16,24 +16,24 @@ import 'package:thitsarparami/ui/song/components/music_icons.dart';
 import 'package:thitsarparami/widgets/base_widget.dart';
 import 'dart:io';
 
-class PlaylistScreen extends StatefulWidget {
-  static const routeName = '/playlist';
+class DownloadPlayListScreen extends StatefulWidget {
+  static const routeName = '/downloadlist';
 
   final Favourite? favourite;
-  const PlaylistScreen({Key? key, this.favourite}) : super(key: key);
+  const DownloadPlayListScreen({Key? key, this.favourite}) : super(key: key);
 
   @override
-  State<PlaylistScreen> createState() => _PlaylistScreenState();
+  State<DownloadPlayListScreen> createState() => _DownloadPlayListScreenState();
 }
 
-class _PlaylistScreenState extends State<PlaylistScreen> {
+class _DownloadPlayListScreenState extends State<DownloadPlayListScreen> {
   @override
   void initState() {
     super.initState();
 
     getIt<PlayerManager>().init(PlayerMode.mp3);
     BlocProvider.of<FavouriteSongListBloc>(context)
-        .add(GetFavouriteSongs(id: widget.favourite!.id!));
+        .add(GetAllDownloadedSongsByFavouriteId(id: widget.favourite!.id!));
   }
 
   @override
@@ -153,9 +153,11 @@ class _PlaylistState extends State<Playlist> {
               ))
           .toList();
       await playerManager.loadPlaylist(mediaItems);
-      setState(() {
-        hasQueued = true;
-      });
+      setState(
+        () {
+          hasQueued = true;
+        },
+      );
       BlocProvider.of<PlayerBloc>(context)
           .add(const IsPlayingEvent(isPlaying: true));
       await Future.delayed(const Duration(milliseconds: 100));
@@ -165,19 +167,19 @@ class _PlaylistState extends State<Playlist> {
     playerManager.play();
   }
 
-  void _orderChanged(int oldIndex, int newIndex) => setState(
-        () {
-          if (oldIndex < newIndex) newIndex -= 1;
-          final favouriteSong = favouriteSongs.removeAt(oldIndex);
-          favouriteSongs.insert(newIndex, favouriteSong);
-          favouriteSongs.asMap().forEach(
-                (index, song) => {
-                  BlocProvider.of<FavouriteSongBloc>(context)
-                      .add(UpdateSortOrder(id: song.id!, sortOrder: index + 1))
-                },
-              );
-        },
-      );
+  // void _orderChanged(int oldIndex, int newIndex) => setState(
+  //       () {
+  //         if (oldIndex < newIndex) newIndex -= 1;
+  //         final favouriteSong = favouriteSongs.removeAt(oldIndex);
+  //         favouriteSongs.insert(newIndex, favouriteSong);
+  //         favouriteSongs.asMap().forEach(
+  //               (index, song) => {
+  //                 BlocProvider.of<FavouriteSongBloc>(context)
+  //                     .add(UpdateSortOrder(id: song.id!, sortOrder: index + 1))
+  //               },
+  //             );
+  //       },
+  //     );
 
   void _onDismissed(BuildContext context, index) => setState(
         () {
@@ -222,10 +224,10 @@ class _PlaylistState extends State<Playlist> {
           }
           favouriteSongs = state.favouriteSongs;
           return Expanded(
-              child: ReorderableListView.builder(
-            onReorder: (int oldIndex, int newIndex) {
-              _orderChanged(oldIndex, newIndex);
-            },
+              child: ListView.builder(
+            // onReorder: (int oldIndex, int newIndex) {
+            //   _orderChanged(oldIndex, newIndex);
+            // },
             itemCount: favouriteSongs.length,
             itemBuilder: (context, index) {
               FavouriteSong song = favouriteSongs[index];

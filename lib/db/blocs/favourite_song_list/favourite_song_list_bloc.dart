@@ -6,18 +6,38 @@ import 'package:thitsarparami/db/reposiotries/repositories.dart';
 part 'favourite_song_list_event.dart';
 part 'favourite_song_list_state.dart';
 
-class FavouriteSongListBloc extends Bloc<FavouriteSongListEvent, FavouriteSongListState> {
+class FavouriteSongListBloc
+    extends Bloc<FavouriteSongListEvent, FavouriteSongListState> {
   final FavouriteSongRepository favouriteSongRespository;
   late List<FavouriteSong> favouriteSongs;
 
-  FavouriteSongListBloc({required this.favouriteSongRespository}) : super(FavouriteSongListInitial());
+  FavouriteSongListBloc({required this.favouriteSongRespository})
+      : super(FavouriteSongListInitial());
 
   @override
-  Stream<FavouriteSongListState> mapEventToState(FavouriteSongListEvent event) async* {
+  Stream<FavouriteSongListState> mapEventToState(
+      FavouriteSongListEvent event) async* {
+    yield FavouriteSongListLoading();
     if (event is GetFavouriteSongs) {
-      yield FavouriteSongListLoading();
       try {
-        final List<FavouriteSong> favouriteSongs = await favouriteSongRespository.fetchFavouriteSongs(event.id);
+        final List<FavouriteSong> favouriteSongs =
+            await favouriteSongRespository.fetchFavouriteSongs(event.id);
+        yield FavouriteSongListLoaded(favouriteSongs: favouriteSongs);
+      } catch (e) {
+        yield FavouriteSongListError(error: (e.toString()));
+      }
+    } else if (event is GetAllFavouriteSongsByFavouriteId) {
+      try {
+        final List<FavouriteSong> favouriteSongs =
+            await favouriteSongRespository.fetchAllFavouriteSongsById(event.id);
+        yield FavouriteSongListLoaded(favouriteSongs: favouriteSongs);
+      } catch (e) {
+        yield FavouriteSongListError(error: (e.toString()));
+      }
+    } else if (event is GetAllFavouriteSongsByFavouriteId) {
+      try {
+        final List<FavouriteSong> favouriteSongs =
+            await favouriteSongRespository.fetchAllDownloadedSongsById(event.id);
         yield FavouriteSongListLoaded(favouriteSongs: favouriteSongs);
       } catch (e) {
         yield FavouriteSongListError(error: (e.toString()));
