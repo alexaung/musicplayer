@@ -68,6 +68,24 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "cached_network_image",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/cached_network_image-3.1.0+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "cached_network_image_platform_interface",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/cached_network_image_platform_interface-1.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "cached_network_image_web",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/cached_network_image_web-1.0.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "carousel_slider",
       "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/carousel_slider-4.0.0",
       "packageUri": "lib/",
@@ -178,6 +196,12 @@
     {
       "name": "flutter_bloc",
       "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_blurhash",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_blurhash-0.6.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -340,6 +364,12 @@
     {
       "name": "numerus",
       "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/numerus-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "octo_image",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/octo_image-1.0.0+1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -716,7 +746,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-08T16:34:19.731521Z",
+  "generated": "2021-11-12T20:35:08.287441Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

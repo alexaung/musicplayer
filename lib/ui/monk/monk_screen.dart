@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -118,14 +119,25 @@ class _MonkScreenState extends State<MonkScreen> {
             children: [
               Flexible(
                 flex: 4,
-                child: Container(
-                  width: 80,
-                  height: 80,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    image: DecorationImage(
-                        image: NetworkImage(monks[index].imageUrl),
-                        fit: BoxFit.cover),
+                child: CachedNetworkImage(
+                  width: 80.0,
+                  height: 80.0,
+                  //fit: BoxFit.cover,
+                  imageUrl: monks[index].imageUrl,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => Container(color: Colors.black12),
+                  errorWidget: (context, url, error) => const Icon(
+                    Icons.error,
+                    size: 100,
+                    color: Colors.red,
                   ),
                 ),
               ),

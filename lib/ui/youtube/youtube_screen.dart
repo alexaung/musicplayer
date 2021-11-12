@@ -1,4 +1,5 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/models/channel.dart';
 import 'package:thitsarparami/models/video.dart';
@@ -112,9 +113,16 @@ class YoutubeScreenState extends State<YoutubeScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Image(
+              CachedNetworkImage(
                 width: 150.0,
-                image: NetworkImage(video.thumbnailUrl),
+                fit: BoxFit.cover,
+                imageUrl: video.thumbnailUrl,
+                placeholder: (context, url) => Container(color: Colors.black12),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error,
+                  size: 100,
+                  color: Colors.red,
+                ),
               ),
               const SizedBox(width: 10.0),
               Column(
@@ -126,14 +134,14 @@ class YoutubeScreenState extends State<YoutubeScreen> {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      //color: Colors.black,
-                      //fontSize: 18.0,
-                    ),
+                        //color: Colors.black,
+                        //fontSize: 18.0,
+                        ),
                   ),
                   const SizedBox(height: 10.0),
                   AutoSizeText(
                     // StringExtension.displayTimeAgoFromTimestamp(video.publishedAt),
-                    timeago.format(DateTime.parse(video.publishedAt)), 
+                    timeago.format(DateTime.parse(video.publishedAt)),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
