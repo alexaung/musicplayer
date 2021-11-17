@@ -5,7 +5,8 @@ import 'package:thitsarparami/ui/just_audio/services/player_manager.dart';
 import 'package:thitsarparami/ui/just_audio/services/service_locator.dart';
 
 class AudioProgressBar extends StatelessWidget {
-  const AudioProgressBar({Key? key}) : super(key: key);
+  final TimeLabelLocation timeLabelLocation;
+  const AudioProgressBar({Key? key, this.timeLabelLocation = TimeLabelLocation.below}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final playerManager = getIt<PlayerManager>();
@@ -13,6 +14,7 @@ class AudioProgressBar extends StatelessWidget {
       valueListenable: playerManager.progressNotifier,
       builder: (_, value, __) {
         return ProgressBar(
+          timeLabelLocation: timeLabelLocation,
           progress: value.current,
           buffered: value.buffered,
           total: value.total,

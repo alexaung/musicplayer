@@ -43,6 +43,37 @@ class MoreScreen extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
+            leading: const Icon(Icons.person_outline_rounded),
+            title: const AutoSizeText('သစ္စာပါရမီဆရာတော်ထေရုပ္ပတ္တိ'),
+            onTap: () => pushNewScreen(context,
+                screen: const AppointmentScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.scale),
+            // Navigator.of(context)
+            //     .pushReplacementNamed(SettingScreen.routeName),
+          ),
+          ListTile(
+            leading: const ImageIcon(
+                         AssetImage('assets/images/logo_icon.png'),
+                        //size: 32,
+                        //color: Theme.of(context).primaryIconTheme.color,
+                      ),
+            title: const AutoSizeText('သစ္စာပါရမီဖြစ်ပေါ်လာရခြင်းအကြောင်း'),
+            onTap: () => pushNewScreen(context,
+                screen: const AppointmentScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.scale),
+            // Navigator.of(context)
+            //     .pushReplacementNamed(SettingScreen.routeName),
+          ),
+          ListTile(
+            leading: const Icon(Icons.location_on_outlined),
+            title: const AutoSizeText('သစ္စာပါရမီဘုန်းကြီးကျောင်းလိပ်စာ'),
+            onTap: () => pushNewScreen(context,
+                screen: const AppointmentScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.scale),
+            // Navigator.of(context)
+            //     .pushReplacementNamed(SettingScreen.routeName),
+          ),
+          ListTile(
             leading: const Icon(Icons.calendar_today_outlined),
             title: const AutoSizeText('ဆွမ်းစားပင့်လျောက်ရန် (စင်ကာပူသီးသန့်)'),
             onTap: () => pushNewScreen(context,

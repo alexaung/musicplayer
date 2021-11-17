@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class NoResultFoundScreen extends StatelessWidget {
   final String title;
-  final String? subTitle;
-  const NoResultFoundScreen({Key? key, required this.title, this.subTitle})
+  final String subTitle;
+  const NoResultFoundScreen({Key? key, required this.title, this.subTitle = ""})
       : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class NoResultFoundScreen extends StatelessWidget {
             height: 20,
           ),
           Text(
-            subTitle!,
+            subTitle,
             style: Theme.of(context).textTheme.subtitle2,
             textAlign: TextAlign.center,
           )

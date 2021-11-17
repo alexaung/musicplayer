@@ -94,9 +94,6 @@ class _MonkScreenState extends State<MonkScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(
-                    height: 50,
-                  ),
                 ],
               );
             }
@@ -133,7 +130,8 @@ class _MonkScreenState extends State<MonkScreen> {
                       ),
                     ),
                   ),
-                  placeholder: (context, url) => Container(color: Colors.black12),
+                  placeholder: (context, url) =>
+                      Container(color: Colors.black12),
                   errorWidget: (context, url, error) => const Icon(
                     Icons.error,
                     size: 100,

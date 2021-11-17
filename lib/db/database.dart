@@ -8,6 +8,7 @@ import 'package:sqflite/sqlite_api.dart';
 
 const favouriteTable = 'Favourite';
 const songTable = 'Song';
+const ebookTable = 'Ebook';
 
 class DatabaseProvider {
   static const _databaseName = "Thitsarparami.db";
@@ -67,7 +68,19 @@ class DatabaseProvider {
     sql = "INSERT INTO $favouriteTable (name)"
         " VALUES (?)";
 
-        await database.execute(sql, ["Downloaded"] );
+    await database.execute(sql, ["Downloaded"]);
+
+    sql = "CREATE TABLE $ebookTable ("
+        "id $idType, "
+        "taskId $integerType, "
+        "title $textType, "
+        "url $textType, "
+        "thumbnail $textType, "
+        "monk_name $textType, "
+        "monk_image_url $textType"
+        ")";
+
+    await database.execute(sql);
   }
 
 //   Future<void> deleteDatabase() async {

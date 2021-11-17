@@ -7,7 +7,6 @@ import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/chanting/chapter_screen.dart';
 import 'package:thitsarparami/ui/chanting/components/chanting_icons.dart';
-import 'package:thitsarparami/widgets/base_widget.dart';
 
 class ChantingScreen extends StatefulWidget {
   static const routeName = '/chanting';
@@ -30,67 +29,65 @@ class _ChantingScreenState extends State<ChantingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(
-      child: Scaffold(
+    return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
+      appBar: AppBar(
+        centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0,
-          title: AutoSizeText(
-            'ဘုရားရှိခိုးအမျိူးမျိူးနှင့်ဝတ်ရွတ်စဥ်',
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-          ),
-          leading: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).primaryIconTheme.color!,
-            ),
-          ),
-          
+        elevation: 0,
+        title: AutoSizeText(
+          'ဘုရားရှိခိုးအမျိူးမျိူးနှင့်ဝတ်ရွတ်စဥ်',
+          style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
-        body: BlocBuilder<ChantingBloc, ChantingState>(
-          builder: (BuildContext context, ChantingState chantingState) {
-            if (ChantingState is ChantingError) {
-              return const SomethingWentWrongScreen();
-            } else if (chantingState is ChantingLoaded) {
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 8),
-                      itemCount: chantingState.chantings.length,
-                      itemBuilder: (_, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            pushNewScreen(
-                              context,
-                              screen: ChapterScreen(
-                                chanting: chantingState.chantings[index],
-                              ),
-                              pageTransitionAnimation: PageTransitionAnimation.scale
-                            );
-                          },
-                          child: _listView(index, chantingState.chantings),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                ],
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
           },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).primaryIconTheme.color!,
+          ),
         ),
+        
+      ),
+      body: BlocBuilder<ChantingBloc, ChantingState>(
+        builder: (BuildContext context, ChantingState chantingState) {
+          if (ChantingState is ChantingError) {
+            return const SomethingWentWrongScreen();
+          } else if (chantingState is ChantingLoaded) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 0, vertical: 8),
+                    itemCount: chantingState.chantings.length,
+                    itemBuilder: (_, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          pushNewScreen(
+                            context,
+                            screen: ChapterScreen(
+                              chanting: chantingState.chantings[index],
+                            ),
+                            pageTransitionAnimation: PageTransitionAnimation.scale
+                          );
+                        },
+                        child: _listView(index, chantingState.chantings),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+              ],
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }

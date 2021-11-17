@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -14,6 +14,8 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		B894F3332741975C00050E27 /* sqflite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B894F3322741975C00050E27 /* sqflite.framework */; };
+		B894F3342741975C00050E27 /* sqflite.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B894F3322741975C00050E27 /* sqflite.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,6 +25,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				B894F3342741975C00050E27 /* sqflite.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -47,6 +50,7 @@
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B41B3763853AF6269373C7D2 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
+		B894F3322741975C00050E27 /* sqflite.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = sqflite.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +59,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3166410DEE4D624D8CB301ED /* Pods_Runner.framework in Frameworks */,
+				B894F3332741975C00050E27 /* sqflite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -64,6 +69,7 @@
 		1A24837005D4702B6FAF368C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B894F3322741975C00050E27 /* sqflite.framework */,
 				0CA090035ADC02D5ACB428FD /* Pods_Runner.framework */,
 			);
 			name = Frameworks;
@@ -76,7 +82,6 @@
 				B41B3763853AF6269373C7D2 /* Pods-Runner.release.xcconfig */,
 				3AFD31C5C689F03340B8048A /* Pods-Runner.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};

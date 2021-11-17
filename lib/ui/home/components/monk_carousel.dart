@@ -16,6 +16,7 @@ class MonkCarousel extends StatelessWidget {
         minHeight: 160,
       ),
       decoration: BoxDecoration(
+        //color: Colors.amberAccent,
         boxShadow: [
           BoxShadow(
             blurRadius: 40,

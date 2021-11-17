@@ -1,18 +1,21 @@
 import 'dart:io';
+import 'dart:isolate';
+import 'dart:ui';
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flowder/flowder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
+import 'package:thitsarparami/db/blocs/blocs.dart';
+import 'package:thitsarparami/db/models/models.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/ebook/components/pdf_viewer.dart';
 import 'package:thitsarparami/ui/error/something_went_wrong.dart';
-import 'package:thitsarparami/widgets/base_widget.dart';
+import 'package:thitsarparami/ui/library/pdf_screen.dart';
 
 class EbookScreen extends StatefulWidget {
   static const routeName = '/ebook';
@@ -39,74 +42,73 @@ class _EbookScreenState extends State<EbookScreen> {
   Widget build(BuildContext context) {
     // final args = ModalRoute.of(context)!.settings.arguments as Monk;
 
-    return BaseWidget(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0,
-          title: AutoSizeText(
-            widget.monk!.title,
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-          ),
-          leading: IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const RootScreen()),
-              // );
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).primaryIconTheme.color!,
-            ),
-          ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 0,
+        title: AutoSizeText(
+          widget.monk!.title,
+          style: Theme.of(context).appBarTheme.titleTextStyle,
         ),
-        body: BlocBuilder<EbookBloc, EbookState>(
-          builder: (BuildContext context, EbookState eBookState) {
-            if (EbookState is EbookError) {
-              // final error = EbookState.error;
-              // String message = '$error\n Tap to Retry.';
-              return const SomethingWentWrongScreen();
-            } else if (eBookState is EbookLoaded) {
-              return Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 0, vertical: 8),
-                      itemCount: eBookState.eBooks.length,
-                      itemBuilder: (_, int index) {
-                        return GestureDetector(
-                            onTap: () {
-                              pushNewScreen(context,
-                                  screen: PdfViewer(
-                                    eBook: eBookState.eBooks[index],
-                                  ),
-                                  withNavBar: false,
-                                  pageTransitionAnimation:
-                                      PageTransitionAnimation.scale);
-                            },
-                            child: LineItem(
-                              index: index,
-                              ebook: eBookState.eBooks[index],
-                            ));
-                      },
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                ],
-              );
-            }
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
+        leading: IconButton(
+          onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const RootScreen()),
+            // );
+            Navigator.pop(context);
           },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).primaryIconTheme.color!,
+          ),
         ),
+      ),
+      body: BlocBuilder<EbookBloc, EbookState>(
+        builder: (BuildContext context, EbookState eBookState) {
+          if (EbookState is EbookError) {
+            // final error = EbookState.error;
+            // String message = '$error\n Tap to Retry.';
+            return const SomethingWentWrongScreen();
+          } else if (eBookState is EbookLoaded) {
+            return Column(
+              children: [
+                Expanded(
+                  child: ListView.builder(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
+                    itemCount: eBookState.eBooks.length,
+                    itemBuilder: (_, int index) {
+                      return GestureDetector(
+                          onTap: () {
+                            pushNewScreen(context,
+                                screen: PdfViewer(
+                                  eBook: eBookState.eBooks[index],
+                                ),
+                                withNavBar: false,
+                                pageTransitionAnimation:
+                                    PageTransitionAnimation.scale);
+                          },
+                          child: LineItem(
+                            index: index,
+                            ebook: eBookState.eBooks[index],
+                            monk: widget.monk!,
+                          ));
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+              ],
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
       ),
     );
   }
@@ -115,7 +117,9 @@ class _EbookScreenState extends State<EbookScreen> {
 class LineItem extends StatefulWidget {
   final int index;
   final Ebook ebook;
-  const LineItem({Key? key, required this.index, required this.ebook})
+  final Monk monk;
+  const LineItem(
+      {Key? key, required this.index, required this.ebook, required this.monk})
       : super(key: key);
 
   @override
@@ -123,18 +127,30 @@ class LineItem extends StatefulWidget {
 }
 
 class _LineItemState extends State<LineItem> {
-  late DownloaderUtils options;
-  late DownloaderCore core;
+  //late DownloaderUtils options;
+  //late DownloaderCore core;
   late final String path;
-  late double progress;
-  late bool isPause;
+  //late double progress;
+  //late bool isPause;
+  List<Map> downloadsListMaps = [];
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-    progress = 0.0;
-    isPause = false;
+    FlutterDownloader.registerCallback(downloadCallback);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  static void downloadCallback(
+      String id, DownloadTaskStatus status, int progress) {
+    final SendPort? send =
+        IsolateNameServer.lookupPortByName('downloader_send_port');
+    send!.send([id, status, progress]);
   }
 
   Future<void> initPlatformState() async {
@@ -150,34 +166,73 @@ class _LineItemState extends State<LineItem> {
     final scaffold = ScaffoldMessenger.of(context);
     scaffold.showSnackBar(
       SnackBar(
-        content: AutoSizeText('$title စာအုပ်ကို ဒေါင်းလုဒ် ပြီးပါပြီ။'),
+        content: AutoSizeText('$title စာအုပ်ကို ဒေါင်းလုဒ် စတင်ပါပြီ။'),
         duration: const Duration(seconds: 3),
-        // action: SnackBarAction(
-        //     label: 'UNDO', onPressed: scaffold.hideCurrentSnackBar),
+        action: SnackBarAction(
+            label: 'Show all',
+            onPressed: () {
+              pushNewScreen(context,
+                  screen: const PdfScreen(),
+                  pageTransitionAnimation: PageTransitionAnimation.scale);
+            }),
       ),
     );
   }
 
-  void _fileDownload(Ebook ebook) async {
-    String fileName = ebook.url.toString().split("/").last;
-    options = DownloaderUtils(
-      progressCallback: (current, total) {
-        if (!mounted) {
-          return;
-        }
-        setState(() {
-          progress = (current / total) * 100;
-        });
-      },
-      file: File('$path/pdf/$fileName'),
-      progress: ProgressImplementation(),
-      onDone: () {
-        _showToast(context, ebook.title);
-        progress = 0.0;
-      },
-      deleteOnCancel: true,
-    );
-    core = await Flowder.download(ebook.url, options);
+  // void _fileDownload(Ebook ebook) async {
+  //   String fileName = ebook.url.toString().split("/").last;
+  //   options = DownloaderUtils(
+  //     progressCallback: (current, total) {
+  //       if (!mounted) {
+  //         return;
+  //       }
+  //       setState(() {
+  //         progress = (current / total) * 100;
+  //       });
+  //     },
+  //     file: File('$path/pdf/$fileName'),
+  //     progress: ProgressImplementation(),
+  //     onDone: () {
+  //       _showToast(context, ebook.title);
+  //       progress = 0.0;
+  //     },
+  //     deleteOnCancel: true,
+  //   );
+  //   core = await Flowder.download(ebook.url, options);
+  // }
+
+  Future<void> requestDownload(
+      BuildContext context, Ebook ebook, Monk monk) async {
+    String _name = ebook.url.toString().split("/").last;
+
+    var _localPath = '$path/pdf/$_name';
+    final savedDir = Directory(_localPath);
+    await savedDir.create(recursive: true).then((value) async {
+      String? _taskid = await FlutterDownloader.enqueue(
+        url: ebook.url,
+        fileName: ebook.title,
+        savedDir: _localPath,
+        showNotification: true,
+        openFileFromNotification: false,
+      );
+
+      _showToast(context, ebook.title);
+
+      DownloadedEbook dlEbook = DownloadedEbook(
+        id: ebook.id,
+        taskId: _taskid!,
+        title: ebook.title,
+        url: ebook.url,
+        thumbnail: ebook.thumbnail,
+        monkName: monk.title,
+        monkImageUrl: monk.imageUrl,
+      );
+      BlocProvider.of<DownloadedEbookBloc>(context)
+          .add(CreateEbook(ebook: dlEbook));
+
+      // ignore: avoid_print
+      print(_taskid);
+    });
   }
 
   @override
@@ -222,79 +277,16 @@ class _LineItemState extends State<LineItem> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        CircularPercentIndicator(
-                          radius: 55.0,
-                          lineWidth: 3.0,
-                          percent: progress / 100,
-                          center: progress == 0.0
-                              ? IconButton(
-                                  icon: const Icon(Icons.download_outlined),
-                                  onPressed: () async {
-                                    _fileDownload(ebook);
-                                  },
-                                )
-                              : (isPause
-                                  ? IconButton(
-                                      icon: const Icon(Icons.download_outlined),
-                                      onPressed: () async {
-                                        setState(() {
-                                          isPause = false;
-                                        });
-                                        core.resume();
-                                      },
-                                    )
-                                  : IconButton(
-                                      icon: const Icon(Icons.pause),
-                                      onPressed: () async {
-                                        setState(() {
-                                          isPause = true;
-                                        });
-                                        core.pause();
-                                      },
-                                    )),
-                          backgroundColor: progress > 0.0
-                              ? Theme.of(context).scaffoldBackgroundColor
-                              : Theme.of(context).backgroundColor,
-                          progressColor: Theme.of(context).primaryColor,
-                        ),
-                        progress > 0
-                            ? IconButton(
-                                icon: const Icon(Icons.cancel_outlined),
-                                color: Colors.red,
-                                onPressed: () async {
-                                  setState(() {
-                                    progress = 0.0;
-                                  });
-                                  core.cancel();
-                                },
-                              )
-                            : const SizedBox(
-                                height: 0,
-                              ),
+                        IconButton(
+                          icon: const Icon(Icons.download_outlined),
+                          onPressed: () async {
+                            requestDownload(context, ebook, widget.monk);
+                          },
+                        )
                       ],
                     )
                   ],
                 ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
-                // progress > 0
-                //     ? Row(
-                //         children: [
-                //           Expanded(
-                //             child: LinearPercentIndicator(
-                //               lineHeight: 8.0,
-                //               percent: progress / 100,
-                //               backgroundColor:
-                //                   Theme.of(context).scaffoldBackgroundColor,
-                //               progressColor: Theme.of(context).primaryColor,
-                //             ),
-                //           ),
-                //         ],
-                //       )
-                //     : const SizedBox(
-                //         height: 0,
-                //       ),
               ],
             ),
           ),

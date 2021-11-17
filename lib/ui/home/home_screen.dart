@@ -29,7 +29,7 @@ class _HomeState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return BaseWidget(
       child: Scaffold(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).backgroundColor,
         body: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(

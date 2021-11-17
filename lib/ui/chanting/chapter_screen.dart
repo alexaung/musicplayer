@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/chanting/chapter_detial_screen.dart';
-import 'package:thitsarparami/widgets/base_widget.dart';
 
 class ChapterScreen extends StatelessWidget {
   static const routeName = '/chapter';
@@ -13,59 +12,57 @@ class ChapterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BaseWidget(
-      child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        appBar: AppBar(
-          centerTitle: true,
-          backgroundColor: Theme.of(context).backgroundColor,
-          elevation: 0,
-          title: AutoSizeText(
-            chanting!.title,
-            style: Theme.of(context).appBarTheme.titleTextStyle,
-          ),
-          leading: IconButton(
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const RootScreen()),
-              // );
-              Navigator.pop(context);
-            },
-            icon: Icon(
-              Icons.arrow_back,
-              color: Theme.of(context).primaryIconTheme.color!,
-            ),
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Theme.of(context).backgroundColor,
+        elevation: 0,
+        title: AutoSizeText(
+          chanting!.title,
+          style: Theme.of(context).appBarTheme.titleTextStyle,
+        ),
+        leading: IconButton(
+          onPressed: () {
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const RootScreen()),
+            // );
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: Theme.of(context).primaryIconTheme.color!,
           ),
         ),
-        body: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top: 20),
-                itemCount: chanting!.chapters!.length,
-                itemBuilder: (_, int index) {
-                  return GestureDetector(
-                    onTap: () {
-                      pushNewScreen(
-                        context,
-                        screen: ChapterDetailScreen(
-                          chanting: chanting,
-                          pageIndex: index,
-                        ),
-                        pageTransitionAnimation: PageTransitionAnimation.scale
-                      );
-                    },
-                    child: _listView(context, index, chanting!),
-                  );
-                },
-              ),
+      ),
+      body: Column(
+        children: [
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: 20),
+              itemCount: chanting!.chapters!.length,
+              itemBuilder: (_, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    pushNewScreen(
+                      context,
+                      screen: ChapterDetailScreen(
+                        chanting: chanting,
+                        pageIndex: index,
+                      ),
+                      pageTransitionAnimation: PageTransitionAnimation.scale
+                    );
+                  },
+                  child: _listView(context, index, chanting!),
+                );
+              },
             ),
-            const SizedBox(
-              height: 50,
-            ),
-          ],
-        ),
+          ),
+          const SizedBox(
+            height: 50,
+          ),
+        ],
       ),
     );
   }

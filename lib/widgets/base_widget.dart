@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/ui/just_audio/components/bottom_panel.dart';
+import 'package:thitsarparami/widgets/bottom_player_spacer.dart';
 
 class BaseWidget extends StatelessWidget {
   final Widget child;
@@ -12,7 +13,12 @@ class BaseWidget extends StatelessWidget {
       body: Stack(
         children: [
           Positioned.fill(
-            child: child,
+            child: Column(
+              children: [
+                Expanded(child: child),
+                const BottomPlayerSpacer(),
+              ],
+            ),
           ),
           const Positioned(
             left: 0,

@@ -83,19 +83,19 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
     List<CardItem> items = [
       CardItem(
-        title: "Favourites",
+        title: "လက်ရွေးစင် တရားတော်များ",
         color: Theme.of(context).primaryColorDark,
         iconData: Icons.favorite_outlined,
         onTap: _onFavouriteTap,
       ),
       CardItem(
-        title: "Downloaded",
+        title: "သိမ်းထားသေား တရားတော်များ",
         color: Theme.of(context).primaryColor,
         iconData: Icons.download_done_outlined,
         onTap: _onDownloadTap,
       ),
       CardItem(
-        title: "PDF",
+        title: "သိမ်းထားသေား တရားစာအုပ်များ",
         color: Theme.of(context).primaryColorLight,
         iconData: Icons.picture_as_pdf_outlined,
         onTap: _onPdfTap,
@@ -208,10 +208,14 @@ class _LibraryScreenState extends State<LibraryScreen> {
                 ),
               ),
             ),
-            AutoSizeText(
-              cardItem.title,
-              style: Theme.of(context).textTheme.headline2,
-              maxLines: 1,
+            Container(
+              padding: const EdgeInsets.only(left: 10, right: 10),
+              child: AutoSizeText(
+                cardItem.title,
+                style: Theme.of(context).textTheme.headline3,
+                maxLines: 2,
+                textAlign: TextAlign.center,
+              ),
             ),
           ],
         ),
