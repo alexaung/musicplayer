@@ -53,6 +53,7 @@ class AppThemes {
       ),
       iconTheme: const IconThemeData(color: Color(0xFFA1AFBC)),
       appBarTheme: const AppBarTheme(
+        elevation: 0.0,
         titleTextStyle: TextStyle(
             color: Color(0xffffffff),
             fontSize: 20,

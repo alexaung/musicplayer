@@ -9,4 +9,8 @@ class MonkRespository {
   Future<List<Monk>> fetchMonks() async {
     return await monkApiProvider.fetchMonks();
   }
+
+  Future<List<Monk>> searchMonks(String query) async {
+    return await monkApiProvider.searchMonks(query);
+  }
 }

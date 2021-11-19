@@ -10,3 +10,11 @@ class GetMonksEvent extends MonkEvent {
   @override
   List<Object> get props => [];
 }
+
+class MonkSearchEvent extends MonkEvent {
+  final String query;
+  const MonkSearchEvent(this.query);
+
+  @override
+  List<Object> get props => [];
+}
