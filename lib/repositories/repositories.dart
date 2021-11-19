@@ -4,3 +4,4 @@ export './song_respository.dart';
 export './ebook_repository.dart';
 export './appointment_respository.dart';
 export './chanting_respository.dart';
+export './about_respoitory.dart';

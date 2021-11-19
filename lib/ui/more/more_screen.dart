@@ -1,7 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:thitsarparami/ui/about/about_screen.dart';
+import 'package:thitsarparami/ui/address/address_screan.dart';
 import 'package:thitsarparami/ui/appointment/appointment_screen.dart';
+import 'package:thitsarparami/ui/bio/bio_screen.dart';
 import 'package:thitsarparami/ui/setting/setting_screen.dart';
 
 class MoreScreen extends StatelessWidget {
@@ -43,38 +46,46 @@ class MoreScreen extends StatelessWidget {
       body: ListView(
         children: [
           ListTile(
-            leading: const Icon(Icons.person_outline_rounded),
+            leading: const Icon(
+              Icons.person_outline_rounded,
+              //size: 32,
+            ),
             title: const AutoSizeText('သစ္စာပါရမီဆရာတော်ထေရုပ္ပတ္တိ'),
             onTap: () => pushNewScreen(context,
-                screen: const AppointmentScreen(),
+                screen: const BiographyScreen(),
                 pageTransitionAnimation: PageTransitionAnimation.scale),
             // Navigator.of(context)
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),
           ListTile(
             leading: const ImageIcon(
-                         AssetImage('assets/images/logo_icon.png'),
-                        //size: 32,
-                        //color: Theme.of(context).primaryIconTheme.color,
-                      ),
+              AssetImage('assets/images/logo_icon.png'),
+              //size: 32,
+            ),
             title: const AutoSizeText('သစ္စာပါရမီဖြစ်ပေါ်လာရခြင်းအကြောင်း'),
             onTap: () => pushNewScreen(context,
-                screen: const AppointmentScreen(),
+                screen: const AboutScreen(),
                 pageTransitionAnimation: PageTransitionAnimation.scale),
             // Navigator.of(context)
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),
           ListTile(
-            leading: const Icon(Icons.location_on_outlined),
+            leading: const Icon(
+              Icons.location_on_outlined,
+              //size: 32,
+            ),
             title: const AutoSizeText('သစ္စာပါရမီဘုန်းကြီးကျောင်းလိပ်စာ'),
             onTap: () => pushNewScreen(context,
-                screen: const AppointmentScreen(),
+                screen: const AddressScreen(),
                 pageTransitionAnimation: PageTransitionAnimation.scale),
             // Navigator.of(context)
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),
           ListTile(
-            leading: const Icon(Icons.calendar_today_outlined),
+            leading: const Icon(
+              Icons.calendar_today_outlined,
+              //size: 32,
+            ),
             title: const AutoSizeText('ဆွမ်းစားပင့်လျောက်ရန် (စင်ကာပူသီးသန့်)'),
             onTap: () => pushNewScreen(context,
                 screen: const AppointmentScreen(),
@@ -83,13 +94,14 @@ class MoreScreen extends StatelessWidget {
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),
           ListTile(
-            leading: const Icon(Icons.settings_outlined),
-            title: const AutoSizeText('ဆက်တင်'),
-            onTap: () => pushNewScreen(
-              context,
-              screen: const SettingScreen(),
-              pageTransitionAnimation: PageTransitionAnimation.scale
+            leading: const Icon(
+              Icons.settings_outlined,
+              //size: 32,
             ),
+            title: const AutoSizeText('ဆက်တင်'),
+            onTap: () => pushNewScreen(context,
+                screen: const SettingScreen(),
+                pageTransitionAnimation: PageTransitionAnimation.scale),
             // Navigator.of(context)
             //     .pushReplacementNamed(SettingScreen.routeName),
           ),

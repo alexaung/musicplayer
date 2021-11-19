@@ -60,6 +60,11 @@ class MyApp extends StatelessWidget {
                   AppointmentRespository(AppointmentApiProvider())),
         ),
         BlocProvider(
+          create: (context) => AboutBloc(
+              aboutRespository:
+                  AboutRespository(AboutApiProvider())),
+        ),
+        BlocProvider(
           create: (context) => PlayerBloc(),
         ),
         BlocProvider(

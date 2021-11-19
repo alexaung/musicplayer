@@ -93,6 +93,7 @@ class SettingScreen extends StatelessWidget {
             ),
           ),
           Center(
+            
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               decoration: BoxDecoration(
@@ -113,7 +114,8 @@ class SettingScreen extends StatelessWidget {
                 },
               ),
             ),
-          )
+          ),
+          const SizedBox(height: 60,)
         ]),
       ),
     );

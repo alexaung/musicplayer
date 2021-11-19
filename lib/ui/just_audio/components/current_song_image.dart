@@ -15,17 +15,18 @@ class CurrentSongImage extends StatelessWidget {
       valueListenable: playerManager.currentSongNotifier,
       builder: (_, song, __) {
         return Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: Theme.of(context).primaryColorDark,
-                width: 2,
-              ),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Theme.of(context).primaryColorDark,
+              width: 2,
             ),
-            child: RotateImage(
-              animationController: animationController,
-              imageUrl: song.artUri == null ? "" : song.artUri.toString(),
-            ));
+          ),
+          child: RotateImage(
+            animationController: animationController,
+            imageUrl: song.artUri == null ? "" : song.artUri.toString(),
+          ),
+        );
       },
     );
   }

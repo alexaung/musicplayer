@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:thitsarparami/ui/about/about_screen.dart';
+import 'package:thitsarparami/ui/address/address_screan.dart';
 import 'package:thitsarparami/ui/album/album_screen.dart';
 import 'package:thitsarparami/ui/appointment/appointment_screen.dart';
+import 'package:thitsarparami/ui/bio/bio_screen.dart';
 import 'package:thitsarparami/ui/chanting/chanting_screen.dart';
 import 'package:thitsarparami/ui/ebook/ebook_screen.dart';
 import 'package:thitsarparami/ui/home/home_screen.dart';
@@ -31,4 +34,8 @@ final Map<String, WidgetBuilder> routes = {
   ChantingScreen.routeName: (ctx) => const ChantingScreen(),
   LibraryScreen.routeName: (ctx) => const LibraryScreen(),
   PlaylistScreen.routeName: (ctx) => const PlaylistScreen(),
+  BiographyScreen.routeName: (ctx) => const BiographyScreen(),
+  //SliverBiographyScreen.routeName: (ctx) => const SliverBiographyScreen(),
+  AboutScreen.routeName: (ctx) => const AboutScreen(),
+  AddressScreen.routeName: (ctx) => const AddressScreen(),
 };

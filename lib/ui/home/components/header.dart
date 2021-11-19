@@ -31,7 +31,7 @@ class HeaderContainer extends StatelessWidget {
                   children: [
                     AutoSizeText(
                       'သစ္စာပါရမီဓမ္မရိပ်သာမှ',
-                      style: Theme.of(context).textTheme.headline2,
+                      style: Theme.of(context).textTheme.headline1,
                       maxLines: 1,
                     ),
                     const SizedBox(
@@ -47,7 +47,7 @@ class HeaderContainer extends StatelessWidget {
                     ),
                     AutoSizeText(
                       'နှလုံးသား တရားကိန်းဝပ်နိုင်ပါစေ။',
-                      style: Theme.of(context).textTheme.headline2,
+                      style: Theme.of(context).textTheme.headline3,
                       maxLines: 1,
                     ),
 

@@ -6,3 +6,4 @@ export './song.dart';
 export './ebook.dart';
 export './appointment.dart';
 export './chanting.dart';
+export './about.dart';
