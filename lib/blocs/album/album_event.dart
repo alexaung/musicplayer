@@ -10,3 +10,12 @@ class GetAlbumsEvent extends AlbumEvent {
   List<Object> get props => [];
 }
 
+class AlbumSearchEvent extends AlbumEvent {
+  final int monkId;
+  final String query;
+  const AlbumSearchEvent(this.monkId, this.query);
+
+  @override
+  List<Object> get props => [];
+}
+
