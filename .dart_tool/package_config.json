@@ -57,7 +57,7 @@
     },
     {
       "name": "bloc",
-      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/bloc-7.2.1",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/bloc-8.0.1",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -195,7 +195,7 @@
     },
     {
       "name": "flutter_bloc",
-      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-7.3.3",
+      "rootUri": "file:///Users/aungmyooo/Development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_bloc-8.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
     },
@@ -794,7 +794,7 @@
       "languageVersion": "2.12"
     }
   ],
-  "generated": "2021-11-21T08:50:52.484347Z",
+  "generated": "2021-11-21T08:57:57.966277Z",
   "generator": "pub",
   "generatorVersion": "2.14.4"
 }

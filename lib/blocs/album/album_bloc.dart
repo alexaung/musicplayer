@@ -9,18 +9,19 @@ part 'album_state.dart';
 class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   final AlbumRespository albumRespository;
   late List<Album> albums;
-  AlbumBloc({required this.albumRespository}) : super(AlbumInitial());
+  AlbumBloc({required this.albumRespository}) : super(AlbumInitial()) {
+    on<GetAlbumsEvent>((event, emit) async {
+      await _getAbout(emit);
+    });
+  }
 
-  @override
-  Stream<AlbumState> mapEventToState(AlbumEvent event) async* {
-    if (event is GetAlbumsEvent) {
-      yield AlbumLoading();
-      try {
-        final List<Album> albums = await albumRespository.fetchAlbums();
-        yield AlbumLoaded(albums: albums);
-      } catch (e) {
-        yield AlbumError(error: (e.toString()));
-      }
+  Future<void> _getAbout(Emitter<AlbumState> emit) async {
+    emit(AlbumLoading());
+    try {
+      final List<Album> albums = await albumRespository.fetchAlbums();
+      emit(AlbumLoaded(albums: albums));
+    } catch (e) {
+      emit(AlbumError(error: (e.toString())));
     }
   }
 }

@@ -9,105 +9,127 @@ part 'favourite_state.dart';
 class FavouriteBloc extends Bloc<FavouriteEvent, FavouriteState> {
   final FavouriteRepository favouriteRepository;
 
-  FavouriteBloc({required this.favouriteRepository}) : super(Processing());
+  FavouriteBloc({required this.favouriteRepository}) : super(Processing()) {
+    on<GetFavourites>((event, emit) async {
+      await _getFavourites(emit);
+    });
+    on<CreateFavourite>((event, emit) async {
+      await _createFavourite(event.favourite!, emit);
+    });
+    on<CreateDownload>((event, emit) async {
+      await _createDownload(event.favourite!, emit);
+    });
+    on<AddSongIntoFavourite>((event, emit) async {
+      await _addSongIntoFavourite(event.favourite!, emit);
+    });
+    on<DownloadSongIntoFavourite>((event, emit) async {
+      await _downloadSongIntoFavourite(event.favourite!, emit);
+    });
+    on<DeleteAllSongsByFavouriteId>((event, emit) async {
+      await _deleteAllSongsByFavouriteId(event.favourite!, emit);
+    });
+  }
 
-  @override
-  Stream<FavouriteState> mapEventToState(FavouriteEvent event) async* {
-    if (event is GetFavourites) {
-      try {
-        final List<Favourite> favouriteLists =
-            await favouriteRepository.getAllFavourites();
+  Future<void> _getFavourites(Emitter<FavouriteState> emit) async {
+    try {
+      final List<Favourite> favouriteLists =
+          await favouriteRepository.getAllFavourites();
+      emit(FavouriteListLoaded(favourites: favouriteLists));
+    } catch (e) {
+      emit(FavouriteError(error: (e.toString())));
+    }
+  }
 
-        yield FavouriteListLoaded(favourites: favouriteLists);
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
-    } else if (event is CreateFavourite) {
-      try {
-        if (event.favourite != null) {
-          Favourite favourite = event.favourite!;
-          var result =
-              await favouriteRepository.insertFavourite(event.favourite!);
+  Future<void> _createFavourite(
+      Favourite favourite, Emitter<FavouriteState> emit) async {
+    try {
+      // ignore: unnecessary_null_comparison
+      if (favourite != null) {
+        var result = await favouriteRepository.insertFavourite(favourite);
 
-          favourite.id = result;
-
-          List<Favourite> favouriteLists =
-              (state as FavouriteListLoaded).favourites..add(favourite);
-
-          yield CreateFavouriteSuccess(
-              successMessage:
-                  event.favourite!.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။');
-          yield FavouriteListLoaded(favourites: favouriteLists);
-        } else {
-          yield const FavouriteError(error: ("favourite is null"));
-        }
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
-    } else if (event is CreateDownload) {
-      try {
-        if (event.favourite != null) {
-          Favourite favourite = event.favourite!;
-
-          var result =
-              await favouriteRepository.insertDownload(event.favourite!);
-
-          favourite.id = result;
-
-          List<Favourite> favouriteLists =
-              (state as FavouriteListLoaded).favourites..add(favourite);
-
-          yield CreateDownloadSuccess(
-              successMessage:
-                  event.favourite!.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။');
-          yield FavouriteListLoaded(favourites: favouriteLists);
-        }
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
-    } else if (event is AddSongIntoFavourite) {
-      try {
-        await favouriteRepository.insertFavourite(event.favourite!);
+        favourite.id = result;
 
         List<Favourite> favouriteLists =
-            (state as FavouriteListLoaded).favourites;
+            (state as FavouriteListLoaded).favourites..add(favourite);
 
-        yield AddSongInToFavouriteSuccess(
-            successMessage:
-                event.favourite!.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။');
-        yield FavouriteListLoaded(favourites: favouriteLists);
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
+        emit(CreateFavouriteSuccess(
+            successMessage: favourite.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။'));
+        emit(FavouriteListLoaded(favourites: favouriteLists));
+      } else {
+        emit(const FavouriteError(error: ("favourite is null")));
       }
-    } else if (event is DownloadSongIntoFavourite) {
-      try {
-        await favouriteRepository.insertDownload(event.favourite!);
+    } catch (e) {
+      emit(FavouriteError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _createDownload(
+      Favourite favourite, Emitter<FavouriteState> emit) async {
+    try {
+      // ignore: unnecessary_null_comparison
+      if (favourite != null) {
+        var result = await favouriteRepository.insertDownload(favourite);
+
+        favourite.id = result;
+
         List<Favourite> favouriteLists =
-            (state as FavouriteListLoaded).favourites;
-        yield DownloadSongInToFavouriteSuccess(
-            successMessage:
-                event.favourite!.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။');
-        yield FavouriteListLoaded(favourites: favouriteLists);
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
-      }
-    } else if (event is DeleteAllSongsByFavouriteId) {
-      try {
-        List<Favourite> favouriteLists = (state as FavouriteListLoaded)
-            .favourites
-            .where((favourite) => favourite.id != event.favourite!.id)
-            .toList();
+            (state as FavouriteListLoaded).favourites..add(favourite);
 
-        await favouriteRepository
-            .deleteAllSongsByFavouriteId(event.favourite!.id!);
-
-        yield DeleteSuccess(
-            successMessage: event.favourite!.name! +
-                'နှင့်အတူ တရာတော်အားလုံးကို ဖျက်လိုက်ပါပြီ။');
-        yield FavouriteListLoaded(favourites: favouriteLists);
-      } catch (e) {
-        yield FavouriteError(error: (e.toString()));
+        emit(CreateDownloadSuccess(
+            successMessage: favourite.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။'));
+        emit(FavouriteListLoaded(favourites: favouriteLists));
       }
+    } catch (e) {
+      emit(FavouriteError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _addSongIntoFavourite(
+      Favourite favourite, Emitter<FavouriteState> emit) async {
+    try {
+      await favouriteRepository.insertFavourite(favourite);
+
+      List<Favourite> favouriteLists =
+          (state as FavouriteListLoaded).favourites;
+
+      emit(AddSongInToFavouriteSuccess(
+          successMessage: favourite.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။'));
+      emit(FavouriteListLoaded(favourites: favouriteLists));
+    } catch (e) {
+      emit(FavouriteError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _downloadSongIntoFavourite(
+      Favourite favourite, Emitter<FavouriteState> emit) async {
+    try {
+      await favouriteRepository.insertDownload(favourite);
+      List<Favourite> favouriteLists =
+          (state as FavouriteListLoaded).favourites;
+      emit(DownloadSongInToFavouriteSuccess(
+          successMessage: favourite.name! + 'ကို မှတ်တမ်း တင်ပြီးပါပြီ။'));
+      emit(FavouriteListLoaded(favourites: favouriteLists));
+    } catch (e) {
+      emit(FavouriteError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _deleteAllSongsByFavouriteId(
+      Favourite favourite, Emitter<FavouriteState> emit) async {
+    try {
+      List<Favourite> favouriteLists = (state as FavouriteListLoaded)
+          .favourites
+          .where((favourite) => favourite.id != favourite.id)
+          .toList();
+
+      await favouriteRepository.deleteAllSongsByFavouriteId(favourite.id!);
+
+      emit(DeleteSuccess(
+          successMessage:
+              favourite.name! + 'နှင့်အတူ တရာတော်အားလုံးကို ဖျက်လိုက်ပါပြီ။'));
+      emit(FavouriteListLoaded(favourites: favouriteLists));
+    } catch (e) {
+      emit(FavouriteError(error: (e.toString())));
     }
   }
 }

@@ -9,18 +9,19 @@ part 'chanting_state.dart';
 class ChantingBloc extends Bloc<ChantingEvent, ChantingState> {
   final ChantingRespository chantingRespository;
   late List<Chanting> chantings;
-  ChantingBloc({required this.chantingRespository}) : super(ChantingInitial());
+  ChantingBloc({required this.chantingRespository}) : super(ChantingInitial()){
+    on<GetChantingsEvent>((event, emit) async {
+      await _getChantings(emit);
+    });
+  }
 
-  @override
-  Stream<ChantingState> mapEventToState(ChantingEvent event) async* {
-    if (event is GetChantingsEvent) {
-      yield ChantingLoading();
-      try {
-        final List<Chanting> chantings = await chantingRespository.fetchChantings();
-        yield ChantingLoaded(chantings: chantings);
-      } catch (e) {
-        yield ChantingError(error: (e.toString()));
-      }
+  Future<void> _getChantings(Emitter<ChantingState> emit) async {
+    emit(ChantingLoading());
+    try {
+      final List<Chanting> chantings = await chantingRespository.fetchChantings();
+      emit(ChantingLoaded(chantings: chantings));
+    } catch (e) {
+      emit(ChantingError(error: (e.toString())));
     }
   }
 }

@@ -12,36 +12,35 @@ class FavouriteSongListBloc
   late List<FavouriteSong> favouriteSongs;
 
   FavouriteSongListBloc({required this.favouriteSongRespository})
-      : super(FavouriteSongListInitial());
+      : super(FavouriteSongListInitial()){
+    on<GetFavouriteSongs>((event, emit) async {
+      await _getFavouriteSongs(event.id, emit);
+    });
+    on<GetAllFavouriteSongsByFavouriteId>((event, emit) async {
+      await _getAllFavouriteSongsByFavouriteId(event.id, emit);
+    });
+    
+  }
 
-  @override
-  Stream<FavouriteSongListState> mapEventToState(
-      FavouriteSongListEvent event) async* {
-    yield FavouriteSongListLoading();
-    if (event is GetFavouriteSongs) {
-      try {
-        final List<FavouriteSong> favouriteSongs =
-            await favouriteSongRespository.fetchFavouriteSongs(event.id);
-        yield FavouriteSongListLoaded(favouriteSongs: favouriteSongs);
-      } catch (e) {
-        yield FavouriteSongListError(error: (e.toString()));
-      }
-    } else if (event is GetAllFavouriteSongsByFavouriteId) {
-      try {
-        final List<FavouriteSong> favouriteSongs =
-            await favouriteSongRespository.fetchAllFavouriteSongsById(event.id);
-        yield FavouriteSongListLoaded(favouriteSongs: favouriteSongs);
-      } catch (e) {
-        yield FavouriteSongListError(error: (e.toString()));
-      }
-    } else if (event is GetAllFavouriteSongsByFavouriteId) {
-      try {
-        final List<FavouriteSong> favouriteSongs =
-            await favouriteSongRespository.fetchAllDownloadedSongsById(event.id);
-        yield FavouriteSongListLoaded(favouriteSongs: favouriteSongs);
-      } catch (e) {
-        yield FavouriteSongListError(error: (e.toString()));
-      }
+  Future<void> _getFavouriteSongs(int id, Emitter<FavouriteSongListState> emit) async {
+    emit(FavouriteSongListLoading());
+    try {
+      final List<FavouriteSong> favouriteSongs =
+            await favouriteSongRespository.fetchFavouriteSongs(id);
+      emit(FavouriteSongListLoaded(favouriteSongs: favouriteSongs));
+    } catch (e) {
+      emit(FavouriteSongListError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _getAllFavouriteSongsByFavouriteId(int id, Emitter<FavouriteSongListState> emit) async {
+    emit(FavouriteSongListLoading());
+    try {
+      final List<FavouriteSong> favouriteSongs =
+            await favouriteSongRespository.fetchAllFavouriteSongsById(id);
+      emit(FavouriteSongListLoaded(favouriteSongs: favouriteSongs));
+    } catch (e) {
+      emit(FavouriteSongListError(error: (e.toString())));
     }
   }
 }

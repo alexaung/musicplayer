@@ -8,18 +8,19 @@ part 'ebook_state.dart';
 
 class EbookBloc extends Bloc<EbookEvent, EbookState> {
   final EbookRespository eBookRespository;
-  EbookBloc({required this.eBookRespository}) : super(EbookInitial());
+  EbookBloc({required this.eBookRespository}) : super(EbookInitial()) {
+    on<GetEbooksEvent>((event, emit) async {
+      await _getEbooks(emit);
+    });
+  }
 
-  @override
-  Stream<EbookState> mapEventToState(EbookEvent event) async* {
-    if (event is GetEbooksEvent) {
-      yield EbookLoading();
-      try {
-        final List<Ebook> eBooks = await eBookRespository.fetchEbooks();
-        yield EbookLoaded(eBooks: eBooks);
-      } catch (e) {
-        yield EbookError(error: (e.toString()));
-      }
+  Future<void> _getEbooks(Emitter<EbookState> emit) async {
+    emit(EbookLoading());
+    try {
+      final List<Ebook> eBooks = await eBookRespository.fetchEbooks();
+      emit(EbookLoaded(eBooks: eBooks));
+    } catch (e) {
+      emit(EbookError(error: (e.toString())));
     }
   }
 }

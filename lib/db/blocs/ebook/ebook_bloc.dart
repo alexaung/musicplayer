@@ -10,61 +10,52 @@ class DownloadedEbookBloc
     extends Bloc<DwonloadedEbookEvent, DownloadedEbookState> {
   final DownloadedEbookRepository ebookRepository;
 
-  DownloadedEbookBloc({required this.ebookRepository}) : super(EbookLoading());
+  DownloadedEbookBloc({required this.ebookRepository}) : super(EbookLoading()) {
+    on<GetDownloadedEbooksEvent>((event, emit) async {
+      await _getDownloadedEbooks(emit);
+    });
+    on<GetEbook>((event, emit) async {
+      await _getEbook(event.ebook!.id!, emit);
+    });
 
-  @override
-  Stream<DownloadedEbookState> mapEventToState(
-      DwonloadedEbookEvent event) async* {
-    //yield EbookLoading();
-    if (event is GetDownloadedEbooksEvent) {
-      try {
-        final List<DownloadedEbook> ebooks = await ebookRepository.fetchEbooks();
-        yield EbooksLoaded(ebooks: ebooks);
-      } catch (e) {
-        yield DownloadedEbookError(error: (e.toString()));
-      }
-    } else if (event is GetEbook) {
-      try {
-        final DownloadedEbook ebook = await ebookRepository.getEbook(event.ebook!.id!);
-        yield EbookLoadded(ebook: ebook);
-      } catch (e) {
-        yield DownloadedEbookError(error: (e.toString()));
-      }
-    } else if (event is CreateEbook) {
-      try {
-        await ebookRepository.insertEbook(event.ebook!);
-        yield EbookSuccess(successMessage: event.ebook!.title + ' created');
-      } catch (e) {
-        yield DownloadedEbookError(error: (e.toString()));
-      }
-    } else if (event is UpdateEbook) {
-      try {
-        await ebookRepository.updateEbook(event.ebook!);
-        yield EbookSuccess(successMessage: event.ebook!.title + ' updated');
-      } catch (e) {
-        yield DownloadedEbookError(error: (e.toString()));
-      }
-    } else if (event is DeleteEbook) {
-      try {
-        List<DownloadedEbook> ebooks = (state as EbooksLoaded)
-            .ebooks
-            .where((ebook) => ebook.id != event.ebook!.id)
-            .toList();
-        await ebookRepository.deleteEbook(event.ebook!.id!);
-        yield EbookSuccess(
-            successMessage: event.ebook!.title + ' have been deleted');
-            yield EbooksLoaded(ebooks: ebooks);
-      } catch (e) {
-        yield DownloadedEbookError(error: (e.toString()));
-      }
-    } else if (event is DeleteAllEbook) {
-      try {
-        await ebookRepository.deleteAllEbooks();
-        yield const EbookSuccess(
-            successMessage: "All Ebooks have been deleted");
-      } catch (e) {
-        yield DownloadedEbookError(error: (e.toString()));
-      }
+    on<DeleteEbook>((event, emit) async {
+      await _deleteEbook(event.ebook!, emit);
+    });
+  }
+
+  Future<void> _getDownloadedEbooks(Emitter<DownloadedEbookState> emit) async {
+    emit(EbookLoading());
+    try {
+      final List<DownloadedEbook> ebooks = await ebookRepository.fetchEbooks();
+      emit(EbooksLoaded(ebooks: ebooks));
+    } catch (e) {
+      emit(DownloadedEbookError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _getEbook(int id, Emitter<DownloadedEbookState> emit) async {
+    emit(EbookLoading());
+    try {
+      final DownloadedEbook ebook = await ebookRepository.getEbook(id);
+      emit(EbookLoadded(ebook: ebook));
+    } catch (e) {
+      emit(DownloadedEbookError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _deleteEbook(
+      DownloadedEbook ebook, Emitter<DownloadedEbookState> emit) async {
+    emit(EbookLoading());
+    try {
+      List<DownloadedEbook> ebooks = (state as EbooksLoaded)
+          .ebooks
+          .where((ebook) => ebook.id != ebook.id)
+          .toList();
+      await ebookRepository.deleteEbook(ebook.id!);
+      emit(EbookSuccess(successMessage: ebook.title + ' have been deleted'));
+      emit(EbooksLoaded(ebooks: ebooks));
+    } catch (e) {
+      emit(DownloadedEbookError(error: (e.toString())));
     }
   }
 }

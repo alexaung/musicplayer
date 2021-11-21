@@ -9,18 +9,21 @@ part 'appointment_state.dart';
 class AppointmentBloc extends Bloc<AppointmentEvent, AppointmentState> {
   final AppointmentRespository appointmentRespository;
   late List<Appointment> appointments;
-  AppointmentBloc({required this.appointmentRespository}) : super(AppointmentInitial());
+  AppointmentBloc({required this.appointmentRespository})
+      : super(AppointmentInitial()) {
+    on<GetAppointmentsEvent>((event, emit) async {
+      await _getAppointments(emit);
+    });
+  }
 
-  @override
-  Stream<AppointmentState> mapEventToState(AppointmentEvent event) async* {
-    if (event is GetAppointmentsEvent) {
-      yield AppointmentLoading();
-      try {
-        final List<Appointment> appointments = await appointmentRespository.fetchAppointments();
-        yield AppointmentLoaded(appointments: appointments);
-      } catch (e) {
-        yield AppointmentError(error: (e.toString()));
-      }
+  Future<void> _getAppointments(Emitter<AppointmentState> emit) async {
+    emit(AppointmentLoading());
+    try {
+      final List<Appointment> appointments =
+          await appointmentRespository.fetchAppointments();
+      emit(AppointmentLoaded(appointments: appointments));
+    } catch (e) {
+      emit(AppointmentError(error: (e.toString())));
     }
   }
 }

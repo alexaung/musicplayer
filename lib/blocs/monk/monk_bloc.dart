@@ -10,26 +10,32 @@ class MonkBloc extends Bloc<MonkEvent, MonkState> {
   final MonkRespository monkRespository;
   late List<Monk> monks;
 
-  MonkBloc({required this.monkRespository}) : super(MonkInitial());
+  MonkBloc({required this.monkRespository}) : super(MonkInitial()) {
+    on<GetMonksEvent>((event, emit) async {
+      await _getMonks(emit);
+    });
+    on<MonkSearchEvent>((event, emit) async {
+      await _searchMonks(event.query, emit);
+    });
+  }
 
-  @override
-  Stream<MonkState> mapEventToState(MonkEvent event) async* {
-    yield MonkLoading();
-    if (event is GetMonksEvent) {
-      try {
-        final List<Monk> monks = await monkRespository.fetchMonks();
-        yield MonkLoaded(monks: monks);
-      } catch (e) {
-        yield MonkError(error: (e.toString()));
-      }
+  Future<void> _getMonks(Emitter<MonkState> emit) async {
+    emit(MonkLoading());
+    try {
+      final List<Monk> monks = await monkRespository.fetchMonks();
+      emit(MonkLoaded(monks: monks));
+    } catch (e) {
+      emit (MonkError(error: (e.toString())));
     }
-    if (event is MonkSearchEvent) {
-      try {
-        final List<Monk> monks = await monkRespository.searchMonks(event.query);
-        yield MonkLoaded(monks: monks);
-      } catch (e) {
-        yield MonkError(error: (e.toString()));
-      }
+  }
+
+  Future<void> _searchMonks(String query, Emitter<MonkState> emit) async {
+    emit(MonkLoading());
+    try {
+      final List<Monk> monks = await monkRespository.searchMonks(query);
+      emit(MonkLoaded(monks: monks));
+    } catch (e) {
+      emit(MonkError(error: (e.toString())));
     }
   }
 }
