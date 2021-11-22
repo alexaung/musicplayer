@@ -7,9 +7,13 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
+import 'package:thitsarparami/helper/enum.dart';
+import 'package:thitsarparami/ui/ebook/components/pdf_viewer.dart';
 import 'package:thitsarparami/ui/error/no_result_found.dart';
 import 'package:thitsarparami/ui/error/something_went_wrong.dart';
 
@@ -22,6 +26,7 @@ class PdfScreen extends StatefulWidget {
 
 class _PdfScreenState extends State<PdfScreen> {
   final ReceivePort _port = ReceivePort();
+  late final String path;
   List<Map> downloadsListMaps = [];
 
   _loadEbooks() async {
@@ -29,9 +34,19 @@ class _PdfScreenState extends State<PdfScreen> {
         .add(const GetDownloadedEbooksEvent());
   }
 
+  Future<void> initPlatformState() async {
+    _setPath();
+    if (!mounted) return;
+  }
+
+  void _setPath() async {
+    path = (await getApplicationDocumentsDirectory()).path;
+  }
+
   @override
   void initState() {
     super.initState();
+    initPlatformState();
     _loadEbooks();
     task();
     _bindBackgroundIsolate();
@@ -160,16 +175,19 @@ class _PdfScreenState extends State<PdfScreen> {
                 //     _map['headers']['thumbnail'].toString();
                 return GestureDetector(
                   onTap: () {
-                    // pushNewScreen(context,
-                    //     screen: PdfViewer(
-                    //       eBook: eBookState.eBooks[index],
-                    //     ),
-                    //     withNavBar: false,
-                    //     pageTransitionAnimation:
-                    //         PageTransitionAnimation.scale);
+                    DownloadedEbook ebook = state.ebooks[index];
+                    String _name = ebook.url.toString().split("/").last;
+                    pushNewScreen(context,
+                        screen: PdfViewer(
+                          title: ebook.title,
+                          loadPDF: LoadPDF.file,
+                          url: '$path/pdf/$_name',
+                        ),
+                        withNavBar: false,
+                        pageTransitionAnimation: PageTransitionAnimation.scale);
                   },
-                  child: lineItem(context, state.ebooks[index].title, _status, _id, index,
-                      state, _progress),
+                  child: lineItem(context, state.ebooks[index].title, _status,
+                      _id, index, state, _progress),
                 );
               },
             );

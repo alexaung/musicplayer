@@ -12,6 +12,7 @@ import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:thitsarparami/blocs/bloc.dart';
 import 'package:thitsarparami/db/blocs/blocs.dart';
 import 'package:thitsarparami/db/models/models.dart';
+import 'package:thitsarparami/helper/enum.dart';
 import 'package:thitsarparami/models/models.dart';
 import 'package:thitsarparami/ui/ebook/components/pdf_viewer.dart';
 import 'package:thitsarparami/ui/error/something_went_wrong.dart';
@@ -81,21 +82,11 @@ class _EbookScreenState extends State<EbookScreen> {
                         const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
                     itemCount: eBookState.eBooks.length,
                     itemBuilder: (_, int index) {
-                      return GestureDetector(
-                          onTap: () {
-                            pushNewScreen(context,
-                                screen: PdfViewer(
-                                  eBook: eBookState.eBooks[index],
-                                ),
-                                withNavBar: false,
-                                pageTransitionAnimation:
-                                    PageTransitionAnimation.scale);
-                          },
-                          child: LineItem(
-                            index: index,
-                            ebook: eBookState.eBooks[index],
-                            monk: widget.monk!,
-                          ));
+                      return LineItem(
+                        index: index,
+                        ebook: eBookState.eBooks[index],
+                        monk: widget.monk!,
+                      );
                     },
                   ),
                 ),
@@ -241,53 +232,68 @@ class _LineItemState extends State<LineItem> {
 
     return Stack(
       children: <Widget>[
-        Container(
-          margin: const EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
-          constraints: const BoxConstraints(
-            minHeight: 170.0,
-          ),
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(100.0, 20.0, 10.0, 20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Expanded(
-                      //width: MediaQuery.of(context).size.width - 180,
-                      child: AutoSizeText(
-                        ebook.title,
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 3,
-                      ),
-                    ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButton(
-                          icon: const Icon(Icons.download_outlined),
-                          onPressed: () async {
-                            requestDownload(context, ebook, widget.monk);
-                          },
-                        )
-                      ],
-                    )
-                  ],
+        GestureDetector(
+          onTap: () {
+            String _name = ebook.url.toString().split("/").last;
+            pushNewScreen(context,
+                screen: PdfViewer(
+                  title: ebook.title,
+                  url: ebook.loadPDF == LoadPDF.file
+                      ? '$path/pdf/$_name'
+                      : ebook.url,
+                  loadPDF: ebook.loadPDF,
                 ),
-              ],
+                withNavBar: false,
+                pageTransitionAnimation: PageTransitionAnimation.scale);
+          },
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
+            constraints: const BoxConstraints(
+              minHeight: 170.0,
+            ),
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).backgroundColor,
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(100.0, 20.0, 10.0, 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Expanded(
+                        //width: MediaQuery.of(context).size.width - 180,
+                        child: AutoSizeText(
+                          ebook.title,
+                          style: const TextStyle(
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3,
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.download_outlined),
+                            onPressed: () async {
+                              requestDownload(context, ebook, widget.monk);
+                            },
+                          )
+                        ],
+                      )
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
