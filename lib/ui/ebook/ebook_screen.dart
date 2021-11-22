@@ -205,12 +205,12 @@ class _LineItemState extends State<LineItem> {
       BuildContext context, Ebook ebook, Monk monk) async {
     String _name = ebook.url.toString().split("/").last;
 
-    var _localPath = '$path/pdf/$_name';
+    var _localPath = '$path/pdf';
     final savedDir = Directory(_localPath);
     await savedDir.create(recursive: true).then((value) async {
       String? _taskid = await FlutterDownloader.enqueue(
         url: ebook.url,
-        fileName: ebook.title,
+        fileName: _name,
         savedDir: _localPath,
         showNotification: true,
         openFileFromNotification: false,

@@ -17,6 +17,12 @@ class DownloadedEbookBloc
     on<GetEbook>((event, emit) async {
       await _getEbook(event.ebook!.id!, emit);
     });
+    on<CreateEbook>((event, emit) async {
+      await _createDownload(event.ebook!, emit);
+    });
+    on<UpdateEbook>((event, emit) async {
+      await _updateEbook(event.ebook!, emit);
+    });
 
     on<DeleteEbook>((event, emit) async {
       await _deleteEbook(event.ebook!, emit);
@@ -24,7 +30,6 @@ class DownloadedEbookBloc
   }
 
   Future<void> _getDownloadedEbooks(Emitter<DownloadedEbookState> emit) async {
-    emit(EbookLoading());
     try {
       final List<DownloadedEbook> ebooks = await ebookRepository.fetchEbooks();
       emit(EbooksLoaded(ebooks: ebooks));
@@ -34,7 +39,6 @@ class DownloadedEbookBloc
   }
 
   Future<void> _getEbook(int id, Emitter<DownloadedEbookState> emit) async {
-    emit(EbookLoading());
     try {
       final DownloadedEbook ebook = await ebookRepository.getEbook(id);
       emit(EbookLoadded(ebook: ebook));
@@ -43,9 +47,28 @@ class DownloadedEbookBloc
     }
   }
 
+  Future<void> _createDownload(
+      DownloadedEbook ebook, Emitter<DownloadedEbookState> emit) async {
+    try {
+      await ebookRepository.insertEbook(ebook);
+      emit(EbookSuccess(successMessage: ebook.title + ' created'));
+    } catch (e) {
+      emit(DownloadedEbookError(error: (e.toString())));
+    }
+  }
+
+  Future<void> _updateEbook(
+      DownloadedEbook ebook, Emitter<DownloadedEbookState> emit) async {
+    try {
+      await ebookRepository.updateEbook(ebook);
+      emit(EbookSuccess(successMessage: ebook.title + ' updated'));
+    } catch (e) {
+      emit(DownloadedEbookError(error: (e.toString())));
+    }
+  }
+
   Future<void> _deleteEbook(
       DownloadedEbook ebook, Emitter<DownloadedEbookState> emit) async {
-    emit(EbookLoading());
     try {
       List<DownloadedEbook> ebooks = (state as EbooksLoaded)
           .ebooks

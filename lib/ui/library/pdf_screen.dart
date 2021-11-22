@@ -137,17 +137,14 @@ class _PdfScreenState extends State<PdfScreen> {
                     .where((element) =>
                         element['taskId'] == state.ebooks[index].taskId)
                     .isEmpty) {
-                  return const NoResultFoundScreen(
-                    title: 'သိမ်းထားသေားတရားစာအုပ်များ မရှိသေးပါ။',
-                    subTitle: ' ',
-                  );
+                  return Container();
                 }
                 Map _map = downloadsListMaps
                     .where((element) =>
                         element['taskId'] == state.ebooks[index].taskId)
                     .first;
 
-                String _filename = _map['filename'];
+                //String _filename = _map['filename'];
                 int _progress = _map['progress'];
                 DownloadTaskStatus _status = _map['status'];
                 String _id = _map['id'];
@@ -171,7 +168,8 @@ class _PdfScreenState extends State<PdfScreen> {
                     //     pageTransitionAnimation:
                     //         PageTransitionAnimation.scale);
                   },
-                  child: lineItem(context, _filename, _status, _id, index, state, _progress),
+                  child: lineItem(context, state.ebooks[index].title, _status, _id, index,
+                      state, _progress),
                 );
               },
             );
@@ -184,105 +182,105 @@ class _PdfScreenState extends State<PdfScreen> {
     );
   }
 
-  Stack lineItem(BuildContext context, String _filename, DownloadTaskStatus _status, String _id, int index, EbooksLoaded state, int _progress) {
+  Stack lineItem(
+      BuildContext context,
+      String _filename,
+      DownloadTaskStatus _status,
+      String _id,
+      int index,
+      EbooksLoaded state,
+      int _progress) {
     return Stack(
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
+          constraints: const BoxConstraints(
+            minHeight: 170.0,
+          ),
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(100.0, 20.0, 10.0, 20.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      margin: const EdgeInsets.fromLTRB(30.0, 5.0, 10.0, 5.0),
-                      constraints: const BoxConstraints(
-                        minHeight: 170.0,
+                    Expanded(
+                      //width: MediaQuery.of(context).size.width - 180,
+                      child: AutoSizeText(
+                        _filename,
+                        style: const TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 3,
                       ),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(20.0),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(
-                            100.0, 20.0, 10.0, 20.0),
+                    ),
+                    buttons(_status, _id, index, state.ebooks[index])
+                  ],
+                ),
+                _status == DownloadTaskStatus.complete
+                    ? Container()
+                    : const SizedBox(height: 5),
+                _status == DownloadTaskStatus.complete
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.all(8.0),
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: <Widget>[
+                            Text('$_progress%'),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Expanded(
-                                  //width: MediaQuery.of(context).size.width - 180,
-                                  child: AutoSizeText(
-                                    _filename,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 3,
+                                  child: LinearProgressIndicator(
+                                    value: _progress / 100,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColorLight,
+                                    color: Theme.of(context).primaryColor,
                                   ),
                                 ),
-                                buttons(
-                                    _status, _id, index, state.ebooks[index])
                               ],
                             ),
-                            _status == DownloadTaskStatus.complete
-                                ? Container()
-                                : const SizedBox(height: 5),
-                            _status == DownloadTaskStatus.complete
-                                ? Container()
-                                : Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.end,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text('$_progress%'),
-                                        Row(
-                                          children: <Widget>[
-                                            Expanded(
-                                              child: LinearProgressIndicator(
-                                                value: _progress / 100,
-                                                backgroundColor:
-                                                    Theme.of(context)
-                                                        .primaryColorLight,
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                            const SizedBox(height: 10)
                           ],
                         ),
                       ),
-                    ),
-                    Positioned(
-                      left: 10.0,
-                      top: 15.0,
-                      bottom: 15.0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(10.0),
-                        child: CachedNetworkImage(
-                          width: 110.0,
-                          //height: 250,
-                          fit: BoxFit.cover,
-                          imageUrl: state.ebooks[index].thumbnail,
-                          placeholder: (context, url) =>
-                              Container(color: Colors.black12),
-                          errorWidget: (context, url, error) => const Icon(
-                            Icons.error,
-                            size: 100,
-                            color: Colors.red,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                );
+                const SizedBox(height: 10)
+              ],
+            ),
+          ),
+        ),
+        Positioned(
+          left: 10.0,
+          top: 15.0,
+          bottom: 15.0,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: CachedNetworkImage(
+              width: 110.0,
+              //height: 250,
+              fit: BoxFit.cover,
+              imageUrl: state.ebooks[index].thumbnail,
+              placeholder: (context, url) => Container(color: Colors.black12),
+              errorWidget: (context, url, error) => const Icon(
+                Icons.error,
+                size: 100,
+                color: Colors.red,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 
   Widget buttons(DownloadTaskStatus _status, String taskid, int index,
@@ -376,7 +374,7 @@ class _PdfScreenState extends State<PdfScreen> {
                               FlutterDownloader.remove(
                                   taskId: taskid, shouldDeleteContent: true);
 
-                              setState(() {});
+                              //setState(() {});
                             },
                           )
                         : Container();
