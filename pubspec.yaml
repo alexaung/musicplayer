@@ -48,7 +48,7 @@ dependencies:
   get_it: ^7.2.0
   youtube_player_flutter: ^8.0.0
   sqflite: ^2.0.0+4
-  path_provider: ^2.0.6
+  path_provider: ^2.0.7
   flowder: ^0.2.0
   percent_indicator: ^3.4.0
   table_calendar: ^3.0.3

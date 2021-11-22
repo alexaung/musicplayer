@@ -2,12 +2,13 @@ import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:thitsarparami/helper/enum.dart';
-
+import 'dart:io';
 class PdfViewer extends StatefulWidget {
   final String url;
   final LoadPDF loadPDF;
   final String title;
-  const PdfViewer({Key? key,required this.title, required this.url, required this.loadPDF})
+  const PdfViewer(
+      {Key? key, required this.title, required this.url, required this.loadPDF})
       : super(key: key);
 
   @override
@@ -27,7 +28,8 @@ class _PdfViewerState extends State<PdfViewer> {
         document = await PDFDocument.fromURL(widget.url);
         break;
       case LoadPDF.file:
-        document = await PDFDocument.fromURL(widget.url);
+        File file = File(widget.url);
+        document = await PDFDocument.fromFile(file);
         break;
     }
 
@@ -43,6 +45,7 @@ class _PdfViewerState extends State<PdfViewer> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Theme.of(context).backgroundColor,
